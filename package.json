@@ -1,0 +1,22 @@
+{
+  "name": "fourthandcold",
+  "version": "1.0.0",
+  "description": "Tailgate board game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanrobertson27/fourthandcold.git"
+  },
+  "author": "Ryan Robertson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryanrobertson27/fourthandcold/issues"
+  },
+  "homepage": "https://github.com/ryanrobertson27/fourthandcold#readme",
+  "dependencies": {
+    "eslint-config-wesbos": "^3.2.0"
+  }
+}
