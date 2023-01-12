@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import Board from '../components/Board';
 
 const Home = () => {
   const [count, setCount] = useState(0);
 
   return (
     <div>
-      <div>Home</div>
+      <div>
+        <Board />
+      </div>
     </div>
   );
 };
