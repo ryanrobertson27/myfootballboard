@@ -1,9 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Board from '../components/Board';
 import Header from '../components/Header';
 
 const Home = () => {
-  const [count, setCount] = useState(0);
+  const user = useSelector((state) => state.user);
+
+  let userLoggedIn;
+
+  if (!user) {
+    userLoggedIn = <div>LOGIN</div>;
+  } else {
+    userLoggedIn = <div>{user}</div>;
+  }
 
   return (
     <div className="flex flex-col">

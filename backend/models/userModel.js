@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  first: { type: String, required: true },
-  last: { type: String, required: true },
-  email: { type: String, required: true },
-  role: { type: String, required: true },
+  first: { type: String },
+  last: { type: String },
+  issuer: { type: String },
+  email: { type: String },
+  lastLoginAt: { type: String },
+  role: { type: String },
   squares: [{ type: Schema.Types.ObjectId, ref: 'Square' }],
 });
 
