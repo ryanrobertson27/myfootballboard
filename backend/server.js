@@ -3,8 +3,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const userRouter = require('./routes/userRoutes');
-const User = require('./models/userModel');
 
 require('dotenv').config();
 
@@ -16,16 +16,13 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(
   session({
     secret: "not my cat's name",
     resave: false,
     saveUninitialized: true,
-    cookie: {
-      maxAge: 60 * 60 * 1000, // 1 hour
-      // secure: true, // Uncomment this line to enforce HTTPS protocol.
-      sameSite: true,
-    },
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
   })
 );
 app.use(passport.initialize());

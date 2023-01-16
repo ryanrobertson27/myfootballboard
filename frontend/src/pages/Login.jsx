@@ -18,20 +18,21 @@ const Login = () => {
         redirectURI: new URL('/callback', window.location.origin).href,
       });
 
-      console.log(didToken);
-
       const res = await fetch('http://localhost:8000/user/login', {
         headers: new Headers({
+          Authorization: `Bearer ${didToken}`,
           'Content-Type': 'application/json',
-          Authorization: `Bearer${didToken}`,
         }),
+        withCredentials: true,
+        credentials: 'same-origin',
         method: 'POST',
       });
       console.log(res);
       if (res.status === 200) {
         const userMetadata = await magic.user.getMetadata();
+        console.log(userMetadata);
         setUser(userMetadata);
-        redirect('/');
+        redirect('http://localhost:8000');
       }
     } catch (err) {
       console.log(err);

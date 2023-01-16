@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { Magic } = require('@magic-sdk/admin');
 
-const magic = new Magic(process.env.MAGIC_SECRET_KEY);
+const magic = new Magic('sk_live_FC9C8D101D3DD8A4');
 
 const passport = require('passport');
 const MagicStrategy = require('passport-magic').Strategy;
@@ -39,8 +39,7 @@ const loginUser = async (user, done) => {
       message: `Replay attack detected for user ${user.issuer}.`,
     });
   }
-  // user.lastLoginAt = user.claim.ait;
-  // user.save();
+  User.findOneAndUpdate({ email: user.email }, { lastLoginAt: user.claim.iat });
   return done(null, user);
 };
 
@@ -69,17 +68,14 @@ const userController = require('../controllers/userController');
 
 router.get('/', userController.getUser);
 
-// router.patch('/edit', userController.editUser);
-
-// router.delete('/delete', userController.deleteUser);
-
 router.post('/logout', async (req, res) => {
   if (req.isAuthenticated()) {
+    console.log('hello');
     await magic.users.logoutByIssuer(req.user.issuer);
     req.logout();
     return res.status(200).end();
   }
-  return res.status(401).end(`User is not logged in.`);
+  return res.status(200).end('User not logged in');
 });
 
 module.exports = router;

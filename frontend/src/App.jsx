@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import { Magic } from 'magic-sdk';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { setUser } from './features/user/userSlice';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -29,15 +30,19 @@ const router = createBrowserRouter(
 );
 
 const App = () => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    setUser({ loading: true });
-    magic.user
-      .isLoggedIn()
-      .then((isLoggedIn) =>
-        isLoggedIn
-          ? magic.user.getMetadata().then((userData) => setUser(userData))
-          : setUser({ user: null })
-      );
+    // setUser({ loading: true });
+    magic.user.isLoggedIn().then((isLoggedIn) => {
+      console.log(isLoggedIn);
+      isLoggedIn
+        ? magic.user.getMetadata().then((userData) => {
+            console.log(userData);
+            dispatch(setUser(userData));
+          })
+        : dispatch(setUser(null));
+    });
   }, []);
 
   return <RouterProvider router={router} />;
