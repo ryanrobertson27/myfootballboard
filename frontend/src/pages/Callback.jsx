@@ -1,11 +1,16 @@
 import { Magic } from 'magic-sdk';
 import { useEffect } from 'react';
-import { redirect, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { setUser } from '../features/user/userSlice';
 
 const magic = new Magic('pk_live_C10893DD838C3541');
 
 const Callback = (props) => {
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
@@ -17,25 +22,26 @@ const Callback = (props) => {
       'magic_credential'
     );
     if (magicCredential) {
-      magic.auth
-        .loginWithCredential()
-        .then((didToken) => authenticateWithServer(didToken));
+      magic.auth.loginWithCredential().then((didToken) => {
+        console.log(didToken);
+        authenticateWithServer(didToken);
+      });
     }
   };
 
   const authenticateWithServer = async (didToken) => {
     const res = await fetch('http://localhost:8000/user/login', {
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer${didToken}`,
-      }),
       method: 'POST',
+      headers: new Headers({
+        Authorization: `Bearer ${didToken}`,
+        'Content-Type': 'application/json',
+      }),
     });
     console.log(res);
     if (res.status === 200) {
       const userMetadata = await magic.user.getMetadata();
-      setUser(userMetadata);
-      redirect('http://localhost:8000');
+      dispatch(setUser(userMetadata));
+      navigate('/');
     }
   };
   return <div>Loading</div>;

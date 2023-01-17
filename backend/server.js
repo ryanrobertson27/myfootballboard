@@ -1,9 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const passport = require('passport');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
+
 const userRouter = require('./routes/userRoutes');
 
 require('dotenv').config();
@@ -16,17 +14,6 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use(
-  session({
-    secret: "not my cat's name",
-    resave: false,
-    saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session()); // checking if user is in session
 
 // routes
 app.use('/user', userRouter);

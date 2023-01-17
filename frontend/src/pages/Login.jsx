@@ -1,12 +1,14 @@
 import { useState, useContext } from 'react';
 import { Magic } from 'magic-sdk';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setUser } from '../features/user/userSlice';
 import LoginForm from '../components/LoginForm';
+import Header from '../components/Header';
 
 const magic = new Magic('pk_live_C10893DD838C3541');
 
 const Login = () => {
+  const navigate = useNavigate();
   const [disabled, setDisabled] = useState(false);
 
   const handleLogin = async (email) => {
@@ -19,20 +21,18 @@ const Login = () => {
       });
 
       const res = await fetch('http://localhost:8000/user/login', {
+        method: 'POST',
         headers: new Headers({
           Authorization: `Bearer ${didToken}`,
           'Content-Type': 'application/json',
         }),
-        withCredentials: true,
-        credentials: 'same-origin',
-        method: 'POST',
       });
       console.log(res);
       if (res.status === 200) {
         const userMetadata = await magic.user.getMetadata();
         console.log(userMetadata);
         setUser(userMetadata);
-        redirect('http://localhost:8000');
+        navigate('http://localhost:8000');
       }
     } catch (err) {
       console.log(err);
@@ -40,9 +40,14 @@ const Login = () => {
   };
 
   return (
-    <div className="flex h-screen justify-center items-center">
-      <LoginForm handleLogin={handleLogin} disabled={disabled} />
-    </div>
+    <>
+      <div>
+        <Header />
+      </div>
+      <div className="flex h-screen justify-center items-center">
+        <LoginForm handleLogin={handleLogin} disabled={disabled} />
+      </div>
+    </>
   );
 };
 

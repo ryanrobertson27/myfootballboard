@@ -7,7 +7,7 @@ import {
 import { Magic } from 'magic-sdk';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from './features/user/userSlice';
+import { setUser, setUserLoading } from './features/user/userSlice';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -33,7 +33,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // setUser({ loading: true });
+    dispatch(setUserLoading(true));
     magic.user.isLoggedIn().then((isLoggedIn) => {
       console.log(isLoggedIn);
       isLoggedIn
@@ -42,6 +42,7 @@ const App = () => {
             dispatch(setUser(userData));
           })
         : dispatch(setUser(null));
+      dispatch(setUserLoading(false));
     });
   }, []);
 
