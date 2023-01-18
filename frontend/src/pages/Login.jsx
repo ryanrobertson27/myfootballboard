@@ -32,7 +32,7 @@ const Login = () => {
         const userMetadata = await magic.user.getMetadata();
         console.log(userMetadata);
         setUser(userMetadata);
-        navigate('http://localhost:8000');
+        navigate('/');
       }
     } catch (err) {
       console.log(err);

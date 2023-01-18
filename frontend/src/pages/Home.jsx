@@ -3,7 +3,7 @@ import GameScore from '../components/GameScore';
 import Header from '../components/Header';
 
 const Home = () => (
-  <div className="flex flex-col">
+  <div className="flex flex-col h-screen bg-slate-50">
     <Header />
     <div className="flex justify-center mb-5">
       <GameScore />
