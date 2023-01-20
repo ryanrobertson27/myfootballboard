@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import { Magic } from 'magic-sdk';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser, setUserLoading } from './features/user/userSlice';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -31,11 +31,11 @@ const router = createBrowserRouter(
 
 const App = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(setUserLoading(true));
     magic.user.isLoggedIn().then((isLoggedIn) => {
-      console.log(isLoggedIn);
       isLoggedIn
         ? magic.user.getMetadata().then((userData) => {
             console.log(userData);

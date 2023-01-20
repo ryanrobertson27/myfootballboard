@@ -15,7 +15,16 @@ const Header = () => {
   if (user.loading) {
     userLoggedIn = <div>Loading...</div>;
   } else if (!user.user) {
-    userLoggedIn = <Link to="/login">Login</Link>;
+    userLoggedIn = (
+      <div className="mr-5">
+        <Link className="mx-2" to="/login">
+          Login
+        </Link>
+        <Link className="mx-2" to="/register">
+          Register
+        </Link>
+      </div>
+    );
   } else {
     userLoggedIn = (
       <div className="flex">
@@ -28,7 +37,9 @@ const Header = () => {
   return (
     <div className="w-screen h-20 flex justify-center items-center bg-slate-600 text-white mb-5">
       <div className="flex container justify-between">
-        <div>HOME</div>
+        <Link className="ml-5" to="/">
+          HOME
+        </Link>
         <div className="flex justify-end">
           <div className="mr-3">{userLoggedIn}</div>
         </div>

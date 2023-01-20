@@ -1,32 +1,42 @@
 import { useState } from 'react';
 
 const GameScore = () => {
-  const [count, setCount] = useState();
+  const [homeQuarterScore, sethomeQuarterScore] = useState([7, 16, 22, 29]);
+  const [awayQuarterScore, setawayQuarterScore] = useState([7, 14, 21, 28]);
+  const [homeCurrentScore, setHomeCurrentScore] = useState(22);
+  const [awayCurrentScore, setawayCurrentScore] = useState(21);
+  const [homeTeam, setHomeTeam] = useState('Texas');
+  const [awayTeam, setAwayTeam] = useState('Alabama');
 
   return (
     <div className="flex justify-between w-1/3">
-      <div className="m-2 text-3xl">Texas - 14</div>
-      <div className="m-2 flex flex-col">
-        <div className="flex justify-between">
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-        </div>
-        <div className="flex justify-between text-xs">
-          <div>0</div>
-          <div>0</div>
-          <div>7</div>
-          <div>7</div>
-        </div>
-        <div className="flex justify-between text-xs">
-          <div>7</div>
-          <div>0</div>
-          <div>7</div>
-          <div>7</div>
-        </div>
+      <div className="m-2 text-3xl">
+        {homeTeam} - {homeCurrentScore}
       </div>
-      <div className="m-2 text-3xl">21 - Alabama</div>
+      <div className="grid rows-3 grid-cols-5 text-xs">
+        <div />
+        {/* Quarters */}
+        <div className="text-center font-semibold">1</div>
+        <div className="text-center font-semibold">2</div>
+        <div className="text-center font-semibold">3</div>
+        <div className="text-center font-semibold">4</div>
+
+        {/* HOME TEAM */}
+        <div className="text-end font-semibold">{homeTeam}</div>
+        {/* HOME TEAM SCORES */}
+        {homeQuarterScore.map((score) => (
+          <div className="text-center">{score}</div>
+        ))}
+        {/* AWAY TEAM */}
+        <div className="text-end font-semibold">{awayTeam}</div>
+        {/* AWAY TEAM SCORES */}
+        {awayQuarterScore.map((score) => (
+          <div className="text-center">{score}</div>
+        ))}
+      </div>
+      <div className="m-2 text-3xl">
+        {awayCurrentScore} - {awayTeam}
+      </div>
     </div>
   );
 };
