@@ -51,18 +51,18 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col bg-slate-50 h-screen items-center">
+    <div className="flex flex-col bg-texas-white h-screen items-center">
       <Header />
 
       <div className="flex justify-center">
         <form className="flex m-5 rounded bg-white flex-col w-96 shadow">
           <div className="p-5">
-            <div className="text-lg uppercase mb-5">Sign Up</div>
+            <div className="text-lg uppercase mb-5">Login</div>
             <div className="mb-5">
               <div>Email</div>
               <input
                 type="test"
-                className="border rounded w-full px-2 py-1"
+                className="border border-texas-light-gray rounded w-full px-2 py-1"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -72,9 +72,9 @@ const Login = () => {
             <div className="flex justify-center mb-5">
               <button
                 type="submit"
-                className="bg-blue-600 w-full rounded text-white py-1 drop-shadow"
+                className="bg-texas-dark-blue text-texas-white w-full rounded text-white py-1 drop-shadow"
               >
-                Sign Up
+                Login
               </button>
             </div>
             <hr className="mb-5" />

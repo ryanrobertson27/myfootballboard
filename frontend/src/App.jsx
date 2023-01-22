@@ -12,6 +12,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Settings from './pages/Settings';
+import Admin from './pages/Admin';
 import './index.css';
 import Callback from './pages/Callback';
 
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
       <Route index element={<Home />} />
+      <Route path="/admin" element={<Admin />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

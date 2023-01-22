@@ -1,8 +1,10 @@
 import Square from './Square';
 import HorizontalNumbers from './HorizontalNumbers';
 
+// TODO should I make board api calls here and pass down as props?
+
 const Board = () => (
-  <div className="grid grid-cols-11 grid-rows-11 grid-flow-row gap-1">
+  <div className="grid grid-cols-11 grid-rows-11 grid-flow-row gap-1 bg-texas-white rounded-lg p-5">
     <div className="col-start-1 col-span-1 row-start-2 row-span-10 ">
       <div className="grid grid-cols-1 grid-rows-10 gap-1">
         <HorizontalNumbers />
@@ -14,7 +16,7 @@ const Board = () => (
       </div>
     </div>
     <div className="col-start-2 col-span-10 row-start-2 row-span-10">
-      <div className="grid grid-rows-10 grid-cols-10 gap-1">
+      <div className="grid grid-rows-10 grid-cols-10 gap-1  p-1">
         <Square />
       </div>
     </div>

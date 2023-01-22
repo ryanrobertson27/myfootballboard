@@ -18,7 +18,7 @@ const Register = () => {
               <div>First</div>
               <input
                 type="test"
-                className="border rounded w-full px-2 py-1"
+                className="border border-texas-light-gray rounded w-full px-2 py-1"
                 value={first}
                 onChange={(e) => setFirst(e.target.value)}
               />
@@ -28,7 +28,7 @@ const Register = () => {
               <div>Last</div>
               <input
                 type="test"
-                className="border rounded w-full px-2 py-1"
+                className="border border-texas-light-gray rounded w-full px-2 py-1"
                 value={last}
                 onChange={(e) => setLast(e.target.value)}
               />
@@ -38,7 +38,7 @@ const Register = () => {
             <div>Email</div>
             <input
               type="test"
-              className="border rounded w-full px-2 py-1"
+              className="border border-texas-light-gray rounded w-full px-2 py-1"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -48,7 +48,7 @@ const Register = () => {
           <div className="flex justify-center mb-5">
             <button
               type="submit"
-              className="bg-blue-600 w-full rounded text-white py-1 drop-shadow"
+              className="bg-texas-dark-blue blue w-full rounded text-texas-white py-1 drop-shadow"
             >
               Sign Up
             </button>
