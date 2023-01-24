@@ -8,6 +8,8 @@ const magic = new Magic(process.env.MAGIC_SECRET_KEY);
 
 const User = require('../models/userModel');
 
+const userController = require('../controllers/userController');
+
 router.post('/login', async (req, res) => {
   try {
     console.log(req.header.authorization);
@@ -33,8 +35,10 @@ router.post('/check-user', async (req, res) => {
   }
 });
 
-const userController = require('../controllers/userController');
-
 router.get('/', userController.getUser);
+
+router.post('/new-user', userController.createUser);
+
+router.patch('/:id/add-squares', userController.addSquaresToUser);
 
 module.exports = router;

@@ -6,10 +6,10 @@ export const squaresApi = api.injectEndpoints({
       query: () => 'squares',
     }),
     updateSquare: build.mutation({
-      query: ({ id, ...patch }) => ({
-        url: `/update/${id}`,
+      query: (body) => ({
+        url: `squares/update`,
         method: 'PATCH',
-        body: patch,
+        body,
       }),
     }),
   }),

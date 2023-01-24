@@ -4,7 +4,7 @@ import HorizontalNumbers from './HorizontalNumbers';
 // TODO should I make board api calls here and pass down as props?
 
 const Board = () => (
-  <div className="grid grid-cols-11 grid-rows-11 grid-flow-row gap-1 bg-texas-white rounded-lg p-5">
+  <div className="grid grid-cols-11 grid-rows-11 grid-flow-row gap-1 rounded-lg">
     <div className="col-start-1 col-span-1 row-start-2 row-span-10 ">
       <div className="grid grid-cols-1 grid-rows-10 gap-1">
         <HorizontalNumbers />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { add, remove } from '../features/squareSelectSlice';
+import { add, remove } from '../features/square/squareSlice';
 
 import { useGetSquaresQuery } from '../app/services/squares';
 
@@ -9,13 +9,13 @@ const Square = () => {
   const [chosenSquares, setChosenSquares] = useState([]);
   const dispatch = useDispatch();
 
-  const handleSquareSelect = (idx) => {
-    if (chosenSquares.includes(idx)) {
-      setChosenSquares(chosenSquares.filter((square) => square !== idx));
-      dispatch(remove(idx));
+  const handleSquareSelect = (index, id) => {
+    if (chosenSquares.includes(index)) {
+      setChosenSquares(chosenSquares.filter((square) => square !== index));
+      dispatch(remove(index));
     } else {
-      dispatch(add(idx));
-      setChosenSquares([...chosenSquares, idx]);
+      dispatch(add({ index, id }));
+      setChosenSquares([...chosenSquares, index]);
     }
   };
 
@@ -23,14 +23,16 @@ const Square = () => {
 
   if (isLoading) return <div>Loading</div>;
 
-  return data.map((name, idx) => (
+  return data.map((name, index) => (
     <div className="relative">
       <button
         id={name._id}
         key={name._id}
         type="button"
-        onClick={() => handleSquareSelect(idx)}
-        className="w-20 aspect-square text-center flex justify-center items-center rounded-lg bg-texas-white  shadow"
+        onClick={() => handleSquareSelect(index, name._id)}
+        className={`w-20 aspect-square text-center flex justify-center items-center rounded-lg ${
+          chosenSquares.includes(index) ? 'bg-green-400' : 'bg-white'
+        }  shadow`}
       >
         {name.owner || '-'}
       </button>

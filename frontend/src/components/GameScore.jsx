@@ -9,7 +9,7 @@ const GameScore = () => {
   const [awayTeam, setAwayTeam] = useState('Alabama');
 
   return (
-    <div className="flex justify-between w-1/3">
+    <div className="flex justify-between  mb-5">
       <div className="m-2 text-3xl">
         {homeTeam} - {homeCurrentScore}
       </div>

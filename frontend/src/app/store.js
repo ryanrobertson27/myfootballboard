@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from '../features/user/userSlice';
-import squareSelectReducer from '../features/squareSelectSlice';
+import squareSelectReducer from '../features/square/squareSlice';
 import { api } from './services/api';
 
 export default configureStore({
