@@ -4,7 +4,7 @@ const HorizontalNumbers = () => {
   const [numbers, setNumbers] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
   return numbers.map((number) => (
-    <div className="w-20 aspect-square text-center text-4xl shadow flex justify-center items-center rounded-lg bg-texas-white font-bold text-texas-orange">
+    <div className="aspect-square truncate text-center sm:text-2xl md:text-4xl shadow flex justify-center items-center rounded-sm md:rounded-lg bg-white font-bold text-gray-800">
       {number}
     </div>
   ));

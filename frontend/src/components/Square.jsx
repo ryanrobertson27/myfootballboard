@@ -1,42 +1,32 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { add, remove } from '../features/square/squareSlice';
 
 import { useGetSquaresQuery } from '../app/services/squares';
+import GlobalSpinner from './GlobalSpinner';
 
-const Square = () => {
-  const { data, isLoading, isError, error } = useGetSquaresQuery();
-  const [chosenSquares, setChosenSquares] = useState([]);
-  const dispatch = useDispatch();
+const Square = ({ handleSquareClick, isEditable }) => {
+  const { data, isLoading, isError } = useGetSquaresQuery();
 
-  const handleSquareSelect = (index, id) => {
-    if (chosenSquares.includes(index)) {
-      setChosenSquares(chosenSquares.filter((square) => square !== index));
-      dispatch(remove(index));
-    } else {
-      dispatch(add({ index, id }));
-      setChosenSquares([...chosenSquares, index]);
-    }
-  };
+  useEffect(() => {
+    console.log(data);
+  });
 
   if (isError) return <div>Error</div>;
 
-  if (isLoading) return <div>Loading</div>;
+  if (isLoading) return <GlobalSpinner />;
 
-  return data.map((name, index) => (
-    <div className="relative">
-      <button
-        id={name._id}
-        key={name._id}
-        type="button"
-        onClick={() => handleSquareSelect(index, name._id)}
-        className={`w-20 aspect-square text-center flex justify-center items-center rounded-lg ${
-          chosenSquares.includes(index) ? 'bg-green-400' : 'bg-white'
-        }  shadow`}
-      >
-        {name.owner || '-'}
-      </button>
-    </div>
+  return data.map((square, index) => (
+    <button
+      disabled={isEditable}
+      id={square._id}
+      key={square._id}
+      type="button"
+      onClick={() => handleSquareClick(index, square._id)}
+      className="aspect-square text-xs flex justify-center items-center bg-white rounded-md shadow truncate hover:bg-texas-orange hover:text-white"
+    >
+      {square.owner?.name || (
+        <span className="text-gray-300 hover:text-white font-light">+</span>
+      )}
+    </button>
   ));
 };
 

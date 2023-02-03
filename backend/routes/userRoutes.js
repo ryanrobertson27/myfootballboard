@@ -35,10 +35,8 @@ router.post('/check-user', async (req, res) => {
   }
 });
 
-router.get('/', userController.getUser);
+router.get('/', userController.getUsers);
 
 router.post('/new-user', userController.createUser);
-
-router.patch('/:id/add-squares', userController.addSquaresToUser);
 
 module.exports = router;

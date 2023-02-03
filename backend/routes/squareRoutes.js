@@ -12,4 +12,7 @@ router.patch('/update', squareController.updateSquares);
 
 router.get('/populate-squares', squareController.populateSquares);
 
+router.patch('/update-owner', squareController.updateSquareOwner);
+
 module.exports = router;
+ 

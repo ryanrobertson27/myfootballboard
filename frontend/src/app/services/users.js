@@ -2,12 +2,17 @@ import { api } from './api';
 
 export const usersApi = api.injectEndpoints({
   endpoints: (build) => ({
+    getUsers: build.query({
+      query: () => 'users',
+      provideTags: ['User'],
+    }),
     createUser: build.mutation({
-      query: (name) => ({
+      query: (body) => ({
         url: '/users/new-user',
         method: 'POST',
-        body: { name },
+        body,
       }),
+      invalidatesTags: ['User'],
     }),
     addSquaresToUser: build.mutation({
       query: (id, ...body) => ({
@@ -19,4 +24,8 @@ export const usersApi = api.injectEndpoints({
   }),
 });
 
-export const { useAddSquaresToUserMutation, useCreateUserMutation } = usersApi;
+export const {
+  useAddSquaresToUserMutation,
+  useCreateUserMutation,
+  useGetUsersQuery,
+} = usersApi;

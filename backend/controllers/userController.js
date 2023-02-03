@@ -1,25 +1,27 @@
 const { Magic } = require('@magic-sdk/admin');
-const { renderSync } = require('sass');
 const User = require('../models/userModel');
 
 const magic = new Magic(process.env.MAGIC_SECRET_KEY);
 
-const getUser = async (req, res) => {
-  if (req.isAuthenticated()) {
-    return res.status(200).json(req.user);
+const getUsers = async (req, res) => {
+  const user = await User.find({});
+
+  if (!user) {
+    return res.status(400).json({ message: 'no user found' });
   }
-  return res.status(401).json({ message: 'User is not logged in' });
+  return res.status(200).json(user);
 };
 
 const createUser = async (req, res) => {
+  const { name, phone, email, venmo } = req.body;
   try {
-    const userExists = await User.findOne({ name: req.body.name });
+    const userExists = await User.findOne({ name });
 
     if (userExists) {
       return res.status(409).json({ message: 'User already exists' });
     }
 
-    const user = await User.create({ name: req.body.name });
+    const user = await User.create({ name, phone, email, venmo });
 
     res.status(200).json(user);
   } catch (error) {
@@ -27,28 +29,7 @@ const createUser = async (req, res) => {
   }
 };
 
-const addSquaresToUser = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { squares } = req.body;
-    if (!id) {
-      return res.status(400).json({ error: 'Error getting ID from request' });
-    }
-    const user = await User.findOneAndUpdate(
-      { _id: id },
-      { $push: { squares: { $each: [...squares] } } },
-      { new: true }
-    );
-    console.log(user);
-    res.status(200).json(user);
-  } catch (error) {
-    console.log(error);
-    return res.status(400).json({ error });
-  }
-};
-
 module.exports = {
-  getUser,
+  getUsers,
   createUser,
-  addSquaresToUser,
 };
