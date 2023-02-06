@@ -21,7 +21,7 @@ const Square = ({ handleSquareClick, isEditable }) => {
       key={square._id}
       type="button"
       onClick={() => handleSquareClick(index, square._id)}
-      className="aspect-square text-xs flex justify-center items-center bg-white rounded-md shadow truncate hover:bg-texas-orange hover:text-white"
+      className="aspect-square text-xs flex justify-center items-center bg-white rounded-md shadow hover:bg-texas-orange hover:text-white "
     >
       {square.owner?.name || (
         <span className="text-gray-300 hover:text-white font-light">+</span>

@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
+    "formik": "^2.2.9",
+    "hamburger-react": "^2.5.0",
     "localforage": "^1.10.0",
     "magic-sdk": "^13.1.0",
     "match-sorter": "^6.3.1",
@@ -17,7 +19,8 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.6.2",
-    "sort-by": "^1.2.0"
+    "sort-by": "^1.2.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

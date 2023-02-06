@@ -19,8 +19,8 @@ const UserDropdown = ({
   const users = data.filter((user) => user?.name.includes(nameToSearch));
 
   return (
-    <div className="overflow-y-auto h-48">
-      <div className="flex flex-col items-start ml-2">
+    <div className="overflow-y-auto max-h-48 w-full rounded shadow-inner mb-4">
+      <div className="flex flex-col items-start ml-2 divide-y divide-gray-100">
         {users.map((user) => (
           <button
             type="button"
@@ -30,15 +30,6 @@ const UserDropdown = ({
             {user.name}
           </button>
         ))}
-      </div>
-      <div>
-        <button
-          onClick={() => handleNewUserClick()}
-          type="button"
-          className="bg-green-400 text-white px-2 ml-2"
-        >
-          New User
-        </button>
       </div>
     </div>
   );

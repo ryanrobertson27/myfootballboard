@@ -6,7 +6,7 @@ const SettingsSubHeader = () => {
   const inactiveClassName = '';
 
   return (
-    <nav className="flex justify-center -mt-5 mb-5 py-1 w-full border-b border-gray-200">
+    <nav className="flex justify-center mb-5 py-1 w-full border-b border-gray-200">
       <ul>
         <li>
           <NavLink

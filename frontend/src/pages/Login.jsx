@@ -51,45 +51,39 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col bg-texas-white h-screen items-center">
-      <Header />
-
-      <div className="flex justify-center">
-        <form className="flex m-5 rounded bg-white flex-col w-96 shadow">
-          <div className="p-5">
-            <div className="text-lg uppercase mb-5">Login</div>
-            <div className="mb-5">
-              <div>Email</div>
-              <input
-                type="test"
-                className="border border-texas-light-gray rounded w-full px-2 py-1"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-            </div>
-            <div className="flex justify-center mb-5">
-              <button
-                type="submit"
-                className="bg-texas-dark-blue text-texas-white w-full rounded text-white py-1 drop-shadow"
-              >
-                Login
-              </button>
-            </div>
-            <hr className="mb-5" />
-            <div className="flex justify-center">
-              <div>
-                Need an account?{' '}
-                <Link to="/register" className="underline">
-                  REGISTER
-                </Link>
-              </div>
-            </div>
+    <form className="flex m-5 rounded bg-white flex-col w-96 shadow">
+      <div className="p-5">
+        <div className="text-lg uppercase mb-5">Login</div>
+        <div className="mb-5">
+          <div>Email</div>
+          <input
+            type="test"
+            className="border border-texas-light-gray rounded w-full px-2 py-1"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </div>
+        <div className="flex justify-center mb-5">
+          <button
+            type="submit"
+            className="bg-texas-orange text-white w-full rounded  py-1 drop-shadow"
+          >
+            Login
+          </button>
+        </div>
+        <hr className="mb-5" />
+        <div className="flex justify-center">
+          <div>
+            Need an account?{' '}
+            <Link to="/register" className="underline text-texas-orange">
+              REGISTER
+            </Link>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
+    </form>
   );
 };
 

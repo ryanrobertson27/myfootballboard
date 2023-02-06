@@ -1,13 +1,43 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Logout from './Logout';
 
 const HorizontalNav = () => {
-  const activeClassName = `mx-2 my-1 px-2 py-1 text-white bg-gray-800 hover:bg-texas-orange hover:text-white rounded-md`;
+  const user = useSelector((state) => state.user);
+
+  let userLoggedIn;
+
+  if (user.loading) {
+    userLoggedIn = <div>Loading...</div>;
+  } else if (!user.user) {
+    userLoggedIn = (
+      <Link
+        className="mx-2 bg-gray-800 text-texas-orange px-4 py-1 rounded-full  border-2 border-texas-orange drop-shadow-sm"
+        to="/login"
+      >
+        Login
+      </Link>
+    );
+  } else {
+    userLoggedIn = (
+      <div className="flex">
+        <div className="px-2">{user.user.email}</div>
+        <Logout />
+      </div>
+    );
+  }
+
+  const handleDropDown = () => {
+    console.log('hello');
+  };
+
+  const activeClassName = `text-white bg-texas-orange hover:bg-texas-orange hover:text-white rounded-full`;
   const inactiveClassName =
-    'mx-2 my-1 px-2 py-1 text-gray-900 hover:bg-texas-orange hover:text-white rounded-md';
+    'text-white shadow hover:bg-gray-500 hover:text-white rounded-full border border-gray-800';
 
   return (
-    <nav className="w-full flex justify-center items-center border-b bg-white py-2 drop-shadow-sm mb-5">
-      <ul className="flex ">
+    <nav className=" md:flex w-full py-2">
+      <ul className="md:flex ">
         <li className="">
           <NavLink
             to="/"
