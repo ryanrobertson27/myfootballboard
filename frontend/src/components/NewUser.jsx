@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import { useCreateUserMutation } from '../app/services/users';
 
 const NewUser = ({ square, setVisibilityState, setNameToAdd }) => {
@@ -10,20 +10,30 @@ const NewUser = ({ square, setVisibilityState, setNameToAdd }) => {
   // const [venmo, setVenmo] = useState('');
   const [createUser] = useCreateUserMutation();
 
+  const validate = (values) => {
+    const errors = {};
+
+    if (!values.name) {
+      errors.name = 'Required';
+    } else if (values.name.length > 20) {
+      errors.name = 'Must be less than 20 characters';
+    }
+
+    if (!values.phone) {
+      errors.phone = 'Required';
+    } else if (
+      !/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test(
+        values.phone
+      )
+    ) {
+      errors.phone = 'Invalid Phone Format';
+    }
+  };
+
   return (
     <Formik
       initialValues={{ name: '', phone: '', email: '', venmo: '' }}
-      // validationSchema={Yup.object({
-      //   name: Yup.string()
-      //     .min(4, 'Must be more than 4 characters')
-      //     .max(20, 'Must be less than 20 characters')
-      //     .required('Required'),
-      //   phone: Yup.number().required('Required'),
-      //   email: Yup.string().required('Required'),
-      //   venmo: Yup.string()
-      //     .max(30, 'must be less than 30 characters')
-      //     .required('Required'),
-      // })}
+      validationSchema={validate}
       onSubmit={async (values, { setSubmitting }) => {
         try {
           const res = await createUser({ ...values });

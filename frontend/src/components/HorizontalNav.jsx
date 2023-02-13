@@ -33,7 +33,7 @@ const HorizontalNav = () => {
 
   const activeClassName = `text-white bg-texas-orange hover:bg-texas-orange hover:text-white rounded-full`;
   const inactiveClassName =
-    'text-white shadow hover:bg-gray-500 hover:text-white rounded-full border border-gray-800';
+    'text-white shadow hover:bg-gray-500 hover:text-white rounded-full';
 
   return (
     <nav className=" md:flex w-full py-2">

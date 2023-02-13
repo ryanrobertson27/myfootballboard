@@ -72,7 +72,9 @@ const SquareEdit = ({ square, setSquareEditVisible }) => {
       </div>
       <div className="mb-1">
         {nameToAdd || (
-          <span className="text-gray-500 italic ">Choose User To Add</span>
+          <span className="text-gray-500 italic text-sm">
+            Search User To Add
+          </span>
         )}
       </div>
       {nameToAdd ? (

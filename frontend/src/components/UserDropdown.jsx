@@ -19,8 +19,8 @@ const UserDropdown = ({
   const users = data.filter((user) => user?.name.includes(nameToSearch));
 
   return (
-    <div className="overflow-y-auto max-h-48 w-full rounded shadow-inner mb-4">
-      <div className="flex flex-col items-start ml-2 divide-y divide-gray-100">
+    <div className="overflow-y-auto max-h-48 w-full rounded border p-1 mb-4">
+      <div className="flex flex-col items-start ml-2 ">
         {users.map((user) => (
           <button
             type="button"

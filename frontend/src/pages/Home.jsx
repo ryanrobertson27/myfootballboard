@@ -6,7 +6,6 @@ import Header from '../components/Header';
 const Home = () => (
   <div className="flex flex-col items-center">
     <Header />
-    <GameScore />
     <Outlet />
   </div>
 );

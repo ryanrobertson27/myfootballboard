@@ -29,7 +29,18 @@ const createUser = async (req, res) => {
   }
 };
 
+const getUsersWins = async (req, res) => {
+  const users = await User.find({ wins: { $exists: true, $ne: [] } });
+
+  if (!users) {
+    return res.status(400).json({ error: 'no users found' });
+  }
+
+  return res.status(200).json(users);
+};
+
 module.exports = {
   getUsers,
   createUser,
+  getUsersWins,
 };

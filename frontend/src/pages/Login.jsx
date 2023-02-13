@@ -11,7 +11,8 @@ const Login = () => {
   const [disabled, setDisabled] = useState(false);
   const [email, setEmail] = useState('');
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     const checkUserResponse = await fetch(
       'http://localhost:8000/user/check-user',
       {
@@ -51,13 +52,16 @@ const Login = () => {
   };
 
   return (
-    <form className="flex m-5 rounded bg-white flex-col w-96 shadow">
+    <form
+      className="flex m-5 rounded bg-white flex-col w-96 shadow"
+      onSubmit={handleLogin}
+    >
       <div className="p-5">
         <div className="text-lg uppercase mb-5">Login</div>
         <div className="mb-5">
           <div>Email</div>
           <input
-            type="test"
+            type="email"
             className="border border-texas-light-gray rounded w-full px-2 py-1"
             value={email}
             onChange={(e) => {

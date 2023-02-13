@@ -39,4 +39,6 @@ router.get('/', userController.getUsers);
 
 router.post('/new-user', userController.createUser);
 
+router.get('/wins', userController.getUsersWins);
+
 module.exports = router;

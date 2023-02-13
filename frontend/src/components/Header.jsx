@@ -11,13 +11,12 @@ const Header = () => {
   let userLoggedIn;
 
   if (user.loading) {
-    userLoggedIn = <div>Loading...</div>;
+    userLoggedIn = (
+      <div className="mx-2 text-texas-orange px-4 py-1">Login</div>
+    );
   } else if (!user.user) {
     userLoggedIn = (
-      <Link
-        className="mx-2 bg-gray-800 text-texas-orange px-4 py-1"
-        to="/login"
-      >
+      <Link className="mx-2 text-texas-orange px-4 py-1" to="/login">
         Login
       </Link>
     );
@@ -35,7 +34,7 @@ const Header = () => {
     'py-1 md:py-0 block md:px-4 md:rounded-full md:mx-1 hover:bg-gray-400 hover:text-white border border-gray-800';
 
   return (
-    <div className="flex flex-wrap items-center justify-between w-full md:py-0 md:px-4 text-lg text-white bg-gray-800 mb-5">
+    <div className="flex flex-wrap items-center justify-between w-full md:py-0 md:px-4 text-lg text-white bg-texas-dark-gray mb-5">
       <Link className="ml-5 uppercase py-4" to="/">
         Insert logo
       </Link>

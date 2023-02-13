@@ -11,7 +11,6 @@ const UserTableRow = ({ user }) => {
       <td className="p-2">{user?.email || 'n/a'}</td>
       <td className="p-2">{user?.venmo || 'n/a'}</td>
       <td className="p-2">test</td>
-      <td className="p-2">test</td>
       <td className="p-2 flex justify-center">
         <button type="button" className="object-fill">
           <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">
