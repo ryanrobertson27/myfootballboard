@@ -1,0 +1,26 @@
+const mongoose = require('mongoose');
+const Square = require('./squareModel');
+const Winner = require('./winnerSchema');
+
+const { Schema } = mongoose;
+
+const boardSchema = new Schema({
+  boardName: String,
+  owner: { type: Schema.Types.ObjectId, ref: 'User' },
+  squares: [],
+  costPerSquare: Number,
+  awayTeam: String,
+  homeTeam: String,
+});
+
+boardSchema.pre('save', function (next) {
+  if (!this.squares || this.squares.length === 0) {
+    this.squares = [];
+    for (let i = 0; i < 100; i++) {
+      this.squares.push({ owner: null });
+    }
+  }
+});
+
+const Board = mongoose.model('Board', boardSchema);
+module.exports = Board;

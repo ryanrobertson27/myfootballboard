@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../features/user/userSlice';
+import GlobalSpinner from '../components/GlobalSpinner';
 
 const magic = new Magic('pk_live_C10893DD838C3541');
 
@@ -30,7 +31,7 @@ const Callback = (props) => {
   };
 
   const authenticateWithServer = async (didToken) => {
-    const res = await fetch('http://localhost:8000/user/login', {
+    const res = await fetch('http://localhost:8000/users/login', {
       method: 'POST',
       headers: new Headers({
         Authorization: `Bearer ${didToken}`,
@@ -44,7 +45,12 @@ const Callback = (props) => {
       navigate('/');
     }
   };
-  return <div>Loading</div>;
+  return (
+    <div className="flex flex-col">
+      <div>Please wait... redirecting</div>
+      <GlobalSpinner size={10} />
+    </div>
+  );
 };
 
 export default Callback;

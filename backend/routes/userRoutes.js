@@ -35,6 +35,28 @@ router.post('/check-user', async (req, res) => {
   }
 });
 
+router.post('/register', async (req, res) => {
+  const { name, phone, email, venmo } = req.body;
+  try {
+    const user = await User.create({
+      name,
+      phone,
+      email,
+      venmo,
+    });
+
+    if (!user) {
+      throw new Error('Error creating user');
+    }
+
+    return res.status(200).json(user);
+  } catch (err) {
+    if (err) {
+      return res.status(400).json(err);
+    }
+  }
+});
+
 router.get('/', userController.getUsers);
 
 router.post('/new-user', userController.createUser);

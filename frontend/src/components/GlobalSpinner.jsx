@@ -1,7 +1,5 @@
 const GlobalSpinner = ({ size }) => {
   let temp;
-
-  console.log(`${size}`);
   return (
     <div role="status">
       <svg

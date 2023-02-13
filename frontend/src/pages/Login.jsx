@@ -14,7 +14,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     const checkUserResponse = await fetch(
-      'http://localhost:8000/user/check-user',
+      'http://localhost:8000/users/check-user',
       {
         method: 'POST',
         headers: {
@@ -32,7 +32,7 @@ const Login = () => {
         redirectURI: new URL('/callback', window.location.origin).href,
       });
 
-      const res = await fetch('http://localhost:8000/user/login', {
+      const res = await fetch('http://localhost:8000/users/login', {
         method: 'POST',
         headers: new Headers({
           Authorization: `Bearer ${didToken}`,
@@ -43,7 +43,7 @@ const Login = () => {
       if (res.status === 200) {
         const userMetadata = await magic.user.getMetadata();
         console.log(userMetadata);
-        setUser(userMetadata);
+        await setUser(userMetadata);
         navigate('/');
       }
     } else {

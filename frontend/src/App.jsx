@@ -18,6 +18,7 @@ import Board from './pages/Board';
 import Leaderboard from './pages/Leaderboard';
 import History from './pages/History';
 import Users from './pages/Users';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const magic = new Magic('pk_live_C10893DD838C3541');
 
@@ -47,6 +48,7 @@ const App = () => {
       if (isLoggedIn) {
         magic.user.getMetadata().then((userData) => {
           dispatch(setUser(userData));
+          dispatch(setUserLoading(false));
         });
       } else {
         dispatch(setUser(null));

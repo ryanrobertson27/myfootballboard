@@ -7,7 +7,7 @@ const userSchema = new Schema({
   phone: { type: String },
   email: { type: String },
   venmo: { type: String },
-  squares: [{ type: Schema.Types.ObjectId, ref: 'Square' }],
+  boards: [{ type: Schema.Types.ObjectId, ref: 'Board' }],
 });
 
 const User = mongoose.model('User', userSchema);

@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux';
 import Logout from './Logout';
 
 const HorizontalNav = () => {
-  const user = useSelector((state) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
 
   let userLoggedIn;
 
-  if (user.loading) {
+  if (loading) {
     userLoggedIn = <div>Loading...</div>;
-  } else if (!user.user) {
+  } else if (!user) {
     userLoggedIn = (
       <Link
         className="mx-2 bg-gray-800 text-texas-orange px-4 py-1 rounded-full  border-2 border-texas-orange drop-shadow-sm"
@@ -26,10 +26,6 @@ const HorizontalNav = () => {
       </div>
     );
   }
-
-  const handleDropDown = () => {
-    console.log('hello');
-  };
 
   const activeClassName = `text-white bg-texas-orange hover:bg-texas-orange hover:text-white rounded-full`;
   const inactiveClassName =

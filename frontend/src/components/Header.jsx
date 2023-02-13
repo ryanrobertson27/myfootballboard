@@ -1,6 +1,6 @@
 import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Squeeze as Hamburger } from 'hamburger-react';
 import Logout from './Logout';
 
@@ -9,6 +9,10 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   let userLoggedIn;
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   if (user.loading) {
     userLoggedIn = (
