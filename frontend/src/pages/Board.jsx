@@ -28,20 +28,20 @@ const Board = () => {
   return (
     <>
       <GameScore />
-      <div className="container max-w-4xl">
-        <div className="grid grid-cols-11 grid-rows-11 grid-flow-row gap-1 p-2">
+      <div className="container max-w-4xl ">
+        <div className="grid grid-cols-11 grid-rows-11 gap-0.5">
           <div className="col-start-1 col-span-1 row-start-2 row-span-10 ">
-            <div className="grid grid-cols-1 grid-rows-10 gap-1">
+            <div className="grid grid-cols-1 grid-rows-10 gap-0.5 ">
               <GameNumbers numbers={horizontalNumbers} />
             </div>
           </div>
           <div className="col-start-2 col-span-10 row-start-1 row-span-1 ">
-            <div className="grid grid-cols-10 grid-rows-1 gap-1">
+            <div className="grid grid-cols-10 grid-rows-1 gap-0.5">
               <GameNumbers numbers={verticalNumbers} />
             </div>
           </div>
-          <div className="col-start-2 col-span-10 row-start-2 row-span-10">
-            <div className="grid grid-rows-10 grid-cols-10 gap-1 relative">
+          <div className="col-start-2 col-span-10 row-start-2 row-span-10 ">
+            <div className="grid grid-rows-10 grid-cols-10  gap-0.5 relative">
               <Square handleSquareClick={handleSquareClick} />
               {squareEditVisible ? (
                 <SquareEdit

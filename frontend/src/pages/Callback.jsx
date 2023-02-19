@@ -1,13 +1,16 @@
 import { Magic } from 'magic-sdk';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../features/user/userSlice';
 import GlobalSpinner from '../components/GlobalSpinner';
+import LoadingPage from './LoadingPage';
 
 const magic = new Magic('pk_live_C10893DD838C3541');
 
 const Callback = (props) => {
+  const [redirectTimedOut, setRedirectTimedOut] = useState(false);
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -17,6 +20,12 @@ const Callback = (props) => {
   useEffect(() => {
     finishEmailRedirectLogin();
   }, [searchParams]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setRedirectTimedOut(true);
+    }, 10000);
+  });
 
   const finishEmailRedirectLogin = async () => {
     const magicCredential = new URLSearchParams(searchParams).get(
@@ -42,15 +51,11 @@ const Callback = (props) => {
     if (res.status === 200) {
       const userMetadata = await magic.user.getMetadata();
       dispatch(setUser(userMetadata));
-      navigate('/');
+      navigate('/dashboard');
     }
   };
-  return (
-    <div className="flex flex-col">
-      <div>Please wait... redirecting</div>
-      <GlobalSpinner size={10} />
-    </div>
-  );
+
+  redirectTimedOut ? <div>TimedOut</div> : <LoadingPage />;
 };
 
 export default Callback;

@@ -7,4 +7,6 @@ router.get('/', boardController.getAllBoards);
 
 router.post('/new-board', boardController.createNewBoard);
 
+router.get('/:boardId', boardController.getBoard);
+
 module.exports = router;

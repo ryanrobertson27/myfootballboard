@@ -12,27 +12,32 @@ import './index.css';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Settings from './pages/Settings';
 import Callback from './pages/Callback';
 import Board from './pages/Board';
-import Leaderboard from './pages/Leaderboard';
-import History from './pages/History';
-import Users from './pages/Users';
 import ProtectedRoute from './components/ProtectedRoute';
+import Dashboard from './pages/Dashboard';
+import LandingPage from './pages/LandingPage';
+import NewBoard from './pages/NewBoard';
+import DashboardLayout from './pages/DashboardLayout';
 
 const magic = new Magic('pk_live_C10893DD838C3541');
 
-const router = createBrowserRouter(
+const route = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Home />}>
-      <Route index element={<Board />} />
-      <Route path="leaderboard" element={<Leaderboard />} />
-      <Route path="history" element={<History />} />
+      <Route index element={<LandingPage />} />
+
+      <Route element={<ProtectedRoute />}>
+        <Route element={<DashboardLayout />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="new-board" element={<NewBoard />} />
+          <Route path=":boardId" element={<Board />} />
+        </Route>
+      </Route>
+
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
-      <Route path="settings" element={<Settings />}>
-        <Route path="users" element={<Users />} />
-      </Route>
+
       <Route path="callback" element={<Callback />} />
     </Route>
   )
@@ -40,7 +45,7 @@ const router = createBrowserRouter(
 
 const App = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const { loading, user, role } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(setUserLoading(true));
@@ -57,7 +62,7 @@ const App = () => {
     });
   }, []);
 
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={route} />;
 };
 
 export default App;

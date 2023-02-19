@@ -1,26 +1,20 @@
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { Navigate, Route, useLocation } from 'react-router-dom';
+import { Navigate, Route, useLocation, Outlet } from 'react-router-dom';
+import GlobalSpinner from './GlobalSpinner';
 
 const ProtectedRoute = ({ children }) => {
-  const location = useLocation();
-
   const { user, loading } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    console.log(user, loading);
-  }, [user, loading]);
-
   if (loading) {
-    return <div>Loading...</div>;
+    return <GlobalSpinner />;
   }
 
   if (!user) {
-    // return <Navigate to="/login" state={{ from: location }} />;
-    return <div>No user</div>;
+    return <Navigate to="/" replace />;
   }
 
-  return children;
+  return children || <Outlet />;
 };
 
 export default ProtectedRoute;

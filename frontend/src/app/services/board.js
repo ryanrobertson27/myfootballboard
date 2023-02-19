@@ -4,7 +4,7 @@ export const boardApi = api.injectEndpoints({
   endpoints: (build) => ({
     createNewBoard: build.mutation({
       query: (body) => ({
-        user: 'boards/new-board',
+        url: 'boards/new-board',
         method: 'POST',
         body,
       }),

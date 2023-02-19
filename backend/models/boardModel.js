@@ -20,6 +20,7 @@ boardSchema.pre('save', function (next) {
       this.squares.push({ owner: null });
     }
   }
+  next();
 });
 
 const Board = mongoose.model('Board', boardSchema);
