@@ -1,8 +1,7 @@
 {
-  "extends": [
-    "wesbos"
-  ],
+  "extends": ["wesbos", "plugin:prettier/recommended", "plugin:tailwindcss/recommended"],
   "rules": {
 
-  }
+  },
+  "plugins": ["tailwindcss"]
 }

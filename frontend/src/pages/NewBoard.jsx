@@ -42,7 +42,7 @@ const NewBoard = () => {
 
           if (data) {
             console.log(data);
-            navigate(`/${data.id}`);
+            navigate(`/${data._id}`);
           }
           console.log('error');
         } catch (err) {

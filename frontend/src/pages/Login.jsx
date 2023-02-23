@@ -1,24 +1,26 @@
-import { useState, useContext } from 'react';
-import { Magic } from 'magic-sdk';
-import { useNavigate, Link } from 'react-router-dom';
-import { setUser } from '../features/user/userSlice';
-import Header from '../components/Header';
+import { useState, useContext } from "react";
+import { Magic } from "magic-sdk";
+import { useNavigate, Link } from "react-router-dom";
+import { setUser } from "../features/user/userSlice";
+import Header from "../components/Header";
 
-const magic = new Magic('pk_live_C10893DD838C3541');
+const magic = new Magic("pk_live_C10893DD838C3541");
 
 const Login = () => {
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // TODO add to RTK query
     const checkUserResponse = await fetch(
-      'http://localhost:8000/users/check-user',
+      "http://localhost:8000/users/check-user",
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
       }
@@ -29,50 +31,36 @@ const Login = () => {
     if (data.userExists) {
       const didToken = await magic.auth.loginWithMagicLink({
         email,
-        redirectURI: new URL('/callback', window.location.origin).href,
+        redirectURI: new URL("/callback", window.location.origin).href,
       });
-
-      const res = await fetch('http://localhost:8000/users/login', {
-        method: 'POST',
-        headers: new Headers({
-          Authorization: `Bearer ${didToken}`,
-          'Content-Type': 'application/json',
-        }),
-      });
-      console.log(res);
-      if (res.status === 200) {
-        const userMetadata = await magic.user.getMetadata();
-        console.log(userMetadata);
-        await setUser(userMetadata);
-        navigate('/');
-      }
     } else {
-      navigate('/register');
+      // TODO add a reason why they got redirected to register
+      navigate("/register");
     }
   };
 
   return (
     <form
-      className="flex m-5 rounded bg-white flex-col w-96 shadow"
+      className="m-5 flex w-96 flex-col rounded bg-white shadow"
       onSubmit={handleLogin}
     >
       <div className="p-5">
-        <div className="text-lg uppercase mb-5">Login</div>
+        <div className="mb-5 text-lg uppercase">Login</div>
         <div className="mb-5">
           <div>Email</div>
           <input
             type="email"
-            className="border border-texas-light-gray rounded w-full px-2 py-1"
+            className="w-full rounded border border-texas-light-gray px-2 py-1"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
           />
         </div>
-        <div className="flex justify-center mb-5">
+        <div className="mb-5 flex justify-center">
           <button
             type="submit"
-            className="bg-texas-orange text-white w-full rounded  py-1 drop-shadow"
+            className="w-full rounded bg-texas-orange py-1  text-white drop-shadow"
           >
             Login
           </button>
@@ -80,8 +68,8 @@ const Login = () => {
         <hr className="mb-5" />
         <div className="flex justify-center">
           <div>
-            Need an account?{' '}
-            <Link to="/register" className="underline text-texas-orange">
+            Need an account?{" "}
+            <Link to="/register" className="text-texas-orange underline">
               REGISTER
             </Link>
           </div>

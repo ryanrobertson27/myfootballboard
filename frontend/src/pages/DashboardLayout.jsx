@@ -1,17 +1,19 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-import { Outlet } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
+import { Outlet } from "react-router-dom";
+import DashboardHeader from "../components/DashboardHeader";
 
 const DashboardLayout = () => {
   const { user } = useSelector((state) => state.user);
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="w-4/5 h-screen bg-gray-100">
-        <Outlet />
+    <div className="w-screen">
+      <DashboardHeader />
+      <div className="flex h-screen justify-center">
+        <div className="container flex  justify-center  ">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

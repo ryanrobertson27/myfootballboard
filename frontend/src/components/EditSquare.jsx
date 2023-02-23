@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const EditSquare = ({ setEditIsVisible, handleSquareUpdate, idx }) => {
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
 
   return (
-    <form className="flex flex-col border rounded p-5 absolute z-50 bg-texas-white">
+    <form className="absolute z-50 flex flex-col rounded border bg-texas-white p-5">
       <button
         type="button"
         className="self-end"
@@ -14,9 +14,9 @@ const EditSquare = ({ setEditIsVisible, handleSquareUpdate, idx }) => {
       </button>
       <input
         name="name"
-        className="border border-texas-light-gray rounded px-2 mb-2"
+        className="mb-2 rounded border border-texas-light-gray px-2"
         value={name}
-        placeholder={`${idx}: ${name || 'name'}`}
+        placeholder={`${idx}: ${name || "name"}`}
         onChange={(e) => setName(e.target.value)}
       />
       <button type="button">Edit</button>

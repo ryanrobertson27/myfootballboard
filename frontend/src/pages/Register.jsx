@@ -1,67 +1,97 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import Header from '../components/Header';
+import { useRegisterUserMutation } from '../app/services/users';
 
 const Register = () => {
-  const [first, setFirst] = useState('');
-  const [last, setLast] = useState('');
-  const [email, setEmail] = useState('');
+  const [registerUser, result] = useRegisterUserMutation();
 
   return (
-    <form className="flex m-5 rounded bg-white flex-col w-96 shadow">
-      <div className="p-5">
-        <div className="text-lg uppercase mb-5">Sign Up</div>
-        <div className="flex mb-5">
-          <div className="pr-1">
-            <div>First</div>
-            <input
-              type="test"
-              className="border border-texas-light-gray rounded w-full px-2 py-1"
-              value={first}
-              onChange={(e) => setFirst(e.target.value)}
-            />
-          </div>
+    <div>
+      <Formik
+        initialValues={{
+          first: '',
+          last: '',
+          email: '',
+        }}
+        validationSchema={Yup.object({
+          first: Yup.string()
+            .max(20, 'Must be 20 characters or less')
+            .required('Required'),
+          last: Yup.string()
+            .max(20, 'Must be 20 characters or less')
+            .required('Required'),
+          email: Yup.string()
+            .email('Invalid email address')
+            .required('Required'),
+        })}
+        onSubmit={async (values) => {
+          try {
+            const data = await registerUser(values).unwrap();
+            console.log(data);
+          } catch (err) {
+            console.log(err);
+          }
+        }}
+      >
+        <Form className="m-5 flex w-96 flex-col rounded bg-white shadow">
+          <div className="p-5">
+            <div className="mb-5 text-lg uppercase">Sign Up</div>
+            <div className="mb-5 flex">
+              <div className="pr-1">
+                <label htmlFor="first">First</label>
+                <Field
+                  type="text"
+                  name="first"
+                  className="border-texas-light-gray w-full rounded border px-2 py-1"
+                />
+                <ErrorMessage
+                  name="first"
+                  component="div"
+                  className="-mt-3 text-red-700"
+                />
 
-          <div className="pl-">
-            <div>Last</div>
-            <input
-              type="test"
-              className="border border-texas-light-gray rounded w-full px-2 py-1"
-              value={last}
-              onChange={(e) => setLast(e.target.value)}
-            />
+                <div className="pl-">
+                  <label htmlFor="last">Last</label>
+                  <Field
+                    type="text"
+                    name="last"
+                    className="border-texas-light-gray w-full rounded border px-2 py-1"
+                  />
+                </div>
+              </div>
+              <div className="mb-5">
+                <label htmlFor="email">Email</label>
+                <Field
+                  type="text"
+                  name="email"
+                  className="border-texas-light-gray w-full rounded border px-2 py-1"
+                />
+              </div>
+              <div className="mb-5 flex justify-center">
+                <button
+                  type="submit"
+                  className="blue w-full rounded bg-texas-orange py-1 text-texas-white drop-shadow"
+                >
+                  Sign Up
+                </button>
+              </div>
+              <hr className="mb-5" />
+            </div>
           </div>
-        </div>
-        <div className="mb-5">
-          <div>Email</div>
-          <input
-            type="test"
-            className="border border-texas-light-gray rounded w-full px-2 py-1"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-        </div>
-        <div className="flex justify-center mb-5">
-          <button
-            type="submit"
-            className="bg-texas-orange blue w-full rounded text-texas-white py-1 drop-shadow"
-          >
-            Sign Up
-          </button>
-        </div>
-        <hr className="mb-5" />
-        <div className="flex justify-center">
-          <div>
-            Already a user?{' '}
-            <Link to="/login" className="underline">
-              LOGIN
-            </Link>
-          </div>
+        </Form>
+      </Formik>
+      <div className="flex justify-center">
+        <div>
+          Already a user?{' '}
+          <Link to="/login" className="underline">
+            LOGIN
+          </Link>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 

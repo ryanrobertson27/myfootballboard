@@ -10,16 +10,20 @@ const User = require('../models/userModel');
 
 const userController = require('../controllers/userController');
 
+// TODO move to controller
+
 router.post('/login', async (req, res) => {
   try {
-    console.log(req.header.authorization);
     const didToken = req.headers.authorization.substring(7);
     await magic.token.validate(didToken);
+
     res.status(200).json({ authenticated: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
+// TODO move to controller
 
 router.post('/check-user', async (req, res) => {
   try {
@@ -36,9 +40,10 @@ router.post('/check-user', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-  const { name, phone, email, venmo } = req.body;
+  const { id, name, phone, email, venmo } = req.body;
   try {
     const user = await User.create({
+      _id: id,
       name,
       phone,
       email,
@@ -62,5 +67,7 @@ router.get('/', userController.getUsers);
 router.post('/new-user', userController.createUser);
 
 router.get('/wins', userController.getUsersWins);
+
+router.get('/:email/boards', userController.getBoardsByUserEmail);
 
 module.exports = router;

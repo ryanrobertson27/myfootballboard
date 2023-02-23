@@ -39,8 +39,25 @@ const getUsersWins = async (req, res) => {
   return res.status(200).json(users);
 };
 
+const getBoardsByUserEmail = async (req, res) => {
+  const { email } = req.params;
+
+  try {
+    const boards = await User.findOne({ email }).populate('boards');
+
+    if (!boards) {
+      return res.status(400).json({ error: 'no boards found' });
+    }
+
+    return res.status(200).json(boards.boards);
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+};
+
 module.exports = {
   getUsers,
   createUser,
   getUsersWins,
+  getBoardsByUserEmail,
 };

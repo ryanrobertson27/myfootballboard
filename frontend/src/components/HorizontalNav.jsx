@@ -1,6 +1,6 @@
-import { NavLink, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import Logout from './Logout';
+import { NavLink, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Logout from "./Logout";
 
 const HorizontalNav = () => {
   const { user, loading } = useSelector((state) => state.user);
@@ -12,7 +12,7 @@ const HorizontalNav = () => {
   } else if (!user) {
     userLoggedIn = (
       <Link
-        className="mx-2 bg-gray-800 text-texas-orange px-4 py-1 rounded-full  border-2 border-texas-orange drop-shadow-sm"
+        className="mx-2 rounded-full border-2 border-texas-orange bg-gray-800 px-4  py-1 text-texas-orange drop-shadow-sm"
         to="/login"
       >
         Login
@@ -29,10 +29,10 @@ const HorizontalNav = () => {
 
   const activeClassName = `text-white bg-texas-orange hover:bg-texas-orange hover:text-white rounded-full`;
   const inactiveClassName =
-    'text-white shadow hover:bg-gray-500 hover:text-white rounded-full';
+    "text-white shadow hover:bg-gray-500 hover:text-white rounded-full";
 
   return (
-    <nav className=" md:flex w-full py-2">
+    <nav className=" w-full py-2 md:flex">
       <ul className="md:flex ">
         <li className="">
           <NavLink

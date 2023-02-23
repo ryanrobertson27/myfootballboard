@@ -1,70 +1,62 @@
-import { Navigate, NavLink, Link } from 'react-router-dom';
-import Hamburger from 'hamburger-react';
-import { useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
-import Header from '../components/Header';
-import Logout from '../components/Logout';
+import { Navigate, NavLink, Link, useLocation } from "react-router-dom";
+import Hamburger from "hamburger-react";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import Header from "../components/Header";
+import Logout from "../components/Logout";
+import image from "../assets/board-hero-image.png";
 
 const LandingPage = () => {
   const { user, loading } = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
 
-  let userLoggedIn;
-
-  if (loading) {
-    userLoggedIn = (
-      <div className="mx-2 text-texas-orange px-4 py-1">Login</div>
-    );
-  } else if (!user) {
-    userLoggedIn = (
-      <Link className="mx-2 text-texas-orange px-4 py-1" to="/login">
-        Login
-      </Link>
-    );
-  } else {
-    userLoggedIn = (
-      <div className="flex">
-        {/* <div className="px-2">{user.email}</div> */}
-        <Logout />
-      </div>
-    );
-  }
-
   if (user) {
-    return user && <Navigate to="/dashboard" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   return (
-    <div>
-      <div className="flex flex-wrap items-center justify-between w-full md:py-0 md:px-4 text-lg text-white bg-texas-dark-gray mb-5">
-        <Link className="ml-5 uppercase py-4" to="/">
-          Insert logo
-        </Link>
-
-        <div className="md:hidden flex mr-5">
-          <Hamburger toggled={isOpen} toggle={setIsOpen} />
+    <div className="flex h-screen w-screen items-center justify-center bg-gray-900 text-white ">
+      <div className="flex w-5/6">
+        <div className="flex w-1/2 flex-col justify-center ">
+          <div className="flex h-full flex-col justify-between px-5">
+            <div className="text-2xl">LOGO</div>
+            <div className="mb-4 flex flex-col items-start text-sm font-light italic">
+              <div className="mb-2  text-6xl font-extrabold uppercase">
+                Friendly Competition for your next big game
+              </div>
+              <div className="mb-4">
+                Create 10x10 games boards to give you and some friends a chance
+                to win money based on the outcome of each quarter
+              </div>
+              <Link
+                className=" rounded-md border border-white px-6 py-2 text-white shadow"
+                to="/register"
+              >
+                Create Account
+              </Link>
+            </div>
+            <div>
+              <hr className="mb-5 w-5/6 border-gray-500" />
+              <div className="text-sm italic text-gray-400">
+                <div>
+                  Already have an account?
+                  <span>
+                    <Link className="mx-2 px-4 py-1 text-white" to="/login">
+                      Login
+                    </Link>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <nav
-          className={`${
-            isOpen ? null : 'hidden'
-          } md:flex md:items-center md:w-auto w-full text-white transition-all ease-out duration-300`}
-        >
-          <ul className="flex flex-col items-center w-full md:flex md:flex-row md:justify-between md:pt-0 ">
-            <li className="w-full text-center">{userLoggedIn}</li>
-          </ul>
-        </nav>
-      </div>
-      <div className="w-screen flex flex-col items-center">
-        <div className="text-4xl font-extrabold">BIG TEXT: CATCHY PHRASE</div>
-        <div className="text-xl italic font-light">
-          Smaller Text with quick explanation
+        <div className="flex w-1/2 justify-center px-5">
+          <img
+            className="w-auto rounded-lg shadow-2xl "
+            src={image}
+            alt="placeholder"
+          />
         </div>
-        <Link
-          className="bg-blue-400 text-white rounded px-6 py-2"
-          to="/register"
-        >
-          Register
-        </Link>
       </div>
     </div>
   );

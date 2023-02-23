@@ -11,6 +11,12 @@ const boardSchema = new Schema({
   costPerSquare: Number,
   awayTeam: String,
   homeTeam: String,
+  homeNumbers: [null, null, null, null, null, null, null, null, null, null],
+  awayNumbers: [null, null, null, null, null, null, null, null, null, null],
+  settings: {
+    published: { type: Boolean, default: false },
+    maxSquaresPerUser: { type: Number, default: 4 },
+  },
 });
 
 boardSchema.pre('save', function (next) {

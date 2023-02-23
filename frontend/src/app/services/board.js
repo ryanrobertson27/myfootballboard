@@ -9,7 +9,13 @@ export const boardApi = api.injectEndpoints({
         body,
       }),
     }),
+    getBoardById: build.query({
+      query: (id) => ({
+        url: `boards/${id}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useCreateNewBoardMutation } = boardApi;
+export const { useCreateNewBoardMutation, useGetBoardByIdQuery } = boardApi;

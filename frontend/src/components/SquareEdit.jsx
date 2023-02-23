@@ -1,23 +1,23 @@
-import { useState, useEffect } from 'react';
-import { useFormik } from 'formik';
-import NewUser from './NewUser';
-import UserDropdown from './UserDropdown';
-import { useUpdateSquareMutation } from '../app/services/squares';
+import { useState, useEffect } from "react";
+import { useFormik } from "formik";
+import NewUser from "./NewUser";
+import UserDropdown from "./UserDropdown";
+import { useUpdateSquareMutation } from "../app/services/squares";
 
 const SquareEdit = ({ square, setSquareEditVisible }) => {
-  const [nameToSearch, setNameToSearch] = useState('');
+  const [nameToSearch, setNameToSearch] = useState("");
   const [nameToAdd, setNameToAdd] = useState(null);
-  const [visibilityState, setVisibilityState] = useState('');
+  const [visibilityState, setVisibilityState] = useState("");
 
   const [updateSquare] = useUpdateSquareMutation();
 
   const handleNewUserClick = () => {
-    setVisibilityState('newUser');
+    setVisibilityState("newUser");
   };
 
   const handleUserSelect = (e) => {
     setNameToAdd(e.target.textContent);
-    setVisibilityState('');
+    setVisibilityState("");
   };
 
   const handleSquareUpdate = async () => {
@@ -32,10 +32,10 @@ const SquareEdit = ({ square, setSquareEditVisible }) => {
   let userInputSection;
 
   switch (visibilityState) {
-    case '':
+    case "":
       userInputSection = null;
       break;
-    case 'newUser':
+    case "newUser":
       userInputSection = (
         <NewUser
           square={square}
@@ -44,7 +44,7 @@ const SquareEdit = ({ square, setSquareEditVisible }) => {
         />
       );
       break;
-    case 'userDropdown':
+    case "userDropdown":
       userInputSection = (
         <UserDropdown
           nameToSearch={nameToSearch}
@@ -58,13 +58,13 @@ const SquareEdit = ({ square, setSquareEditVisible }) => {
   }
 
   return (
-    <div className="bg-white text-gray-900 border border-gray-500 shadow-lg absolute left-1/2 transform -translate-x-1/2 w-2xl p-5 rounded-md flex flex-col items-center">
-      <div className="flex justify-between mb-5 w-full ">
+    <div className="w-2xl absolute left-1/2 flex -translate-x-1/2 transform flex-col items-center rounded-md border border-gray-500 bg-white p-5 text-gray-900 shadow-lg">
+      <div className="mb-5 flex w-full justify-between ">
         <div>Square: {square.index + 1}</div>
 
         <button
           type="button"
-          className=" text-red-600 font-bold border text-sm border-red-600 hover:bg-red-600 hover:text-white px-1 rounded"
+          className=" rounded border border-red-600 px-1 text-sm font-bold text-red-600 hover:bg-red-600 hover:text-white"
           onClick={() => setSquareEditVisible(false)}
         >
           X
@@ -72,7 +72,7 @@ const SquareEdit = ({ square, setSquareEditVisible }) => {
       </div>
       <div className="mb-1">
         {nameToAdd || (
-          <span className="text-gray-500 italic text-sm">
+          <span className="text-sm italic text-gray-500">
             Search User To Add
           </span>
         )}
@@ -80,7 +80,7 @@ const SquareEdit = ({ square, setSquareEditVisible }) => {
       {nameToAdd ? (
         <button
           type="submit"
-          className="bg-texas-orange text-white px-2 py-1 mt-4 rounded hover:opacity-75"
+          className="mt-4 rounded bg-texas-orange px-2 py-1 text-white hover:opacity-75"
           onClick={() => handleSquareUpdate()}
         >
           Add User To Square
@@ -89,15 +89,15 @@ const SquareEdit = ({ square, setSquareEditVisible }) => {
       {!nameToAdd ? (
         <form
           // onSubmit={handleSquareUpdateClick}
-          className="flex flex-col items-center w-full"
+          className="flex w-full flex-col items-center"
         >
           <div className="mb-4">
             <input
               type="text"
-              onFocus={() => setVisibilityState('userDropdown')}
+              onFocus={() => setVisibilityState("userDropdown")}
               // onBlur={() => setVisibilityState('')}
               placeholder="name"
-              className="border border-gray-200 rounded px-2 w-full"
+              className="w-full rounded border border-gray-200 px-2"
               value={nameToSearch}
               onChange={(e) => setNameToSearch(e.target.value)}
             />
@@ -108,11 +108,11 @@ const SquareEdit = ({ square, setSquareEditVisible }) => {
       {userInputSection}
       {!nameToAdd ? (
         <>
-          <div className="text-gray-400 italic mb-4">- or -</div>
+          <div className="mb-4 italic text-gray-400">- or -</div>
           <button
             onClick={() => handleNewUserClick()}
             type="button"
-            className="bg-texas-orange drop-shadow-sm text-white px-4 rounded-full"
+            className="rounded-full bg-texas-orange px-4 text-white drop-shadow-sm"
           >
             New User
           </button>

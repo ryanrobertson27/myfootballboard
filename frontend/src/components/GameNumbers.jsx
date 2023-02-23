@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const GameNumbers = ({ numbers }) =>
   numbers.map((number) => (
-    <div className="aspect-square sm:text-2xl md:text-4xl flex justify-center items-center  bg-white font-bold text-gray-800">
+    <div className="flex aspect-square items-center justify-center bg-white font-bold  text-gray-800 sm:text-2xl md:text-4xl">
       {number}
     </div>
   ));

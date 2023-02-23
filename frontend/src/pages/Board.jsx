@@ -1,59 +1,51 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Square from '../components/Square';
-import GameNumbers from '../components/GameNumbers';
-import SquareEdit from '../components/SquareEdit';
-import GlobalSpinner from '../components/GlobalSpinner';
-import GameScore from '../components/GameScore';
-// import { setEditable } from '../features/square/squareSlice';
-
-// TODO should I make board api calls here and pass down as props?
+import { useGetBoardByIdQuery } from "../app/services/board";
+import BoardSettings from "../components/BoardSettings";
+import GameBoard from "../components/GameBoard";
+import { Link, useParams } from "react-router-dom";
+import BoardUsers from "../components/BoardUsers";
+import { ReactComponent as ChevronLeft } from "../assets/chevron-left.svg";
 
 const Board = () => {
-  const dispatch = useDispatch();
-  const [square, setSquare] = useState({ index: null, id: null });
-  const [squareEditVisible, setSquareEditVisible] = useState(false);
-  const [verticalNumbers, setVerticalNumbers] = useState([
-    0, 9, 7, 3, 6, 5, 4, 2, 8, 1,
-  ]);
-  const [horizontalNumbers, setHorizontalNumbers] = useState([
-    0, 9, 7, 3, 6, 5, 4, 2, 8, 1,
-  ]);
+  const { boardId } = useParams();
+  const { data: board, isLoading, isError } = useGetBoardByIdQuery(boardId);
 
-  const handleSquareClick = (index, id) => {
-    setSquare({ index, id });
-    setSquareEditVisible(true);
-  };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
 
   return (
-    <>
-      <GameScore />
-      <div className="container max-w-4xl ">
-        <div className="grid grid-cols-11 grid-rows-11 gap-0.5">
-          <div className="col-start-1 col-span-1 row-start-2 row-span-10 ">
-            <div className="grid grid-cols-1 grid-rows-10 gap-0.5 ">
-              <GameNumbers numbers={horizontalNumbers} />
-            </div>
+    <div className="mt-5 w-full">
+      <div className="mb-5 flex items-center border-b pb-5">
+        <ChevronLeft className="mr-2 h-5 w-5" />
+        <Link to="/dashboard" className="">
+          Back to Dashboard
+        </Link>
+      </div>
+      <div className=" flex h-fit w-full">
+        <div className="flex w-1/6 flex-col px-4">
+          <div className="font-semibold uppercase">Settings</div>
+          <BoardSettings board={board} />
+        </div>
+        <div className="flex w-4/6 flex-col px-4">
+          <div className="font-semibold uppercase">
+            Board: {board.boardName}{" "}
+            <span className="font-base text-xs lowercase">
+              (id: {board._id})
+            </span>
           </div>
-          <div className="col-start-2 col-span-10 row-start-1 row-span-1 ">
-            <div className="grid grid-cols-10 grid-rows-1 gap-0.5">
-              <GameNumbers numbers={verticalNumbers} />
-            </div>
-          </div>
-          <div className="col-start-2 col-span-10 row-start-2 row-span-10 ">
-            <div className="grid grid-rows-10 grid-cols-10  gap-0.5 relative">
-              <Square handleSquareClick={handleSquareClick} />
-              {squareEditVisible ? (
-                <SquareEdit
-                  square={square}
-                  setSquareEditVisible={setSquareEditVisible}
-                />
-              ) : null}
-            </div>
-          </div>
+          <GameBoard board={board} />
+        </div>
+        <div className="flex w-1/6 flex-col px-4">
+          <div className="font-semibold uppercase">Users</div>
+          <BoardUsers board={board} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
+
 export default Board;

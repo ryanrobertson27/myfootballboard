@@ -1,13 +1,13 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 const SettingsSubHeader = () => {
   const activeClassName =
-    'bg-texas-orange drop-shadow-sm text-white rounded-full hover:bg-gray-500 hover:text-white px-4 py-1 mx-1';
+    "bg-texas-orange drop-shadow-sm text-white rounded-full hover:bg-gray-500 hover:text-white px-4 py-1 mx-1";
   const inactiveClassName =
-    'bg-gray-100 drop-shadow-sm text-gray-800 rounded-full hover:bg-gray-500 hover:text-white px-4 py-1 mx-1';
+    "bg-gray-100 drop-shadow-sm text-gray-800 rounded-full hover:bg-gray-500 hover:text-white px-4 py-1 mx-1";
 
   return (
-    <nav className="flex justify-center mb-5 -mt-5 py-2 w-full border-b border-gray-200 bg-white">
+    <nav className="mb-5 -mt-5 flex w-full justify-center border-b border-gray-200 bg-white py-2">
       <ul className="flex">
         <li>
           <NavLink

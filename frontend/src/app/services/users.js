@@ -1,3 +1,4 @@
+import { useRevalidator } from 'react-router-dom';
 import { api } from './api';
 
 export const usersApi = api.injectEndpoints({
@@ -5,6 +6,13 @@ export const usersApi = api.injectEndpoints({
     getUsers: build.query({
       query: () => 'users',
       provideTags: ['User'],
+    }),
+    registerUser: build.mutation({
+      query: (body) => ({
+        url: '/users/register',
+        method: 'POST',
+        body,
+      }),
     }),
     createUser: build.mutation({
       query: (body) => ({
@@ -21,6 +29,12 @@ export const usersApi = api.injectEndpoints({
         body,
       }),
     }),
+    getBoardsByUserEmail: build.query({
+      query: (email) => ({
+        url: `/users/${email}/boards`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -28,4 +42,6 @@ export const {
   useAddSquaresToUserMutation,
   useCreateUserMutation,
   useGetUsersQuery,
+  useGetBoardsByUserEmailQuery,
+  useRegisterUserMutation,
 } = usersApi;

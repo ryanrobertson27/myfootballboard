@@ -10,13 +10,13 @@ const Admin = () => {
     <div className="flex flex-col items-center">
       <Header />
       <div className="flex">
-        <div className="px-2 bg-texas-orange rounded text-texas-white my-2 mx-2">
+        <div className="m-2 rounded bg-texas-orange px-2 text-texas-white">
           BOARD
         </div>
-        <div className="px-2 bg-texas-orange rounded text-texas-white my-2 mx-2">
+        <div className="m-2 rounded bg-texas-orange px-2 text-texas-white">
           USERS
         </div>
-        <div className="px-2 bg-texas-orange rounded text-texas-white my-2 mx-2">
+        <div className="m-2 rounded bg-texas-orange px-2 text-texas-white">
           SETTINGS
         </div>
       </div>
