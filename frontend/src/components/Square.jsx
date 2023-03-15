@@ -1,33 +1,47 @@
 import { useState, useEffect } from "react";
-
-import { useGetSquaresQuery } from "../app/services/squares";
+import { useDispatch, useSelector } from "react-redux";
+import { add, remove } from "../features/square/squareSlice";
+import {
+  useGetSquareByUserIdQuery,
+  useGetSquaresQuery,
+} from "../app/services/api";
 import GlobalSpinner from "./GlobalSpinner";
 
-const Square = ({ handleSquareClick, isEditable }) => {
-  const { data, isLoading, isError } = useGetSquaresQuery();
+const Square = ({ square }) => {
+  const isDisabled = useSelector((state) => state.squareSelect.isDisabled);
+  const squares = useSelector((state) => state.squareSelect.squares);
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   console.log(data);
-  // });
+  let style;
 
-  if (isError) return <div>Error</div>;
+  if (squares.find((item) => item._id === square._id)) {
+    style = "bg-violet-300 text-white";
+  }
 
-  if (isLoading) return <GlobalSpinner />;
+  const handleSquareClick = () => {
+    if (squares.find((item) => item._id === square._id)) {
+      dispatch(remove(square));
+    } else {
+      dispatch(add(square));
+    }
+  };
 
-  return data.map((square, index) => (
+  return (
     <button
-      disabled={isEditable}
+      disabled={isDisabled || square.owner}
       id={square._id}
       key={square._id}
       type="button"
-      onClick={() => handleSquareClick(index, square._id)}
-      className="flex aspect-square items-center justify-center rounded border bg-white  text-xs hover:bg-texas-orange  hover:text-white md:text-base "
+      className={`${style} flex aspect-square items-center justify-center text-xs  first:border-l first:border-t ${
+        square.owner || isDisabled
+          ? ""
+          : "hover:bg-violet-600  hover:text-white"
+      }  md:text-base`}
+      onClick={handleSquareClick}
     >
-      {square.owner?.name || (
-        <span className="font-light text-gray-300 hover:text-white">+</span>
-      )}
+      {square.owner?.first || ""}
     </button>
-  ));
+  );
 };
 
 export default Square;

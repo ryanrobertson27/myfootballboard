@@ -16,10 +16,10 @@ const Logout = () => {
 
   return (
     <div className="flex items-center">
-      <LogoutIcon className="mr-2 h-5 w-5" />
-      <button type="button" onClick={handleLogout}>
+      <button className="mr-2" type="button" onClick={handleLogout}>
         Log Out
       </button>
+      <LogoutIcon className="mr-2 h-5 w-5" />
     </div>
   );
 };

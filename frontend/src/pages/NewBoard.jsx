@@ -1,9 +1,10 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useSelector } from 'react-redux';
-import * as Yup from 'yup';
-import { useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { useCreateNewBoardMutation } from '../app/services/board';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useSelector } from "react-redux";
+import * as Yup from "yup";
+import { Link } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useCreateNewBoardMutation } from "../app/services/api";
+import MyTextInput from "../hooks/formik/MyTextInput";
 
 const NewBoard = () => {
   const [createBoard, result] = useCreateNewBoardMutation();
@@ -11,27 +12,29 @@ const NewBoard = () => {
 
   const navigate = useNavigate();
 
+  // TODO add payout amount for user to select via percentage or amount
+
   return (
     <Formik
       initialValues={{
-        boardName: '',
-        homeTeam: '',
-        awayTeam: '',
+        boardName: "",
+        homeTeam: "",
+        awayTeam: "",
         costPerSquare: 0,
       }}
       validationSchema={Yup.object({
         boardName: Yup.string()
-          .max(20, 'Must be 20 characters or less')
-          .required('Required'),
+          .max(20, "Must be 20 characters or less")
+          .required("Required"),
         homeTeam: Yup.string()
-          .max(20, 'Must be 20 characters or less')
-          .required('Required'),
+          .max(20, "Must be 20 characters or less")
+          .required("Required"),
         awayTeam: Yup.string()
-          .max(20, 'Must be 20 characters or less')
-          .required('Required'),
+          .max(20, "Must be 20 characters or less")
+          .required("Required"),
         costPerSquare: Yup.number()
-          .min(0, 'Must be greater than 0')
-          .required('Required'),
+          .min(0, "Must be greater than 0")
+          .required("Required"),
       })}
       onSubmit={async (values) => {
         try {
@@ -44,79 +47,59 @@ const NewBoard = () => {
             console.log(data);
             navigate(`/${data._id}`);
           }
-          console.log('error');
+          console.log("error");
         } catch (err) {
           console.log(err);
         }
       }}
     >
-      <div className="w-full  justify-center items-center mt-5">
-        <h2 className="text-lg mb-5">Create a New Board</h2>
-        <Form className="flex flex-col items-start w-96 bg-white rounded-md shadow p-5">
-          <label htmlFor="boardName" className="mb-1">
-            Board Name
-          </label>
-          <Field
+      <div className="mt-10 h-fit w-full min-w-max  max-w-xl items-center justify-center rounded-md bg-gray-50 p-5 shadow">
+        <h2 className="mb-5 text-lg font-semibold">Create a New Board</h2>
+        <Form className="flex flex-col items-start rounded-md  bg-white p-5">
+          <div>Board Name</div>
+          <MyTextInput
+            label="boardName"
             name="boardName"
             type="text"
-            className="border rounded px-1 mb-3"
+            // placeholder="My Board Name"
+            className="mb-5 w-full rounded border border-gray-300 px-2 py-1"
           />
-          <ErrorMessage
-            name="boardName"
-            component="div"
-            className="text-red-700 -mt-3"
-          />
-
-          <label htmlFor="homeTeam" className="mb-1">
-            Home Team
-          </label>
-          <Field
+          <div>Home Team</div>
+          <MyTextInput
+            label="homeTeam"
             name="homeTeam"
             type="text"
-            className="border rounded px-1 mb-3"
+            // placeholder="Home Team"
+            className="mb-5 w-full rounded border border-gray-300 px-2 py-1"
           />
-          <ErrorMessage
-            name="homeTeam"
-            component="div"
-            className="text-red-700 -mt-3"
-          />
-
-          <label htmlFor="awayTeam" className="mb-1">
-            Away Team
-          </label>
-          <Field
+          <div>Away Team</div>
+          <MyTextInput
+            label="awayTeam"
             name="awayTeam"
             type="text"
-            className="border rounded px-1 mb-3"
+            // placeholder="Away Team"
+            className="mb-5 w-full rounded border border-gray-300 px-2 py-1"
           />
-          <ErrorMessage
-            name="awayTeam"
-            component="div"
-            className="text-red-700 -mt-3"
-          />
-
-          <label htmlFor="costPerSquare" className="mb-1">
-            Cost Per Square
-          </label>
-          <Field
+          <div>Cost / Square</div>
+          <MyTextInput
+            label="costPerSquare"
             name="costPerSquare"
             type="number"
-            className="border rounded px-1 mb-3"
+            // placeholder="Cost Per Square"
+            className="mb-5 w-full rounded border border-gray-300 px-2 py-1"
           />
-          <ErrorMessage
-            name="costPerSquare"
-            component="div"
-            className="text-red-700 -mt-3"
-          />
-
-          <button
-            type="submit"
-            className="px-6 py-1 bg-green-400 text-white rounded"
-          >
-            Submit
-          </button>
+          <div className="flex w-full justify-end">
+            <Link to="/dashboard" className="mr-5">
+              Cancel
+            </Link>
+            <button
+              type="submit"
+              className=" rounded bg-green-400 px-6 py-1 text-white"
+            >
+              Create New Board
+            </button>
+          </div>
         </Form>
-        <h2 className="text-lg">Preview</h2>
       </div>
     </Formik>
   );

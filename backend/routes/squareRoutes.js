@@ -4,15 +4,21 @@ const squareController = require('../controllers/squareController');
 
 const router = express.Router();
 
-router.get('/', squareController.getAllSquares);
+router.get('/', squareController.getSquaresByBoardId);
 
-// router.put('/:id', squareController.updateSquareById);
+// TODO get squares by user id
+
+
+router.get('/:boardId', squareController.getSquaresByBoardId)
 
 router.patch('/update', squareController.updateSquares);
 
 router.get('/populate-squares', squareController.populateSquares);
 
 router.patch('/update-owner', squareController.updateSquareOwner);
+
+router.get('/square/:squareId', squareController.getSquareByUserId)
+
 
 module.exports = router;
  

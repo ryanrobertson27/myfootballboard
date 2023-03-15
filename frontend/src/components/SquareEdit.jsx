@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import NewUser from "./NewUser";
 import UserDropdown from "./UserDropdown";
-import { useUpdateSquareMutation } from "../app/services/squares";
+import { useUpdateSquareMutation } from "../app/services/api";
 
 const SquareEdit = ({ square, setSquareEditVisible }) => {
   const [nameToSearch, setNameToSearch] = useState("");

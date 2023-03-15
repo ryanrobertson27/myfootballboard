@@ -21,11 +21,6 @@ const Callback = (props) => {
     finishEmailRedirectLogin();
   }, [searchParams]);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setRedirectTimedOut(true);
-  //   }, 10000);
-  // });
 
   const finishEmailRedirectLogin = async () => {
     const magicCredential = new URLSearchParams(searchParams).get(

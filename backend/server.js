@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const userRouter = require('./routes/userRoutes');
 const squareRouter = require('./routes/squareRoutes');
 const boardRouter = require('./routes/boardRoutes');
+const boardPlayerRoutes = require('./routes/boardPlayerRoutes');
 
 require('dotenv').config();
 
@@ -18,9 +19,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // routes
-app.use('/users', userRouter);
 app.use('/squares', squareRouter);
 app.use('/boards', boardRouter);
+app.use('/users', userRouter);
+app.use('/players', boardPlayerRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)

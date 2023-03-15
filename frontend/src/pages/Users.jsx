@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGetUsersQuery } from "../app/services/users";
+import { useGetUsersQuery } from "../app/services/api";
 import UserTableRow from "../components/UserTableRow";
 
 const Users = () => {

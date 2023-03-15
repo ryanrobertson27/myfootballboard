@@ -13,6 +13,26 @@ const getAllSquares = async (req, res) => {
   return res.status(200).json(squares);
 };
 
+
+// TODO protect this route
+const getSquaresByBoardId = async (req, res) => {
+  try {
+    const {boardId} = req.params
+  
+    const squares = await Square.find({board: boardId }).populate('owner')
+  
+    if(!squares) {
+      throw new Error('no squares found')
+    }
+    
+    return res.status(200).json(squares)
+  } catch (error) {
+    return res.status(400).json(error)
+  }
+}
+
+
+// TODO protect this route
 // squares/update
 const updateSquares = async (req, res) => {
   const { name, ids } = req.body;
@@ -21,6 +41,7 @@ const updateSquares = async (req, res) => {
   res.status(200).send('complete');
 };
 
+//TODO protect this route
 // squares/update-owner
 const updateSquareOwner = async (req, res) => {
   console.log(req.body);
@@ -42,6 +63,8 @@ const updateSquareOwner = async (req, res) => {
     return res.status(400).json({ error });
   }
 };
+
+// TODO protect this route
 // squares/populate-squares
 const populateSquares = async (req, res) => {
   for (let i = 0; i < 100; i++) {
@@ -57,9 +80,28 @@ const populateSquares = async (req, res) => {
   res.status(200).send('success');
 };
 
+// TODO protect this route
+const getSquareByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params
+
+    const square = Square.find({owner: userId})
+
+    if(!square) {
+      throw new Error('no square found')
+    }
+
+    return res.status(200).json(square)
+  } catch (error) {
+    return res.status(400).json(error)
+  }
+}
+
 module.exports = {
   getAllSquares,
   populateSquares,
   updateSquareOwner,
   updateSquares,
+  getSquaresByBoardId,
+  getSquareByUserId,
 };

@@ -1,26 +1,36 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useGetSquaresByBoardIdQuery } from "../app/services/api";
+import GameBoard from "./GameBoard";
 
 const BoardSnippet = ({ key, board }) => {
-  let temp;
+  const {
+    data: squares,
+    isLoading,
+    isError,
+  } = useGetSquaresByBoardIdQuery(board._id);
 
-  // number of squares where the owner is not null
-  const squaresOwned = board.squares.filter((square) => square.owner !== null);
+  let numOfSquaresClaimed;
+
+  if (squares) {
+    numOfSquaresClaimed = squares.filter((square) => square.owner).length;
+  }
 
   return (
     <Link
       to={`../${board._id}`}
-      className="mb-4 flex w-80 flex-col items-center rounded border bg-white shadow-sm"
+      className="= m-2 flex basis-1/3 flex-col items-center rounded border bg-white shadow-sm "
     >
-      <div className="mb-2 w-full bg-gray-100 py-2 text-center">
-        {board.boardName}
-      </div>
-      <div className="flex w-full justify-around">
-        <div>{board.homeTeam}</div>
-        <div>{board.awayTeam}</div>
-      </div>
-      <div className="mb-2 flex w-full justify-around">
-        <div>cost/sq: ${board.costPerSquare}</div>
-        <div>Sq owned: {squaresOwned.length}/100</div>
+      <div className="flex w-full flex-col items-center p-5">
+        <div>{board.boardName}</div>
+        <div className="flex w-full justify-center">
+          <div className="mx-2">{board.homeTeam}</div>
+          <div className="mx-2">vs.</div>
+          <div className="mx-2">{board.awayTeam}</div>
+        </div>
+        <div>
+          <div>{numOfSquaresClaimed || 0}/100 claimed</div>
+        </div>
       </div>
     </Link>
   );

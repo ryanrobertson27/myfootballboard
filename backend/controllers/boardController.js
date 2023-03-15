@@ -1,10 +1,13 @@
 const Board = require('../models/boardModel');
 const User = require('../models/userModel');
+const Square = require('../models/squareModel');
+const BoardPlayer = require('../models/boardPlayerModel');
 
 const getAllBoards = async (req, res) => {
   res.status(200).send('success');
 };
 
+// TODO protect this route
 const createNewBoard = async (req, res) => {
   try {
     const { email, boardName, costPerSquare, homeTeam, awayTeam } = req.body;
@@ -28,15 +31,19 @@ const createNewBoard = async (req, res) => {
       // throw new Error('Error Creating Board');
     }
 
-    const user = await User.findByIdAndUpdate(owner._id, {
-      $push: { boards: board._id },
-    }).exec();
+    owner.boards.push(board._id)
+    await owner.save()
 
-    if (!user) {
-      return res.status(400).send('Error Updating User');
-      // throw new Error('Error Updating User');
+    //generate squares
+    for (let i = 0; i < 100; i++) {
+      const square = await Square.create({
+        board: board._id,
+        owner: null,
+        position: i + 1,
+        wins: 0,
+      });
     }
-
+  
     return res.status(200).json(board);
   } catch (error) {
     console.log(error);
@@ -44,11 +51,12 @@ const createNewBoard = async (req, res) => {
   }
 };
 
-const getBoard = async (req, res) => {
+// TODO protect this route
+const getBoardById = async (req, res) => {
   try {
     const { boardId } = req.params;
 
-    const board = await Board.findById(boardId).exec();
+    const board = await Board.findById(boardId);
 
     if (!board) {
       return res.status(400).send('Could not find board');
@@ -61,4 +69,27 @@ const getBoard = async (req, res) => {
   }
 };
 
-module.exports = { getAllBoards, createNewBoard, getBoard };
+// TODO protect this route
+const deleteBoardById = async (req, res) => {
+  try {
+    const { boardId } = req.params;
+
+    const board = await Board.findByIdAndDelete(boardId);
+
+    if (!board) {
+      return res.status(400).send('Could not find board');
+    }
+
+    const boardPlayers = BoardPlayer.find({ board: boardId });
+    
+
+    return res.status(200).json(board);
+
+  } catch(error) {
+    console.log(error);
+    return res.status(400).json(error);
+  }
+}
+
+
+module.exports = { getAllBoards, createNewBoard, getBoardById };

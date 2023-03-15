@@ -3,6 +3,8 @@ const User = require('../models/userModel');
 
 const magic = new Magic(process.env.MAGIC_SECRET_KEY);
 
+
+// TODO protect this route
 const getUsers = async (req, res) => {
   const user = await User.find({});
 
@@ -12,22 +14,73 @@ const getUsers = async (req, res) => {
   return res.status(200).json(user);
 };
 
-const createUser = async (req, res) => {
-  const { name, phone, email, venmo } = req.body;
+//TODO protect this route
+const checkUser = async (req, res) => {
   try {
-    const userExists = await User.findOne({ name });
-
-    if (userExists) {
-      return res.status(409).json({ message: 'User already exists' });
+    console.log(req.body.email);
+    const user = await User.findOne({ email: req.body.email }).exec();
+    console.log(user);
+    if (user) {
+      return res.status(200).json({ userExists: true });
     }
-
-    const user = await User.create({ name, phone, email, venmo });
-
-    res.status(200).json(user);
+    return res.status(200).json({ userExists: false });
   } catch (error) {
-    res.status(400).json({ error });
+    return res.status(400).json({ error });
   }
 };
+
+
+//
+const loginUser = async (req, res) => {
+  try {
+    const didToken = req.headers.authorization.substring(7);
+    await magic.token.validate(didToken);
+
+    res.status(200).json({ authenticated: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const registerUser = async (req, res) => {
+  const {  name, phone, email, venmo } = req.body;
+  try {
+    const user = await User.create({
+      name,
+      phone,
+      email,
+      venmo,
+    });
+    
+    if (!user) {
+      throw new Error('Error creating user');
+    }
+    
+    return res.status(200).json(user);
+  } catch (err) {
+    if (err) {
+      return res.status(400).json(err);
+    }
+  }
+};
+
+const getUserByEmail = async (req, res) => {
+  try {
+
+    const { email } = req.body;
+  
+    const user = await User.findOne({ email })
+  
+    if(!user) {
+      throw new Error('no user found')
+    }
+    
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json(error)
+  }
+}
 
 const getUsersWins = async (req, res) => {
   const users = await User.find({ wins: { $exists: true, $ne: [] } });
@@ -39,11 +92,13 @@ const getUsersWins = async (req, res) => {
   return res.status(200).json(users);
 };
 
-const getBoardsByUserEmail = async (req, res) => {
-  const { email } = req.params;
+const getUserBoardsByEmail = async (req, res) => {
+  const { email } = req.body;
+
+  console.log(req.body)
 
   try {
-    const boards = await User.findOne({ email }).populate('boards');
+    const boards = await User.findOne({ email }).populate({path: 'boards', perDocumentLimit: 4});
 
     if (!boards) {
       return res.status(400).json({ error: 'no boards found' });
@@ -57,7 +112,10 @@ const getBoardsByUserEmail = async (req, res) => {
 
 module.exports = {
   getUsers,
-  createUser,
+  checkUser,
+  registerUser,
+  loginUser,
+  getUserByEmail,
   getUsersWins,
-  getBoardsByUserEmail,
+  getUserBoardsByEmail,
 };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useCreateUserMutation } from "../app/services/users";
+import { useCreateUserMutation } from "../app/services/api";
 
 const NewUser = ({ square, setVisibilityState, setNameToAdd }) => {
   // const [name, setName] = useState('');
