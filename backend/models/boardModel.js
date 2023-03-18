@@ -13,7 +13,7 @@ const boardSchema = new Schema({
   homeTeam: String,
   homeNumbers: {type: Array, default: [1,2,3,4,5,6,7,8,9,0]},
   awayNumbers: {type: Array, default: [1,2,3,4,5,6,7,8,9,0]},
-  // unpublished, published, closed
+  gameStatus: { type: String, default: 'notStarted'},
   state: { type: String, default: 'unpublished'},
 });
 
