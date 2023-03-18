@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const gameModel = new Schema({
+const gameSchema = new Schema({
   board: { type: Schema.Types.ObjectId, ref: 'Board' },
   awayTeam: { type: String, required: true },
   homeTeam: { type: String, required: true },
@@ -12,7 +12,8 @@ const gameModel = new Schema({
   secondQuarter: { type: Number, default: 0 },
   thirdQuarter: { type: Number, default: 0 },
   fourthQuarter: { type: Number, default: 0 },
-  timeRemaining: { type: Number, default: 900 },
+  timeRemaining: { type: Number, default: 3600 },
 })
 
-const Game = mongoose.model('Game', gameModel);
+const Game = mongoose.model('Game', gameSchema);
+module.exports = Game;

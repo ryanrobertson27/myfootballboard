@@ -6,6 +6,7 @@ const userRouter = require('./routes/userRoutes');
 const squareRouter = require('./routes/squareRoutes');
 const boardRouter = require('./routes/boardRoutes');
 const boardPlayerRoutes = require('./routes/boardPlayerRoutes');
+const gameRouter = require('./routes/gameRoutes');
 
 require('dotenv').config();
 
@@ -23,6 +24,7 @@ app.use('/squares', squareRouter);
 app.use('/boards', boardRouter);
 app.use('/users', userRouter);
 app.use('/players', boardPlayerRoutes);
+app.use('/games', gameRouter);
 
 mongoose
   .connect(process.env.MONGO_URI)

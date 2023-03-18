@@ -5,8 +5,6 @@ const generateGame = async (req, res) => {
 
   const { boardId } = req.params
 
-
-
   const game = await Game.create({
     board: boardId,
     awayTeam: 'Away Team',
@@ -17,7 +15,7 @@ const generateGame = async (req, res) => {
     secondQuarter: 0,
     thirdQuarter: 0,
     fourthQuarter: 0,
-    timeRemaining: 900,
+    timeRemaining: 3600,
   })
 
   if (!game) {
@@ -39,9 +37,9 @@ const generateGame = async (req, res) => {
   setIntervalGameFunction(() => {
     console.log('game started')
 
-    const randomNumber = Math.floor(Math.random() * 10) + 1
+    const randomNumber = Math.floor(Math.random() * 60) + 1
 
-    game.timeRemaining -= 1;
+    game.timeRemaining -= 15;
 
     switch (randomNumber) {
       case 1:
@@ -60,13 +58,33 @@ const generateGame = async (req, res) => {
         break;
     }
     game.save()
+    // 60 * 15 * 4 = 3600
+    // 4 * 15 * 4 = 240
 
-
-  }, 1000, 15)
+  }, 1000, 240)
     
+  return res.status(200).json(game)
+}
+
+const getGameById = async (req, res) => {
+  try {
+
+    const { gameId } = req.params
+  
+    const game = await Game.findById(gameId)
+  
+    if(!game) {
+      throw new Error('game not found')
+    }
+  
+    return res.status(200).json(game)
+  } catch (error) {
+    return res.status(500).json({ error: error.message })
+  }
 }
 
 module.exports = {
-  generateGame
+  generateGame,
+  getGameById
 }
 
