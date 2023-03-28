@@ -21,13 +21,10 @@ const GameBoard = ({ board }) => {
 
   if (squares) {
     squareSection = squares.map((square) => <Square square={square} />);
-    numberOfSquaresOwned = squares.filter(
-      (square) => square.owner !== null
-    ).length;
   }
 
   return (
-    <div className=" mt-5 flex w-full max-w-3xl  justify-around rounded-md  p-2">
+    <div className=" mt-5 flex  max-w-3xl  justify-around rounded-md  bg-white">
       <div className="grid-rows-12 grid w-full grid-cols-12 border">
         <div className="col-span-1 col-start-1 row-span-1 row-start-1 flex aspect-square flex-col items-center justify-center   bg-white text-xs"></div>
         <div className="col-span-1 col-start-2 row-span-1 row-start-1 flex aspect-square flex-col items-center justify-center  bg-white text-xs"></div>
@@ -35,9 +32,7 @@ const GameBoard = ({ board }) => {
         <div className="col-span-1 col-start-2 row-span-1 row-start-2 flex aspect-square flex-col items-center justify-center  bg-white text-xs"></div>
         <div className="col-span-2 col-start-1 row-span-2 row-start-1 flex flex-col items-center justify-center ">
           <div className="flex flex-col items-center text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl ">
-            {100 - numberOfSquaresOwned}
-            <div>squares</div>
-            <div>left</div>
+            LOGO
           </div>
         </div>
         <div> </div>

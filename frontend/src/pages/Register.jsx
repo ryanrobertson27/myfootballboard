@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { Magic } from "magic-sdk";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import Header from "../components/Header";
 import { useRegisterUserMutation } from "../app/services/api";
 import MyTextInput from "../hooks/formik/MyTextInput";
 import logo from "../assets/footballsquareslogo.png";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+
+const magic = new Magic("pk_live_C10893DD838C3541");
 
 const Register = () => {
   const [registerUser, result] = useRegisterUserMutation();
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(location.state?.fromLogin);
+  }, []);
 
   return (
     <div className="flex h-screen flex-col items-center justify-center">
@@ -20,6 +28,8 @@ const Register = () => {
           first: "",
           last: "",
           email: "",
+          phone: "",
+          venmo: "",
         }}
         validationSchema={Yup.object({
           first: Yup.string()
@@ -35,6 +45,14 @@ const Register = () => {
         onSubmit={async (values) => {
           try {
             const data = await registerUser(values).unwrap();
+            if (data) {
+              console.log(data);
+              const { email } = data;
+              const didToken = await magic.auth.loginWithMagicLink({
+                email,
+                redirectURI: new URL("/callback", window.location.origin).href,
+              });
+            }
             console.log(data);
           } catch (err) {
             console.log(err);
@@ -42,10 +60,20 @@ const Register = () => {
         }}
       >
         <Form className="mb-10 flex w-96 flex-col rounded bg-white p-5 shadow-md">
-          <div className="self-center text-xl">Welcome!</div>
-          <div className="mb-8 self-center text-sm text-gray-500">
-            Create A New Account
-          </div>
+          {location.state?.fromLogin ? (
+            <div className="mb-3 text-center text-red-500">
+              An account with that email does not exist. Please create an
+              account!
+            </div>
+          ) : (
+            <>
+              <div className="self-center text-xl">Welcome!</div>
+              <div className="mb-8 self-center text-sm text-gray-500">
+                Create A New Account
+              </div>
+            </>
+          )}
+
           <MyTextInput
             label="First Name"
             name="first"
@@ -61,10 +89,24 @@ const Register = () => {
             className="mb-5 rounded border border-gray-400 px-2 py-1"
           />
           <MyTextInput
+            label="Phone Number"
+            name="phone"
+            type="text"
+            placeholder="(123)-456-7890"
+            className="mb-5 rounded border border-gray-400 px-2 py-1"
+          />
+          <MyTextInput
+            label="Venmo"
+            name="venmo"
+            type="text"
+            placeholder="venmo"
+            className="mb-5 rounded border border-gray-400 px-2 py-1"
+          />
+          <MyTextInput
             label="Email"
             name="email"
             type="email"
-            placeholder="Email"
+            placeholder="example@example.com"
             className="mb-5 rounded border border-gray-400 px-2 py-1"
           />
 

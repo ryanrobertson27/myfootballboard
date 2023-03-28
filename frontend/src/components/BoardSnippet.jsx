@@ -19,7 +19,7 @@ const BoardSnippet = ({ key, board }) => {
   return (
     <Link
       to={`../${board._id}`}
-      className="= m-2 flex basis-1/3 flex-col items-center rounded border bg-white shadow-sm "
+      className="= m-2 flex basis-1/3 flex-col items-center  rounded border bg-white shadow-sm "
     >
       <div className="flex w-full flex-col items-center p-5">
         <div>{board.boardName}</div>

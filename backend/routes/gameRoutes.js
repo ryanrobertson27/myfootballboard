@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get('/generate-game/:boardId', gameController.generateGame);
 
-router.get('/get-game/:gameId', gameController.getGameById);
+router.get('/:gameId', gameController.getGameById);
 
 module.exports = router;

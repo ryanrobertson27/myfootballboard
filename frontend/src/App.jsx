@@ -19,7 +19,7 @@ import Dashboard from "./pages/Dashboard";
 import LandingPage from "./pages/LandingPage";
 import NewBoard from "./pages/NewBoard";
 import DashboardLayout from "./pages/DashboardLayout";
-import LoadingPage from "./pages/LoadingPage";
+import PublishedBoard from "./pages/PublishedBoard";
 
 const magic = new Magic("pk_live_C10893DD838C3541");
 
@@ -30,6 +30,7 @@ const route = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="callback" element={<Callback />} />
+      <Route path="published/:boardId" element={<PublishedBoard />} />
 
       <Route element={<DashboardLayout />}>
         <Route element={<ProtectedRoute />}>

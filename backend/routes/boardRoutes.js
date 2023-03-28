@@ -9,4 +9,8 @@ router.post('/new-board', boardController.createNewBoard);
 
 router.get('/:boardId', boardController.getBoardById);
 
+router.post('/fill-board', boardController.fillBoardWithRandomPlayers);
+
+router.post('/clear-board', boardController.clearAllBoardPlayers);
+
 module.exports = router;

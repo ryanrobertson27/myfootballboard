@@ -49,7 +49,7 @@ const Login = () => {
             });
           } else {
             // TODO add a reason why they got redirected to register
-            navigate("/register");
+            navigate("/register", { state: { fromLogin: true } });
           }
         }}
       >

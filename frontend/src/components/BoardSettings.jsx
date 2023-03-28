@@ -1,9 +1,14 @@
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MyTextInput from "../hooks/formik/MyTextInput";
+import {
+  useClearBoardMutation,
+  useFillBoardMutation,
+} from "../app/services/api";
 
 const BoardSettings = ({ board }) => {
-  let temp;
+  const [clearBoard] = useClearBoardMutation();
+  const [fillBoard] = useFillBoardMutation();
 
   return (
     <>
@@ -34,6 +39,18 @@ const BoardSettings = ({ board }) => {
       >
         <div className="mt-5  items-center justify-center">
           <h2 className="mb-5 text-lg">Settings</h2>
+          <button
+            onClick={() => clearBoard(board._id)}
+            className="bg-yellow-400 px-2 text-white"
+          >
+            Clear Board
+          </button>
+          <button
+            onClick={() => fillBoard(board._id)}
+            className="bg-green-400 px-2 text-white"
+          >
+            Fill Board
+          </button>
           <Form className="flex items-start ">
             <div>
               <div>Board Name</div>

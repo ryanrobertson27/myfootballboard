@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/' }),
   tagTypes: ['Square', 'Player'],
@@ -18,7 +19,23 @@ export const api = createApi({
         method: 'GET',
       }),
     }),
-
+    clearBoard: build.mutation({
+      query: (boardId) => ({
+        url: `boards/clear-board`,
+        method: 'POST',
+        body: { boardId },
+      }),
+      invalidatesTags: ['Square', 'Player']
+    }),
+    fillBoard: build.mutation({
+      query: (boardId) => ({
+        url: `boards/fill-board`,
+        method: 'POST',
+        body: { boardId },
+      }),
+      invalidatesTags: ['Square', 'Player']
+    }),
+    
     // Board Player Calls
     getBoardPlayersByBoardId: build.query({
       query: (boardId) => `players/${boardId}`,
@@ -40,6 +57,7 @@ export const api = createApi({
       }),
       invalidatesTags: ['Player', 'Square']
     }),
+
 
     // Square Calls
     getSquares: build.query({
@@ -102,6 +120,20 @@ export const api = createApi({
         body
       }),
     }),
+
+    // Game Calls
+    generateGame: build.query({
+      query: (boardId) => ({
+        url: `games/generate-game/${boardId}`,
+        method: 'GET',
+      }),
+    }),
+    getGameById: build.query({
+      query: (gameId) => ({
+        url: `games/${gameId}`,
+        method: 'GET',
+      })
+    }),
   }),
 });
 
@@ -120,4 +152,9 @@ export const {
   useGetBoardsByUserEmailQuery,
   useRegisterUserMutation,
   useGetUserByEmailQuery,
-  useDeleteBoardPlayerByIdMutation } = api
+  useDeleteBoardPlayerByIdMutation,
+  useLazyGenerateGameQuery,   
+  useLazyGetGameByIdQuery,
+  useClearBoardMutation,
+  useFillBoardMutation,
+} = api

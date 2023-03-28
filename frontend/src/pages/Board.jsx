@@ -39,6 +39,15 @@ const Board = () => {
               </span>
             </div>
             <div className="flex items-center">
+              <div>
+                {board.state === "published" ? (
+                  <Link to={`/published/${board._id}`} target="_blank">
+                    View Board
+                  </Link>
+                ) : (
+                  <button>Publish Board</button>
+                )}
+              </div>
               <button onClick={() => setIsSettingsShowing(!isSettingsShowing)}>
                 {isSettingsShowing ? (
                   <CloseIcon className="mr-2 h-5 w-5" />
@@ -55,8 +64,8 @@ const Board = () => {
             <GameBoard board={board} />
           </div>
         </div>
-        <div className="mx-1 flex basis-2/6 flex-col rounded-md bg-white p-4">
-          <div className="border-b py-2 font-semibold uppercase">Users</div>
+        <div className="mx-1 flex basis-2/6 flex-col  rounded-md bg-white p-4">
+          <div className=" border-b py-2 font-semibold uppercase ">Users</div>
           <BoardPlayers board={board} />
         </div>
       </div>

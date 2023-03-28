@@ -2,19 +2,12 @@ const Game = require('../models/gameModel')
 const Board = require('../models/boardModel')
 
 const generateGame = async (req, res) => {
-
   const { boardId } = req.params
 
   const game = await Game.create({
     board: boardId,
-    awayTeam: 'Away Team',
-    homeTeam: 'Home Team',
-    awayScore: 0,
-    homeScore: 0,
-    firstQuarter: 0,
-    secondQuarter: 0,
-    thirdQuarter: 0,
-    fourthQuarter: 0,
+    awayTeamName: 'Away Team',
+    homeTeamName: 'Home Team',
     timeRemaining: 3600,
   })
 
@@ -30,38 +23,80 @@ const generateGame = async (req, res) => {
       if (++x === total) {
         clearInterval(intervalID);
       }
-    }
-      , delay);
+    }, delay);
   }
-  
-  setIntervalGameFunction(() => {
-    console.log('game started')
 
-    const randomNumber = Math.floor(Math.random() * 60) + 1
+  setIntervalGameFunction(() => {
+
+
+    const randomNumber = Math.floor(Math.random() * 80) + 1
 
     game.timeRemaining -= 15;
 
+    // need to refactor this to be more maintainable
     switch (randomNumber) {
       case 1:
-        game.awayScore += 3
+        game.awayTeamScore += 3
+        if(game.timeRemaining > 2700) {
+          game.firstQuarter.awayScore += 3
+
+        } else if (game.timeRemaining > 1800) {
+          game.secondQuarter.awayScore += 3
+        } else if (game.timeRemaining > 900) {
+          game.thirdQuarter.awayScore += 3
+        } else if (game.timeRemaining > 0) {
+          game.fourthQuarter.awayScore += 3
+        }
         break;
       case 2:
-        game.homeScore += 3
+        game.homeTeamScore += 3
+        if(game.timeRemaining > 2700) {
+          game.firstQuarter.homeScore += 3
+
+        } else if (game.timeRemaining > 1800) {
+          game.secondQuarter.homeScore += 3
+        } else if (game.timeRemaining > 900) {
+          game.thirdQuarter.homeScore += 3
+        } else if (game.timeRemaining > 0) {
+          game.fourthQuarter.homeScore += 3
+        }
         break;
       case 3:
-        game.awayScore += 7
+        game.awayTeamScore += 7
+        if(game.timeRemaining > 2700) {
+          game.firstQuarter.awayScore += 7
+
+        } else if (game.timeRemaining > 1800) {
+          game.secondQuarter.awayScore += 7
+        } else if (game.timeRemaining > 900) {
+          game.thirdQuarter.awayScore += 7
+        } else if (game.timeRemaining > 0) {
+          game.fourthQuarter.awayScore += 7
+        }
         break;
       case 4:
-        game.homeScore += 7
+        game.homeTeamScore += 7
+        if(game.timeRemaining > 2700) {
+          game.firstQuarter.homeScore += 7
+
+        } else if (game.timeRemaining > 1800) {
+          game.secondQuarter.homeScore += 7
+        } else if (game.timeRemaining > 900) {
+          game.thirdQuarter.homeScore += 7
+        } else if (game.timeRemaining > 0) {
+          game.fourthQuarter.homeScore += 7
+        }
         break;
       default:
         break;
     }
+    game.markModified('firstQuarter')
+    game.markModified('secondQuarter')
+    game.markModified('thirdQuarter')
+    game.markModified('fourthQuarter')
     game.save()
-    // 60 * 15 * 4 = 3600
-    // 4 * 15 * 4 = 240
 
-  }, 1000, 240)
+  }, 1000, 240 ) // 240 seconds = 4 minutes
     
   return res.status(200).json(game)
 }

@@ -1,5 +1,6 @@
 const BoardPlayer = require('../models/boardPlayerModel');
 const Square = require('../models/squareModel')
+const Board = require('../models/boardModel')
 
 // TODO protect this route
 const createNewBoardPlayer = async (req, res) => {
@@ -74,4 +75,22 @@ const deleteBoardPlayerById = async (req, res) => {
   }
 }
 
-module.exports = { createNewBoardPlayer, getBoardPlayersByBoardId, deleteBoardPlayerById }
+const fillBoardWithRandomPlayers = async (req, res) => {
+  try {
+    const { boardId } = req.params;
+
+    const squares = Square.find({board: boardId}).exec()
+
+    if(!board) {
+      throw new Error('could not find board')
+    }
+
+    return res.status(200).json(squares)
+  } catch (error) {
+    return res.status(400).json(error)
+  }
+}
+
+
+
+module.exports = { createNewBoardPlayer, getBoardPlayersByBoardId, deleteBoardPlayerById, }

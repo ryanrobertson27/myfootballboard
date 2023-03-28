@@ -38,13 +38,13 @@ const BoardPlayers = ({ board }) => {
   }
 
   return (
-    <div className="mt-5 flex h-full flex-col overflow-y-hidden rounded-md bg-white">
+    <div className="mt-5 flex h-full flex-col rounded-md bg-white">
       {formIsShowing ? (
         <NewPlayerForm board={board} setFormIsShowing={setFormIsShowing} />
       ) : null}
       {!formIsShowing ? (
         <>
-          <div>{playersToRender}</div>
+          <div className="overflow-y-scroll">{playersToRender}</div>
           <button
             type="button "
             className="mx-2 border bg-green-500 p-2 text-center text-white"

@@ -43,17 +43,24 @@ const loginUser = async (req, res) => {
 };
 
 const registerUser = async (req, res) => {
-  const {  name, phone, email, venmo } = req.body;
+  const {  first, last, phone, email, venmo } = req.body;
   try {
+    const alreadyUser = await User.find({ email });
+
+    if (alreadyUser.length > 0) {
+      res.status(400).json({ error: 'User already exists' });
+    }
+
     const user = await User.create({
-      name,
+      first,
+      last,
       phone,
       email,
       venmo,
     });
     
     if (!user) {
-      throw new Error('Error creating user');
+      res.status(400).json({ error: 'User not created' });
     }
     
     return res.status(200).json(user);
