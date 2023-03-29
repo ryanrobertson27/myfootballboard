@@ -75,14 +75,29 @@ const deleteBoardById = async (req, res) => {
   try {
     const { boardId } = req.params;
 
-    const board = await Board.findByIdAndDelete(boardId);
 
+    const board = await Board.findByIdAndDelete(boardId);
     if (!board) {
       return res.status(400).send('Could not find board');
     }
 
-    const boardPlayers = BoardPlayer.find({ board: boardId });
+    const boardPlayers = await BoardPlayer.deleteMany({ board: boardId });
+    if (!boardPlayers) {
+      return res.status(400).send('Could not find board players');
+    }
     
+    const squares = await Square.deleteMany({ board: boardId });
+    if (!squares) {
+      return res.status(400).send('Could not find squares');
+    }
+
+    const user = await User.findById(board.owner);
+    if (!user) {
+      return res.status(400).send('Could not find user');
+    }
+
+    user.boards = user.boards.filter((board) => board.toString() !== boardId);
+    await user.save();
 
     return res.status(200).json(board);
 
@@ -190,4 +205,4 @@ const clearAllBoardPlayers = async (req, res) => {
   }
 }
 
-module.exports = { getAllBoards, createNewBoard, getBoardById, fillBoardWithRandomPlayers, clearAllBoardPlayers };
+module.exports = { getAllBoards, createNewBoard, getBoardById, fillBoardWithRandomPlayers, clearAllBoardPlayers, deleteBoardById };

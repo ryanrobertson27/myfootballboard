@@ -4,11 +4,27 @@ import MyTextInput from "../hooks/formik/MyTextInput";
 import {
   useClearBoardMutation,
   useFillBoardMutation,
+  useDeleteBoardByIdMutation,
 } from "../app/services/api";
+import { useNavigate } from "react-router-dom";
 
 const BoardSettings = ({ board }) => {
   const [clearBoard] = useClearBoardMutation();
   const [fillBoard] = useFillBoardMutation();
+  const [deleteBoard] = useDeleteBoardByIdMutation();
+
+  const navigate = useNavigate();
+
+  const handleDeleteBoard = async () => {
+    try {
+      let result = await deleteBoard(board._id).unwrap();
+      if (result) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -50,6 +66,12 @@ const BoardSettings = ({ board }) => {
             className="bg-green-400 px-2 text-white"
           >
             Fill Board
+          </button>
+          <button
+            onClick={() => handleDeleteBoard()}
+            className="bg-red-400 px-2 text-white"
+          >
+            Delete Board
           </button>
           <Form className="flex items-start ">
             <div>

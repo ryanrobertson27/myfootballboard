@@ -35,7 +35,12 @@ export const api = createApi({
       }),
       invalidatesTags: ['Square', 'Player']
     }),
-    
+    deleteBoardById: build.mutation({
+      query: (boardId) => ({
+        url: `boards/${boardId}`,
+        method: 'DELETE',
+      }),
+    }),
     // Board Player Calls
     getBoardPlayersByBoardId: build.query({
       query: (boardId) => `players/${boardId}`,
@@ -157,4 +162,5 @@ export const {
   useLazyGetGameByIdQuery,
   useClearBoardMutation,
   useFillBoardMutation,
+  useDeleteBoardByIdMutation,
 } = api

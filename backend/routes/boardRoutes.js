@@ -13,4 +13,6 @@ router.post('/fill-board', boardController.fillBoardWithRandomPlayers);
 
 router.post('/clear-board', boardController.clearAllBoardPlayers);
 
+router.delete('/:boardId', boardController.deleteBoardById);
+
 module.exports = router;
