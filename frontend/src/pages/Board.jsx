@@ -1,4 +1,7 @@
-import { useGetBoardByIdQuery } from "../app/services/api";
+import {
+  useGetBoardByIdQuery,
+  usePublishBoardByIdMutation,
+} from "../app/services/api";
 import { useState } from "react";
 import BoardSettings from "../components/BoardSettings";
 import GameBoard from "../components/GameBoard";
@@ -12,6 +15,8 @@ const Board = () => {
   const [isSettingsShowing, setIsSettingsShowing] = useState(false);
   const { boardId } = useParams();
   const { data: board, isLoading, isError } = useGetBoardByIdQuery(boardId);
+  const [publishBoard, { isLoading: isPublishing }] =
+    usePublishBoardByIdMutation();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -40,12 +45,14 @@ const Board = () => {
             </div>
             <div className="flex items-center">
               <div>
-                {board.state === "published" ? (
+                {board.boardState === "PUBLISHED" ? (
                   <Link to={`/published/${board._id}`} target="_blank">
                     View Board
                   </Link>
                 ) : (
-                  <button>Publish Board</button>
+                  <button onClick={() => publishBoard(boardId)}>
+                    Publish Board
+                  </button>
                 )}
               </div>
               <button onClick={() => setIsSettingsShowing(!isSettingsShowing)}>

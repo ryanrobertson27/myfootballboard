@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/' }),
-  tagTypes: ['Square', 'Player'],
+  tagTypes: ['Square', 'Player', 'Board'],
   endpoints: (build) => ({
     // BOARD calls
     createNewBoard: build.mutation({
@@ -18,6 +18,7 @@ export const api = createApi({
         url: `boards/${id}`,
         method: 'GET',
       }),
+      providesTags: ['Board']
     }),
     clearBoard: build.mutation({
       query: (boardId) => ({
@@ -41,6 +42,21 @@ export const api = createApi({
         method: 'DELETE',
       }),
     }),
+    publishBoardById: build.mutation({
+      query: (boardId) => ({
+        url: `boards/${boardId}/publish-board`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['Board']
+    }),
+    randomizeGameNumbers: build.mutation({
+      query: (boardId) => ({
+        url: `boards/${boardId}/randomize-game-numbers`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['Board']
+    }),
+
     // Board Player Calls
     getBoardPlayersByBoardId: build.query({
       query: (boardId) => `players/${boardId}`,
@@ -163,4 +179,6 @@ export const {
   useClearBoardMutation,
   useFillBoardMutation,
   useDeleteBoardByIdMutation,
+  usePublishBoardByIdMutation,
+  useRandomizeGameNumbersMutation,
 } = api

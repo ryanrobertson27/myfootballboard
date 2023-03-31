@@ -205,4 +205,104 @@ const clearAllBoardPlayers = async (req, res) => {
   }
 }
 
-module.exports = { getAllBoards, createNewBoard, getBoardById, fillBoardWithRandomPlayers, clearAllBoardPlayers, deleteBoardById };
+const updateBoardById = async (req, res) => {
+  try {
+    const { boardId } = req.params;
+    const { boardName, costPerSquare, homeTeam, awayTeam } = req.body;
+
+    const board = await Board.updateOne({ _id: boardId }, { boardName, costPerSquare, homeTeam, awayTeam });
+
+    if (!board) {
+      return res.status(400).send('Could not find board');
+    }
+
+    return res.status(200).json(board);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
+  };
+}
+
+const publishBoardById = async (req, res) => {
+  try {
+    const { boardId } = req.params;
+
+    const filter = { _id: boardId };
+    const update = { boardState: 'PUBLISHED' };
+
+    const board = await Board.updateOne(filter, update);
+
+    if (!board) {
+      return res.status(400).send('Could not find board');
+    }
+
+
+
+    return res.status(200).json(board);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
+  };
+}
+
+const randomizeGameNumbers = async (req, res) => {
+  try {
+    const { boardId } = req.params;
+
+    const board = await Board.findById(boardId);
+
+    if (!board) {
+      return res.status(400).send('Could not find board');
+    }
+
+    if (board.boardState === 'PUBLISHED') {
+      return res.status(400).send('Board is already published');
+    };
+
+    // Fisher Yates Shuffle Algorithm
+    // TODO rewrite variable names
+    const shuffle = (array) => {
+      let remaining = array.length
+      let current;
+      let random;
+      
+      while (remaining) {
+        random = Math.floor(Math.random() * remaining--)
+        
+        current = array[remaining]
+        array[remaining] = array[random]
+        array[random] = current;
+      }
+      
+      return array
+    }
+
+    board.homeNumbers = await shuffle(board.homeNumbers)
+    board.awayNumbers = await shuffle(board.awayNumbers)
+
+    board.save()
+
+    return res.status(200).json(board)
+
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
+  }
+}
+
+
+
+
+
+module.exports = {
+  createNewBoard,
+  getBoardById,
+  deleteBoardById,
+  updateBoardById,
+  fillBoardWithRandomPlayers,
+  clearAllBoardPlayers,
+  publishBoardById,
+  randomizeGameNumbers
+};
+
+

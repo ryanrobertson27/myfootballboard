@@ -1,10 +1,14 @@
 import Square from "./Square";
 import GameNumbers from "./GameNumbers";
-import { useGetSquaresByBoardIdQuery } from "../app/services/api";
+import {
+  useGetSquaresByBoardIdQuery,
+  useRandomizeGameNumbersMutation,
+} from "../app/services/api";
 
 const GameBoard = ({ board }) => {
   let squareSection;
-  let numberOfSquaresOwned;
+
+  const [randomize] = useRandomizeGameNumbersMutation();
 
   const {
     data: squares,
@@ -24,7 +28,7 @@ const GameBoard = ({ board }) => {
   }
 
   return (
-    <div className=" mt-5 flex  max-w-3xl  justify-around rounded-md  bg-white">
+    <div className=" mt-5 flex max-w-3xl  justify-around rounded-md bg-white">
       <div className="grid-rows-12 grid w-full grid-cols-12 border">
         <div className="col-span-1 col-start-1 row-span-1 row-start-1 flex aspect-square flex-col items-center justify-center   bg-white text-xs"></div>
         <div className="col-span-1 col-start-2 row-span-1 row-start-1 flex aspect-square flex-col items-center justify-center  bg-white text-xs"></div>
@@ -32,7 +36,9 @@ const GameBoard = ({ board }) => {
         <div className="col-span-1 col-start-2 row-span-1 row-start-2 flex aspect-square flex-col items-center justify-center  bg-white text-xs"></div>
         <div className="col-span-2 col-start-1 row-span-2 row-start-1 flex flex-col items-center justify-center ">
           <div className="flex flex-col items-center text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl ">
-            LOGO
+            <button onClick={() => randomize(board._id)}>
+              Randomize Numbers
+            </button>
           </div>
         </div>
         <div> </div>
