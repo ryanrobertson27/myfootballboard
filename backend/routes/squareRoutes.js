@@ -1,24 +1,21 @@
 const express = require('express');
 const Square = require('../models/squareModel');
 const squareController = require('../controllers/squareController');
+const checkAuth = require('../checkAuth.js');
 
 const router = express.Router();
 
 router.get('/', squareController.getSquaresByBoardId);
 
-// TODO get squares by user id
-
-
 router.get('/:boardId', squareController.getSquaresByBoardId)
 
-router.patch('/update', squareController.updateSquares);
+router.get('/populate-squares', checkAuth, squareController.populateSquares);
 
-router.get('/populate-squares', squareController.populateSquares);
+router.get('/square/:squareId', checkAuth, squareController.getSquareByUserId)
 
-router.patch('/update-owner', squareController.updateSquareOwner);
+router.patch('/update', checkAuth, checkAuth, squareController.updateSquares);
 
-router.get('/square/:squareId', squareController.getSquareByUserId)
-
+router.patch('/update-owner', checkAuth, checkAuth, squareController.updateSquareOwner);
 
 module.exports = router;
  

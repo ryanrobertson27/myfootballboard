@@ -2,11 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
+const uri = process.env.NODE_ENV === 'production' ? process.env.MONGO_URI : 'mongodb://127.0.0.1:27017/fourthandcold';
+
 const userRouter = require('./routes/userRoutes');
 const squareRouter = require('./routes/squareRoutes');
 const boardRouter = require('./routes/boardRoutes');
 const boardPlayerRoutes = require('./routes/boardPlayerRoutes');
 const gameRouter = require('./routes/gameRoutes');
+
 
 require('dotenv').config();
 
@@ -27,7 +30,10 @@ app.use('/players', boardPlayerRoutes);
 app.use('/games', gameRouter);
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(
     app.listen(PORT, (err) => {
       if (err) console.log(`Error setting up server: ${err}`);

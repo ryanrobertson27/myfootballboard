@@ -4,10 +4,20 @@ const Board = require('../models/boardModel')
 const generateGame = async (req, res) => {
   const { boardId } = req.params
 
+  const board = await Board.findById(boardId)
+  if (!board) {
+    return res.status(400).send('Could not find board')
+  }
+
+  const gameAlreadyExists = await Game.find({ board: boardId }) 
+  if (gameAlreadyExists.length > 0) {
+    return res.status(400).send('A game for this board already exists')
+  }
+
   const game = await Game.create({
     board: boardId,
-    awayTeamName: 'Away Team',
-    homeTeamName: 'Home Team',
+    awayTeamName: board.awayTeam,
+    homeTeamName: board.homeTeam,
     timeRemaining: 3600,
   })
 
@@ -16,9 +26,9 @@ const generateGame = async (req, res) => {
   }
 
   const setIntervalGameFunction = async (callback, delay, total) => {
-    var x = 0;
+    let x = 0;
 
-    var intervalID = setInterval(function () {
+    let intervalID = setInterval(function () {
       callback();
       if (++x === total) {
         clearInterval(intervalID);
@@ -27,13 +37,24 @@ const generateGame = async (req, res) => {
   }
 
   setIntervalGameFunction(() => {
+    game.state = 'ACTIVE'
 
-
+    
     const randomNumber = Math.floor(Math.random() * 80) + 1
-
+    //using 80 because it gives the most realistic score in the time frame
+    
     game.timeRemaining -= 15;
+    
+    if (game.timeRemaining < 2700) game.firstQuarter.completed = true
+    if (game.timeRemaining < 1800) game.secondQuarter.completed = true
+    if (game.timeRemaining < 900) game.thirdQuarter.completed = true
+    if (game.timeRemaining <= 0) {
+      game.fourthQuarter.completed = true
+      game.state = 'FINISHED'
+    }
 
-    // need to refactor this to be more maintainable
+    // adds points to the game based on the random number
+    // TODO - refactor to make more DRY
     switch (randomNumber) {
       case 1:
         game.awayTeamScore += 3
@@ -90,6 +111,7 @@ const generateGame = async (req, res) => {
       default:
         break;
     }
+    // need to call markModified because of the mixed type in the schema
     game.markModified('firstQuarter')
     game.markModified('secondQuarter')
     game.markModified('thirdQuarter')
@@ -98,28 +120,30 @@ const generateGame = async (req, res) => {
 
   }, 1000, 240 ) // 240 seconds = 4 minutes
     
-  return res.status(200).json(game)
+  return res.status(200).json({gameId: game._id})
 }
 
 const getGameById = async (req, res) => {
   try {
-
     const { gameId } = req.params
-  
+
     const game = await Game.findById(gameId)
-  
-    if(!game) {
-      throw new Error('game not found')
+    if (!game) {
+      return res.status(400).send('Could not find game')
     }
-  
+
     return res.status(200).json(game)
+
   } catch (error) {
-    return res.status(500).json({ error: error.message })
+    console.log(error)
   }
 }
+
+
 
 module.exports = {
   generateGame,
   getGameById
+
 }
 

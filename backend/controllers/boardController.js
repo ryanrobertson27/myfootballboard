@@ -107,44 +107,6 @@ const deleteBoardById = async (req, res) => {
   }
 }
 
-// const getGameData = async (req, res) => {
-//   try {
-//     const { boardId, gameId } = req.params;
-
-//     const board = await Board.findById(boardId);
-
-//     if (!board) {
-//       return res.status(400).send('Could not find board');
-//     }
-
-//     const game = Game.findById(gameId);
-
-//     if (!game) {
-//       return res.status(400).send('Could not find game');
-//     }
-
-//     const setIntervalFunction = async (callback, delay) => {
-      
-//       const interval = setInterval(() => {
-//         callback();
-//         if(game.completed === true) {
-//           clearInterval(interval);
-//         }
-//       }, delay);
-//     }
-
-//     setIntervalFunction(() => {
-//       // TODO write logic to get game data and update board
-//       // 
-//       console.log(game);
-//     }, 10000); // 10 seconds
-
-//   } catch(error) {
-//     console.log(error);
-//     return res.status(400).json(error);
-//   }
-// }
-
 const fillBoardWithRandomPlayers = async (req, res) => {
   try {
     const { boardId } = req.body;
@@ -155,10 +117,7 @@ const fillBoardWithRandomPlayers = async (req, res) => {
       throw new Error('could not find board')
     }
 
-    console.log(typeof(squares))
-
     for await (let square of squares)  {
-      console.log('hello')
       if(square.owner) {
         continue;
       }
@@ -260,18 +219,17 @@ const randomizeGameNumbers = async (req, res) => {
     };
 
     // Fisher Yates Shuffle Algorithm
-    // TODO rewrite variable names
     const shuffle = (array) => {
-      let remaining = array.length
-      let current;
-      let random;
+      let endOfArrayIndex = array.length
+      let element;
+      let randomIndex;
       
-      while (remaining) {
-        random = Math.floor(Math.random() * remaining--)
+      while (endOfArrayIndex) {
+        randomIndex = Math.floor(Math.random() * endOfArrayIndex--)
         
-        current = array[remaining]
-        array[remaining] = array[random]
-        array[random] = current;
+        element = array[endOfArrayIndex]
+        array[endOfArrayIndex] = array[randomIndex]
+        array[randomIndex] = element;
       }
       
       return array
@@ -290,6 +248,87 @@ const randomizeGameNumbers = async (req, res) => {
   }
 }
 
+const updateBoardWithGameData = async (req, res) => {
+  try {
+    const { boardId } = req.params;
+    const { gameId } = req.body;
+
+    const board = await Board.findById(boardId);
+
+    if (!board) {
+      return res.status(400).send('Could not find board');
+    }
+
+    
+    const updateBoardWithData = setInterval(async () => {
+
+      const game = await Game.findById(gameId);
+      
+      if (!gameId) {
+        return res.status(400).send('Could not find game');
+      }
+      
+      //check null so it doesn't run multiple times
+      // TODO refactor to make it more DRY
+      if (game.firstQuarter.completed && board.quarterWinners[0] === null) {
+        const homeLastNumber = board.homeNumbers.indexOf(game.firstQuarter.homeScore.toString().slice(-1)).toString();
+        const awayLastNumber = board.awayNumbers.indexOf(game.firstQuarter.awayScore.toString().slice(-1)).toString();
+
+        const winningSquare = Number(awayLastNumber + homeLastNumber)
+
+        const winningPlayer = await Square.find({position: winningSquare - 1})
+
+        board.quarterWinners[0] = winningPlayer.owner;
+      }
+      if (game.secondQuarter.completed && board.quarterWinners[1] === null) {
+        const secondQuarterHomeTotal = game.firstQuarter.homeScore + game.secondQuarter.homeScore;
+        const secondQuarterAwayTotal = game.firstQuarter.awayScore + game.secondQuarter.awayScore;
+
+        const homeLastNumber = board.homeNumbers.indexOf(secondQuarterHomeTotal.toString().slice(-1)).toString();
+        const awayLastNumber = board.awayNumbers.indexOf(secondQuarterAwayTotal.toString().slice(-1)).toString();
+
+        const winningSquare = Number(awayLastNumber + homeLastNumber)
+        const winningPlayer = await Square.find({position: winningSquare - 1})
+
+        board.quarterWinners[1] = winningPlayer.owner;
+      }
+      if (game.thirdQuarter.completed && board.quarterWinners[2] === null) {
+        const thirdQuarterHomeTotal = game.firstQuarter.homeScore + game.secondQuarter.homeScore + game.thirdQuarter.homeScore;
+        const thirdQuarterAwayTotal = game.firstQuarter.awayScore + game.secondQuarter.awayScore + game.thirdQuarter.awayScore;
+
+        const homeLastNumber = board.homeNumbers.indexOf(thirdQuarterHomeTotal.toString().slice(-1)).toString();
+        const awayLastNumber = board.awayNumbers.indexOf(thirdQuarterAwayTotal.toString().slice(-1)).toString();
+
+        const winningSquare = Number(awayLastNumber + homeLastNumber)
+        const winningPlayer = await Square.find({position: winningSquare - 1})
+
+        board.quarterWinners[2] = winningPlayer.owner;
+      }
+      if (game.fourthQuarter.completed && board.quarterWinners[3] === null) {
+        const fourthQuarterHomeTotal = game.firstQuarter.homeScore + game.secondQuarter.homeScore + game.thirdQuarter.homeScore + game.fourthQuarter.homeScore;
+        const fourthQuarterAwayTotal = game.firstQuarter.awayScore + game.secondQuarter.awayScore + game.thirdQuarter.awayScore + game.fourthQuarter.awayScore;
+
+        const homeLastNumber = board.homeNumbers.indexOf(fourthQuarterHomeTotal.toString().slice(-1)).toString();
+        const awayLastNumber = board.awayNumbers.indexOf(fourthQuarterAwayTotal.toString().slice(-1)).toString();
+
+        const winningSquare = Number(awayLastNumber + homeLastNumber)
+        const winningPlayer = await Square.find({position: winningSquare - 1})
+
+        board.quarterWinners[3] = winningPlayer.owner;
+      }
+
+      if (game.firstQuarter.completed && game.secondQuarter.completed && game.thirdQuarter.completed && game.fourthQuarter.completed) {
+        clearInterval(updateBoardWithData);
+      } 
+      board.save()
+    }, 1000); // 10 seconds
+    return res.status(200).send('success');
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
+  }
+}
+
 
 
 
@@ -302,7 +341,8 @@ module.exports = {
   fillBoardWithRandomPlayers,
   clearAllBoardPlayers,
   publishBoardById,
-  randomizeGameNumbers
+  randomizeGameNumbers,
+  updateBoardWithGameData
 };
 
 

@@ -4,11 +4,12 @@ import {
   useGetSquaresByBoardIdQuery,
   useRandomizeGameNumbersMutation,
 } from "../app/services/api";
+import { useEffect, useState } from "react";
 
-const GameBoard = ({ board }) => {
-  let squareSection;
-
+const GameBoard = ({ board, gameData, currentWinningSquare }) => {
   const [randomize] = useRandomizeGameNumbersMutation();
+
+  let squareSection;
 
   const {
     data: squares,
@@ -24,7 +25,13 @@ const GameBoard = ({ board }) => {
   }
 
   if (squares) {
-    squareSection = squares.map((square) => <Square square={square} />);
+    squareSection = squares.map((square) => (
+      <Square
+        square={square}
+        currentWinningSquare={currentWinningSquare}
+        gameData={gameData}
+      />
+    ));
   }
 
   return (

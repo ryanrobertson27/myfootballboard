@@ -13,11 +13,12 @@ const gameSchema = new Schema({
   homeTeamName: { type: String, required: true },
   awayTeamScore: { type: Number, default: 0 },
   homeTeamScore: { type: Number, default: 0 },
-  firstQuarter: { type: Object, default: {awayScore: 0, homeScore: 0} },
-  secondQuarter: { type: Object, default: {awayScore: 0, homeScore: 0} },
-  thirdQuarter: { type: Object, default: {awayScore: 0, homeScore: 0} },
-  fourthQuarter: { type: Object, default: {awayScore: 0, homeScore: 0} },
+  firstQuarter: { type: Object, default: {awayScore: null, homeScore: null, completed: false} },
+  secondQuarter: { type: Object, default: {awayScore: null, homeScore: null, completed: false} },
+  thirdQuarter: { type: Object, default: {awayScore: null, homeScore: null, completed: false} },
+  fourthQuarter: { type: Object, default: {awayScore: null, homeScore: null, completed: false} },
   timeRemaining: { type: Number, default: 3600 },
+  state: { type: String, enum: ['NOT_STARTED', 'ACTIVE', 'FINISHED'], default: 'NOT_STARTED'},
 })
 
 const Game = mongoose.model('Game', gameSchema);

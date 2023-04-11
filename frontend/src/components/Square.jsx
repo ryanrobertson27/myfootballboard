@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { add, remove } from "../features/square/squareSlice";
-import {
-  useGetSquareByUserIdQuery,
-  useGetSquaresQuery,
-} from "../app/services/api";
-import GlobalSpinner from "./GlobalSpinner";
 
-const Square = ({ square }) => {
+const Square = ({ square, currentWinningSquare, gameData }) => {
   const isDisabled = useSelector((state) => state.squareSelect.isDisabled);
   const squares = useSelector((state) => state.squareSelect.squares);
   const dispatch = useDispatch();
@@ -16,6 +11,13 @@ const Square = ({ square }) => {
 
   if (squares.find((item) => item._id === square._id)) {
     style = "bg-violet-300 text-white";
+  }
+
+  if (
+    square.position - 1 === currentWinningSquare &&
+    gameData.state === "ACTIVE"
+  ) {
+    style = "bg-green-500 text-white animate-pulse";
   }
 
   const handleSquareClick = () => {

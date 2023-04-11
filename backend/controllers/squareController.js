@@ -36,15 +36,12 @@ const getSquaresByBoardId = async (req, res) => {
 // squares/update
 const updateSquares = async (req, res) => {
   const { name, ids } = req.body;
-
-  console.log(name, ids);
   res.status(200).send('complete');
 };
 
 //TODO protect this route
 // squares/update-owner
 const updateSquareOwner = async (req, res) => {
-  console.log(req.body);
   try {
     const user = await User.findOne({ name: req.body.name });
     if (!user) {

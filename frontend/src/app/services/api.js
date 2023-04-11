@@ -1,8 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import { Magic } from "magic-sdk";
+const magic = new Magic(import.meta.env.VITE_MAGIC_PUBLISHABLE_KEY);
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/' }),
+  baseQuery: fetchBaseQuery({ 
+    baseUrl: 'https://cool-dew-8541.fly.dev/', 
+    prepareHeaders: async (headers, { getState }) => {
+      const didToken = await magic.user.getIdToken();
+      if(didToken) {
+        headers.set('Authorization', `Bearer ${didToken}`)
+      }
+      headers.set('Content-Type', 'application/json')
+      return headers
+    },
+  }),
   tagTypes: ['Square', 'Player', 'Board'],
   endpoints: (build) => ({
     // BOARD calls
@@ -11,6 +23,10 @@ export const api = createApi({
         url: 'boards/new-board',
         method: 'POST',
         body,
+        // prepareHeaders: (headers) => {
+        //   headers.set ("Content-Type", "multipart/form-data")
+        //   return headers
+        // },
       }),
     }),
     getBoardById: build.query({
@@ -20,6 +36,7 @@ export const api = createApi({
       }),
       providesTags: ['Board']
     }),
+
     clearBoard: build.mutation({
       query: (boardId) => ({
         url: `boards/clear-board`,
@@ -28,6 +45,7 @@ export const api = createApi({
       }),
       invalidatesTags: ['Square', 'Player']
     }),
+
     fillBoard: build.mutation({
       query: (boardId) => ({
         url: `boards/fill-board`,
@@ -36,12 +54,14 @@ export const api = createApi({
       }),
       invalidatesTags: ['Square', 'Player']
     }),
+    // Protected
     deleteBoardById: build.mutation({
       query: (boardId) => ({
         url: `boards/${boardId}`,
         method: 'DELETE',
       }),
     }),
+
     publishBoardById: build.mutation({
       query: (boardId) => ({
         url: `boards/${boardId}/publish-board`,
@@ -49,6 +69,7 @@ export const api = createApi({
       }),
       invalidatesTags: ['Board']
     }),
+
     randomizeGameNumbers: build.mutation({
       query: (boardId) => ({
         url: `boards/${boardId}/randomize-game-numbers`,

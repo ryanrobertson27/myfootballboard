@@ -7,21 +7,48 @@ import {
   useLazyGenerateGameQuery,
   useLazyGetGameByIdQuery,
 } from "../app/services/api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import BoardWinners from "../components/BoardWinners";
 
 const PublishedBoard = () => {
   let { boardId } = useParams();
+  const [pollingInterval, setPollingInterval] = useState(1000);
   const { data: board, isLoading, isError } = useGetBoardByIdQuery(boardId);
   const [generateGame] = useLazyGenerateGameQuery();
-  const [getGameById, result] = useLazyGetGameByIdQuery({
-    pollingInterval: 1000,
+  const [getGameById, { data: gameData }] = useLazyGetGameByIdQuery({
+    pollingInterval: pollingInterval,
   });
+  const [currentWinningSquare, setCurrentWinningSquare] = useState(null);
 
+  // end polling when game is finished
   useEffect(() => {
-    if (result.data) {
-      console.log("result.data", result.data);
+    if (gameData?.state === "FINISHED") setPollingInterval(0);
+
+    const homeLastNumber = board?.homeNumbers
+      .indexOf(gameData?.homeTeamScore % 10)
+      .toString();
+    const awayLastNumber = board?.awayNumbers
+      .indexOf(gameData?.awayTeamScore % 10)
+      .toString();
+
+    setCurrentWinningSquare(Number(awayLastNumber + homeLastNumber));
+
+    console.log(
+      currentWinningSquare,
+      homeLastNumber,
+      awayLastNumber,
+      gameData?.homeTeamScore,
+      gameData?.awayTeamScore
+    );
+  }, [gameData]);
+
+  const handleDemoClick = async () => {
+    const generateGameResult = await generateGame(board._id).unwrap();
+    console.log("generateGameResult", generateGameResult.gameId);
+    if (generateGameResult.gameId) {
+      getGameById(generateGameResult.gameId);
     }
-  }, [result.data]);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -35,27 +62,18 @@ const PublishedBoard = () => {
     return <div>Board is unpublished</div>;
   }
 
-  const handleDemoClick = async () => {
-    const generateGameResult = await generateGame(board._id);
-    const gameId = generateGameResult.data._id;
-    console.log("gameId", gameId);
-    getGameById(gameId);
-  };
-
   return (
     <div>
       {/* TODO need to make header more appropriate for published board */}
       {/* <Header /> */}
       <div className="flex flex-col items-center  justify-center">
-        <GameScore board={board} />
-        <button
-          type="button"
-          className="bg-green-500 px-2 text-white"
-          onClick={() => handleDemoClick()}
-        >
-          Start Demo Game
-        </button>
-        <GameBoard board={board} />
+        <GameScore board={board} gameData={gameData} />
+        <BoardWinners handleDemoClick={handleDemoClick} />
+        <GameBoard
+          board={board}
+          currentWinningSquare={currentWinningSquare}
+          gameData={gameData}
+        />
       </div>
     </div>
   );

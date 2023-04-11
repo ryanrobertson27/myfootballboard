@@ -21,7 +21,7 @@ import NewBoard from "./pages/NewBoard";
 import DashboardLayout from "./pages/DashboardLayout";
 import PublishedBoard from "./pages/PublishedBoard";
 
-const magic = new Magic("pk_live_C10893DD838C3541");
+const magic = new Magic(import.meta.env.VITE_MAGIC_PUBLISHABLE_KEY);
 
 const route = createBrowserRouter(
   createRoutesFromElements(
@@ -52,7 +52,6 @@ const App = () => {
     magic.user.isLoggedIn().then((isLoggedIn) => {
       if (isLoggedIn) {
         magic.user.getMetadata().then((userData) => {
-          console.log(user);
           dispatch(setUser(userData));
           dispatch(setUserLoading(false));
         });

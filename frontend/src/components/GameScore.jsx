@@ -1,41 +1,67 @@
-import { useState } from "react";
+import { useEffect } from "react";
 
-const GameScore = ({ board }) => {
-  const [homeQuarterScore, sethomeQuarterScore] = useState([0, 0, 0, 0]);
-  const [awayQuarterScore, setawayQuarterScore] = useState([0, 0, 0, 0]);
-  const [homeCurrentScore, setHomeCurrentScore] = useState(22);
-  const [awayCurrentScore, setawayCurrentScore] = useState(21);
+const GameScore = ({ board, gameData }) => {
+  useEffect(() => {
+    console.log("gameData", gameData);
+  }, [gameData]);
 
-  // I want to pull data from game associated with board.  If not start, display generic info
   return (
-    <div className="mb-5  flex w-full items-center justify-center bg-white p-5 drop-shadow">
-      <div className="mb-3 flex justify-center">
-        <div className="m-2 text-3xl">
-          {board.homeTeam} - {homeCurrentScore}
-        </div>
-        <div className="rows-3 grid grid-cols-5 text-xs">
-          <div />
-          {/* Quarters */}
-          <div className="text-center font-semibold">1</div>
-          <div className="text-center font-semibold">2</div>
-          <div className="text-center font-semibold">3</div>
-          <div className="text-center font-semibold">4</div>
+    <div className="mb-5  flex w-full items-center justify-center bg-white py-1 drop-shadow">
+      <div className="flex-col items-center">
+        <div className="text-center">{gameData?.timeRemaining || "00:00"}</div>
+        <div className="mb-3 flex justify-center">
+          {/* <div className="m-2 text-3xl">
+            {board.homeTeam} - {gameData?.homeTeamScore || 0}
+          </div> */}
+          <div className="rows-4 grid grid-cols-6  text-xs">
+            {/* Quarters */}
+            <div></div>
+            <div className="text-center font-semibold">1</div>
+            <div className="text-center font-semibold">2</div>
+            <div className="text-center font-semibold">3</div>
+            <div className="text-center font-semibold">4</div>
+            <div className="text-center font-semibold">Total</div>
 
-          {/* HOME TEAM */}
-          <div className="text-end font-semibold">{board.homeTeam}</div>
-          {/* HOME TEAM SCORES */}
-          {homeQuarterScore.map((score) => (
-            <div className="text-center">{score}</div>
-          ))}
-          {/* AWAY TEAM */}
-          <div className="text-end font-semibold">{board.awayTeam}</div>
-          {/* AWAY TEAM SCORES */}
-          {awayQuarterScore.map((score) => (
-            <div className="text-center">{score}</div>
-          ))}
-        </div>
-        <div className="m-2 text-3xl">
-          {awayCurrentScore} - {board.awayTeam}
+            <div className="text-end font-semibold">{board.homeTeam}</div>
+            <div className="text-center">
+              {gameData?.firstQuarter.homeScore || 0}
+            </div>
+            <div className="text-center">
+              {gameData?.secondQuarter.homeScore || 0}
+            </div>
+            <div className="text-center">
+              {gameData?.thirdQuarter.homeScore || 0}
+            </div>
+            <div className="text-center">
+              {gameData?.fourthQuarter.homeScore || 0}
+            </div>
+
+            <div className="text-center">{gameData?.homeTeamScore || 0}</div>
+
+            {/* AWAY TEAM */}
+            <div className="text-end font-semibold">{board.awayTeam}</div>
+            {/* AWAY TEAM SCORES */}
+            <div className="text-center">
+              {gameData?.firstQuarter.awayScore || 0}
+            </div>
+            <div className="text-center">
+              {gameData?.secondQuarter.awayScore || 0}
+            </div>
+            <div className="text-center">
+              {gameData?.thirdQuarter.awayScore || 0}
+            </div>
+            <div className="text-center">
+              {gameData?.fourthQuarter.awayScore || 0}
+            </div>
+            <div className="text-center">{gameData?.awayTeamScore || 0}</div>
+            {/* <div className="col-span-6 mt-1 text-center italic">
+              score each quarter is total at the end of each quarter, not per
+              quarter score
+            </div> */}
+          </div>
+          {/* <div className="m-2 text-3xl">
+            {gameData?.awayTeamScore || 0} - {board.awayTeam}
+          </div> */}
         </div>
       </div>
     </div>

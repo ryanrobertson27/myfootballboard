@@ -9,8 +9,6 @@ const createNewBoardPlayer = async (req, res) => {
 
     let squaresToAdd = squares.map((square) => square._id)
 
-    console.log(squaresToAdd)
-
     const boardPlayer = await BoardPlayer.create({
       board: boardId,
       first,
@@ -43,7 +41,6 @@ const getBoardPlayersByBoardId = async (req, res) => {
   try {
 
     const { boardId } = req.params
-    console.log(boardId)
   
     const players = await BoardPlayer.find({board: boardId})
   
@@ -56,8 +53,6 @@ const getBoardPlayersByBoardId = async (req, res) => {
   } catch (error) {
     return res.status(401).json(error)
   }
-  // console.log(req.params)
-  // res.status(200).send('success')
 }
 
 //TODO protect this route

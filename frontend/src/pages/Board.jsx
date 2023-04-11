@@ -34,7 +34,7 @@ const Board = () => {
           Back to Dashboard
         </Link>
       </div>
-      <div className=" flex w-full">
+      <div className=" flex  w-full">
         <div className="mx-1 flex basis-4/6 flex-col  rounded-md bg-white p-4">
           <div className="flex items-center justify-between border-b">
             <div className="py-2 font-semibold uppercase">
