@@ -23,14 +23,6 @@ export const api = createApi({
         url: 'boards/new-board',
         method: 'POST',
         body,
-        prepareHeaders: async (headers, { getState }) => {
-          const didToken = await magic.user.getIdToken();
-          if(didToken) {
-            headers.set('Authorization', `Bearer ${didToken}`)
-            headers.set('Content-Type', 'application/json')
-          }
-          return headers
-        },
       }),
     }),
     getBoardById: build.query({

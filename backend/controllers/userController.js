@@ -17,9 +17,9 @@ const getUsers = async (req, res) => {
 //TODO protect this route
 const checkUser = async (req, res) => {
   try {
-    console.log(req.body.email);
-    const user = await User.findOne({ email: req.body.email }).exec();
-    console.log(user);
+    console.log(`checkUser email: ${req.body.email}`);
+    const user = await User.findOne({ email: req.body.email });
+    console.log(`checkUser: ${user}`);
     if (user) {
       return res.status(200).json({ userExists: true });
     }
@@ -33,6 +33,7 @@ const checkUser = async (req, res) => {
 //
 const loginUser = async (req, res) => {
   try {
+    console.log(req.headers.authorization)
     const didToken = req.headers.authorization.substring(7);
     await magic.token.validate(didToken);
 
@@ -48,7 +49,7 @@ const registerUser = async (req, res) => {
     const alreadyUser = await User.find({ email });
 
     if (alreadyUser.length > 0) {
-      res.status(400).json({ error: 'User already exists' });
+      return res.status(400).json({ error: 'User already exists' });
     }
 
     const user = await User.create({

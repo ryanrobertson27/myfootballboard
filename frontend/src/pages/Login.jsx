@@ -42,6 +42,8 @@ const Login = () => {
 
           const data = await checkUserResponse.json();
 
+          console.log(data);
+
           if (data.userExists) {
             const didToken = await magic.auth.loginWithMagicLink({
               email,

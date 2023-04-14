@@ -21,19 +21,22 @@ const Callback = (props) => {
     finishEmailRedirectLogin();
   }, [searchParams]);
 
-
   const finishEmailRedirectLogin = async () => {
     const magicCredential = new URLSearchParams(searchParams).get(
       "magic_credential"
     );
+    console.log("magicCredential", magicCredential);
     if (magicCredential) {
-      magic.auth.loginWithCredential().then((didToken) => {
+      console.log("logging in with credential");
+      magic.auth.loginWithCredential(magicCredential).then((didToken) => {
+        console.log("authenticating with server");
         authenticateWithServer(didToken);
       });
     }
   };
 
   const authenticateWithServer = async (didToken) => {
+    console.log("didToken", didToken);
     const res = await fetch("http://localhost:8000/users/login", {
       method: "POST",
       headers: new Headers({

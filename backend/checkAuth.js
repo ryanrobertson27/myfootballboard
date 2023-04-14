@@ -4,6 +4,7 @@ const magic = new Magic(process.env.MAGIC_SECRET_KEY);
 
 module.exports = async function (req, res, next) {
   try {
+    console.log(req.headers.authorization)
     const didToken = req.headers.authorization.substring(7);
     await magic.token.validate(didToken);
     next()
