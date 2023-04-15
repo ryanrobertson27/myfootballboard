@@ -5,7 +5,7 @@ const magic = new Magic(import.meta.env.VITE_MAGIC_PUBLISHABLE_KEY);
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({ 
-    baseUrl: 'https://cool-dew-8541.fly.dev/', 
+    baseUrl: import.meta.env.VITE_SERVER_URL,
     // prepareHeaders: async (headers, { getState }) => {
     //   const didToken = await magic.user.getIdToken();
     //   if(didToken) {

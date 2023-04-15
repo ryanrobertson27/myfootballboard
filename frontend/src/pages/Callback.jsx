@@ -37,7 +37,7 @@ const Callback = (props) => {
 
   const authenticateWithServer = async (didToken) => {
     console.log("didToken", didToken);
-    const res = await fetch("http://localhost:8000/users/login", {
+    const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/users/login`, {
       method: "POST",
       headers: new Headers({
         Authorization: `Bearer ${didToken}`,

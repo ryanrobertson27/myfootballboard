@@ -30,7 +30,7 @@ const Login = () => {
           const { email } = values;
 
           const checkUserResponse = await fetch(
-            "http://localhost:8000/users/check-user",
+            `${import.meta.env.VITE_SERVER_URL}/users/check-user`,
             {
               method: "POST",
               headers: {

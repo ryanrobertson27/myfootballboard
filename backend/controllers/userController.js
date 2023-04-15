@@ -18,7 +18,7 @@ const getUsers = async (req, res) => {
 const checkUser = async (req, res) => {
   try {
     console.log(`checkUser email: ${req.body.email}`);
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.body.email }).exec();
     console.log(`checkUser: ${user}`);
     if (user) {
       return res.status(200).json({ userExists: true });
@@ -44,9 +44,12 @@ const loginUser = async (req, res) => {
 };
 
 const registerUser = async (req, res) => {
+  console.log('registerUser')
   const {  first, last, phone, email, venmo } = req.body;
   try {
     const alreadyUser = await User.find({ email });
+
+    console.log(alreadyUser)
 
     if (alreadyUser.length > 0) {
       return res.status(400).json({ error: 'User already exists' });
