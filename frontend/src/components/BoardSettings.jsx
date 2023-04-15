@@ -49,9 +49,7 @@ const BoardSettings = ({ board }) => {
             .min(0, "Must be greater than 0")
             .required("Required"),
         })}
-        onSubmit={async (values) => {
-          console.log("submitted");
-        }}
+        onSubmit={async (values) => {}}
       >
         <div className="mt-5  items-center justify-center">
           <h2 className="mb-5 text-lg">Settings</h2>

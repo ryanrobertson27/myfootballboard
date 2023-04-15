@@ -17,9 +17,9 @@ const getUsers = async (req, res) => {
 //TODO protect this route
 const checkUser = async (req, res) => {
   try {
-    console.log(`checkUser email: ${req.body.email}`);
+
     const user = await User.findOne({ email: req.body.email }).exec();
-    console.log(`checkUser: ${user}`);
+
     if (user) {
       return res.status(200).json({ userExists: true });
     }

@@ -25,18 +25,15 @@ const Callback = (props) => {
     const magicCredential = new URLSearchParams(searchParams).get(
       "magic_credential"
     );
-    console.log("magicCredential", magicCredential);
+
     if (magicCredential) {
-      console.log("logging in with credential");
       magic.auth.loginWithCredential(magicCredential).then((didToken) => {
-        console.log("authenticating with server");
         authenticateWithServer(didToken);
       });
     }
   };
 
   const authenticateWithServer = async (didToken) => {
-    console.log("didToken", didToken);
     const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/users/login`, {
       method: "POST",
       headers: new Headers({

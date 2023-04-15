@@ -6,14 +6,14 @@ const magic = new Magic(import.meta.env.VITE_MAGIC_PUBLISHABLE_KEY);
 export const api = createApi({
   baseQuery: fetchBaseQuery({ 
     baseUrl: import.meta.env.VITE_SERVER_URL,
-    // prepareHeaders: async (headers, { getState }) => {
-    //   const didToken = await magic.user.getIdToken();
-    //   if(didToken) {
-    //     headers.set('Authorization', `Bearer ${didToken}`)
-    //   }
-    //   headers.set('Content-Type', 'application/json')
-    //   return headers
-    // },
+    prepareHeaders: async (headers, { getState }) => {
+      const didToken = await magic.user.getIdToken();
+      if(didToken) {
+        headers.set('Authorization', `Bearer ${didToken}`)
+      }
+      headers.set('Content-Type', 'application/json')
+      return headers
+    },
   }),
   tagTypes: ['Square', 'Player', 'Board'],
   endpoints: (build) => ({
