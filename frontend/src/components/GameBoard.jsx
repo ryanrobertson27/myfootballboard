@@ -5,6 +5,7 @@ import {
   useRandomizeGameNumbersMutation,
 } from "../app/services/api";
 import { useEffect, useState } from "react";
+import { ReactComponent as Logo } from "../assets/main-logo-stacked.svg";
 
 const GameBoard = ({ board, gameData, currentWinningSquare }) => {
   const [randomize] = useRandomizeGameNumbersMutation();
@@ -43,9 +44,15 @@ const GameBoard = ({ board, gameData, currentWinningSquare }) => {
         <div className="col-span-1 col-start-2 row-span-1 row-start-2 flex aspect-square flex-col items-center justify-center  bg-white text-xs"></div>
         <div className="col-span-2 col-start-1 row-span-2 row-start-1 flex flex-col items-center justify-center ">
           <div className="flex flex-col items-center text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl ">
-            <button onClick={() => randomize(board._id)}>
-              Randomize Numbers
-            </button>
+            {board.boardState !== "PUBLISHED" ? (
+              <button onClick={() => randomize(board._id)}>
+                Randomize Numbers
+              </button>
+            ) : (
+              <div>
+                <Logo className="h-20 w-20" />
+              </div>
+            )}
           </div>
         </div>
         <div> </div>

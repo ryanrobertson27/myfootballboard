@@ -49,23 +49,20 @@ const Board = () => {
                   <Link to={`/published/${board._id}`} target="_blank">
                     View Board
                   </Link>
-                ) : (
-                  <button onClick={() => publishBoard(boardId)}>
-                    Publish Board
-                  </button>
-                )}
+                ) : null}
               </div>
-              <button onClick={() => setIsSettingsShowing(!isSettingsShowing)}>
-                {isSettingsShowing ? (
-                  <CloseIcon className="mr-2 h-5 w-5" />
-                ) : (
-                  <SettingsIcon className="mr-2 h-5 w-5" />
-                )}
+              <button onClick={() => setIsSettingsShowing(true)}>
+                <SettingsIcon className="mr-2 h-5 w-5" />
               </button>
             </div>
           </div>
           <div>
-            {isSettingsShowing ? <BoardSettings board={board} /> : null}
+            {isSettingsShowing ? (
+              <BoardSettings
+                board={board}
+                setIsSettingsShowing={setIsSettingsShowing}
+              />
+            ) : null}
           </div>
           <div className="flex w-full justify-center">
             <GameBoard board={board} />

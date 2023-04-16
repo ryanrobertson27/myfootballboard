@@ -8,7 +8,6 @@ const getAllBoards = async (req, res) => {
   res.status(200).send('success');
 };
 
-// TODO protect this route
 const createNewBoard = async (req, res) => {
   try {
     const { email, boardName, costPerSquare, homeTeam, awayTeam } = req.body;
@@ -52,7 +51,6 @@ const createNewBoard = async (req, res) => {
   }
 };
 
-// TODO protect this route
 const getBoardById = async (req, res) => {
   try {
     const { boardId } = req.params;
@@ -70,7 +68,6 @@ const getBoardById = async (req, res) => {
   }
 };
 
-// TODO protect this route
 const deleteBoardById = async (req, res) => {
   try {
     const { boardId } = req.params;

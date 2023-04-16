@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Square = require('./squareModel');
-const Winner = require('./winnerSchema');
 
 const { Schema } = mongoose;
 
