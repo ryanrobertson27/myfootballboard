@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { useGetBoardPlayersByBoardIdQuery } from "../app/services/api";
+import {
+  useGetBoardPlayersByBoardIdQuery,
+  useClearBoardMutation,
+  useFillBoardMutation,
+} from "../app/services/api";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import NewPlayerForm from "./NewPlayerForm";
@@ -11,6 +15,8 @@ import BoardPlayerSnippet from "./BoardPlayerSnippet";
 const BoardPlayers = ({ board }) => {
   const [formIsShowing, setFormIsShowing] = useState(false);
   const dispatch = useDispatch();
+  const [clearBoard, { isLoading: clearUpdating }] = useClearBoardMutation();
+  const [fillBoard, { isLoading: fillUpdating }] = useFillBoardMutation();
 
   const {
     data: players,
@@ -47,10 +53,10 @@ const BoardPlayers = ({ board }) => {
           <div className=" overflow-y-scroll">{playersToRender}</div>
           <button
             type="button "
-            className="mx-2 border bg-green-500 p-2 text-center text-white"
+            className="mr-2  items-center rounded-md border border-gray-300 bg-violet-600 py-2 px-3 text-center text-sm font-medium text-white shadow-sm hover:bg-white hover:text-violet-600"
             onClick={() => handleAddUserClick()}
           >
-            Add User
+            Add Player
           </button>
         </>
       ) : null}

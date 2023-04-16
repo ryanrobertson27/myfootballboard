@@ -75,18 +75,6 @@ const BoardSettings = ({ board, setIsSettingsShowing }) => {
               </button>
               <div className="flex justify-around">
                 <button
-                  onClick={() => clearBoard(board._id)}
-                  className="mr-1 rounded bg-violet-600 px-2 py-1 text-white hover:bg-violet-400"
-                >
-                  Clear Board
-                </button>
-                <button
-                  onClick={() => fillBoard(board._id)}
-                  className="mr-1 rounded bg-violet-600 px-2 py-1 text-white hover:bg-violet-400"
-                >
-                  Fill Board
-                </button>
-                <button
                   onClick={() => handleDeleteBoard()}
                   className="mr-1 rounded bg-violet-600 px-2 py-1 text-white hover:bg-violet-400"
                 >
@@ -101,7 +89,7 @@ const BoardSettings = ({ board, setIsSettingsShowing }) => {
                     name="boardName"
                     type="text"
                     placeholder={board.boardName}
-                    className="mb-5 rounded border border-gray-400 px-2 py-1"
+                    className="mb-5 w-full rounded border border-gray-400 px-2 py-1"
                   />
                 </div>
                 <div>
@@ -111,7 +99,7 @@ const BoardSettings = ({ board, setIsSettingsShowing }) => {
                     name="homeTeam"
                     type="text"
                     placeholder={board.homeTeam}
-                    className="mb-5 rounded border border-gray-400 px-2 py-1"
+                    className="mb-5 w-full rounded border border-gray-400 px-2 py-1"
                   />
                 </div>
                 <div>
@@ -121,7 +109,7 @@ const BoardSettings = ({ board, setIsSettingsShowing }) => {
                     name="awayTeam"
                     type="text"
                     placeholder={board.awayTeam}
-                    className="mb-5 rounded border border-gray-400 px-2 py-1"
+                    className="mb-5 w-full rounded border border-gray-400 px-2 py-1"
                   />
                 </div>
                 <div>
@@ -131,7 +119,7 @@ const BoardSettings = ({ board, setIsSettingsShowing }) => {
                     name="costPerSquare"
                     type="number"
                     placeholder={board.costPerSquare}
-                    className="mb-5 rounded border border-gray-400 px-2 py-1"
+                    className="mb-5 w-full rounded border border-gray-400 px-2 py-1"
                   />
                 </div>
 
