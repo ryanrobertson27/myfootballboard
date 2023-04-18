@@ -1,6 +1,6 @@
-const BoardPlayer = require('./backend/models/boardPlayerModel');
-const Square = require('./backend/models/squareModel')
-const Board = require('./backend/models/boardModel')
+const BoardPlayer = require('../models/boardPlayerModel');
+const Square = require('../models/squareModel')
+const Board = require('../models/boardModel')
 
 // TODO protect this route
 const createNewBoardPlayer = async (req, res) => {
