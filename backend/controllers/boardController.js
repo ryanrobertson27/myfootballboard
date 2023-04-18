@@ -120,10 +120,10 @@ const fillBoardWithRandomPlayers = async (req, res) => {
       }
       const player = await BoardPlayer.create({
         board: boardId,
-        first: 'first',
-        last: 'last',
+        first: 'John',
+        last: 'Doe',
         email: 'email@example.com',
-        venmo: 'venmo',
+        venmo: 'john-doe',
         phone: '123-456-7890',
         squares: [square._id],
       })
@@ -182,6 +182,20 @@ const updateBoardById = async (req, res) => {
 const publishBoardById = async (req, res) => {
   try {
     const { boardId } = req.params;
+
+    const squares = await Square.find({ board: boardId });
+
+    if (!squares) {
+      return res.status(400).send('Could not find squares');
+    }
+
+    const nullSquaresFound = squares.filter(square => square.owner === null)
+
+    console.log(nullSquaresFound)
+
+    if (nullSquaresFound.length > 0) {
+      return res.status(400).send('All board squares must be filled before publishing.  Please ensure all squares have a player assigned.');
+    }
 
     const filter = { _id: boardId };
     const update = { boardState: 'PUBLISHED' };
@@ -247,15 +261,15 @@ const randomizeGameNumbers = async (req, res) => {
 
 const updateBoardWithGameData = async (req, res) => {
   try {
-    const { boardId } = req.params;
-    const { gameId } = req.body;
+    const { boardId, gameId } = req.body;
+
+    console.log(boardId, gameId)
 
     const board = await Board.findById(boardId);
 
     if (!board) {
       return res.status(400).send('Could not find board');
     }
-
     
     const updateBoardWithData = setInterval(async () => {
 
@@ -264,7 +278,7 @@ const updateBoardWithGameData = async (req, res) => {
       if (!gameId) {
         return res.status(400).send('Could not find game');
       }
-      
+
       //check null so it doesn't run multiple times
       // TODO refactor to make it more DRY
       if (game.firstQuarter.completed && board.quarterWinners[0] === null) {
@@ -274,6 +288,7 @@ const updateBoardWithGameData = async (req, res) => {
         const winningSquare = Number(awayLastNumber + homeLastNumber)
 
         const winningPlayer = await Square.find({position: winningSquare - 1})
+
 
         board.quarterWinners[0] = winningPlayer.owner;
       }

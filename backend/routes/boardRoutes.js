@@ -12,7 +12,7 @@ router.post('/fill-board', checkAuth, boardController.fillBoardWithRandomPlayers
 
 router.post('/clear-board', checkAuth, boardController.clearAllBoardPlayers);
 
-router.post('/:boardId/update-board-with-game-data', checkAuth, boardController.updateBoardWithGameData);
+router.post('/update-board-with-game-data', checkAuth, boardController.updateBoardWithGameData);
 
 router.patch('/:boardId/update-board', checkAuth, boardController.updateBoardById);
 

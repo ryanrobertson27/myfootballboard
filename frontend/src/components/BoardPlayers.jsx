@@ -51,13 +51,15 @@ const BoardPlayers = ({ board }) => {
       {!formIsShowing ? (
         <>
           <div className=" overflow-y-scroll">{playersToRender}</div>
-          <button
-            type="button "
-            className="mr-2  items-center rounded-md border border-gray-300 bg-violet-600 py-2 px-3 text-center text-sm font-medium text-white shadow-sm hover:bg-white hover:text-violet-600"
-            onClick={() => handleAddUserClick()}
-          >
-            Add Player
-          </button>
+          {playersToRender.length < 100 ? (
+            <button
+              type="button "
+              className="mr-2  items-center rounded-md border border-gray-300 bg-violet-600 py-2 px-3 text-center text-sm font-medium text-white shadow-sm hover:bg-white hover:text-violet-600"
+              onClick={() => handleAddUserClick()}
+            >
+              Add Player
+            </button>
+          ) : null}
         </>
       ) : null}
     </div>

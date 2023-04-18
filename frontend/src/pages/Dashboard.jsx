@@ -18,19 +18,18 @@ const Dashboard = () => {
 
   return (
     <div className="container flex flex-col ">
-      <div className="my-10 flex flex-col">
-        {/* <div className="text-xl font-semibold">Dashboard</div> */}
-        <div className="mb-5 text-2xl">Welcome back: {user.email}</div>
+      <div className="mt-10 mb-5 flex flex-col">
+        <div className="mb-6 text-xl">Welcome back: {user.email}</div>
         <hr />
       </div>
       <div className="mb-10 flex w-full flex-col items-start ">
-        <div className="flex ">
-          <div className="mb-4 mr-4 text-2xl font-semibold">Boards</div>
+        <div className="mb-4 flex items-center">
+          <div className="mr-4 text-2xl font-semibold">Boards</div>
           <Link
             to="/new-board"
-            className="h-fit w-fit  rounded border border-green-500 bg-green-500 px-2 text-white hover:bg-white hover:text-green-500"
+            className="mr-2 inline-flex items-center rounded-md border border-gray-300 bg-violet-600 py-2 px-3 text-sm font-medium text-white shadow-sm hover:bg-white hover:text-violet-600"
           >
-            New
+            Create New Board
           </Link>
         </div>
 

@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import {
   useLazyGenerateGameQuery,
   useLazyGetGameByIdQuery,
+  useUpdateBoardWithGameDataMutation,
 } from "../app/services/api";
 import { useEffect, useState } from "react";
 import BoardWinners from "../components/BoardWinners";
@@ -19,6 +20,7 @@ const PublishedBoard = () => {
     pollingInterval: pollingInterval,
   });
   const [currentWinningSquare, setCurrentWinningSquare] = useState(null);
+  const [updateBoardWithGameData] = useUpdateBoardWithGameDataMutation();
 
   // end polling when game is finished
   useEffect(() => {
@@ -32,21 +34,16 @@ const PublishedBoard = () => {
       .toString();
 
     setCurrentWinningSquare(Number(awayLastNumber + homeLastNumber));
-
-    console.log(
-      currentWinningSquare,
-      homeLastNumber,
-      awayLastNumber,
-      gameData?.homeTeamScore,
-      gameData?.awayTeamScore
-    );
   }, [gameData]);
 
   const handleDemoClick = async () => {
     const generateGameResult = await generateGame(board._id).unwrap();
-    console.log("generateGameResult", generateGameResult.gameId);
     if (generateGameResult.gameId) {
       getGameById(generateGameResult.gameId);
+      updateBoardWithGameData({
+        boardId: board._id,
+        gameId: generateGameResult.gameId,
+      });
     }
   };
 
@@ -58,17 +55,17 @@ const PublishedBoard = () => {
     return <div>Error</div>;
   }
 
-  if (board.state === "unpublished") {
-    return <div>Board is unpublished</div>;
-  }
-
   return (
     <div>
       {/* TODO need to make header more appropriate for published board */}
       {/* <Header /> */}
       <div className="flex flex-col items-center  justify-center">
-        <GameScore board={board} gameData={gameData} />
-        <BoardWinners handleDemoClick={handleDemoClick} />
+        <GameScore
+          board={board}
+          gameData={gameData}
+          handleDemoClick={handleDemoClick}
+        />
+        <BoardWinners board={board} handleDemoClick={handleDemoClick} />
         <GameBoard
           board={board}
           currentWinningSquare={currentWinningSquare}

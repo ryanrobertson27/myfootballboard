@@ -50,18 +50,24 @@ export const api = createApi({
       }),
       invalidatesTags: ['Square', 'Player']
     }),
-    // Protected
     deleteBoardById: build.mutation({
       query: (boardId) => ({
         url: `boards/${boardId}`,
         method: 'DELETE',
       }),
     }),
-
     publishBoardById: build.mutation({
       query: (boardId) => ({
         url: `boards/${boardId}/publish-board`,
         method: 'PATCH',
+      }),
+      invalidatesTags: ['Board']
+    }),
+    updateBoardWithGameData: build.mutation({
+      query: (body) => ({
+        url: `boards/update-board-with-game-data`,
+        method: 'POST',
+        body,
       }),
       invalidatesTags: ['Board']
     }),
@@ -198,4 +204,5 @@ export const {
   useDeleteBoardByIdMutation,
   usePublishBoardByIdMutation,
   useRandomizeGameNumbersMutation,
+  useUpdateBoardWithGameDataMutation,
 } = api
