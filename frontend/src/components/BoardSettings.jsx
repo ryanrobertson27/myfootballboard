@@ -58,7 +58,7 @@ const BoardSettings = ({ board, setIsSettingsShowing }) => {
       >
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex min-h-screen items-center justify-center bg-black bg-opacity-50">
-            <div className="rounded bg-white p-5">
+            <div className="rounded bg-white py-4 px-8">
               <div className="flex  items-center justify-between">
                 <SettingsIcon className="mr-2 h-5 w-5" />
                 <h2 className=" text-lg">Settings</h2>
@@ -70,17 +70,7 @@ const BoardSettings = ({ board, setIsSettingsShowing }) => {
                 </button>
               </div>
               <hr className="my-5" />
-              <button onClick={() => publishBoard(board._id)}>
-                Publish Board
-              </button>
-              <div className="flex justify-around">
-                <button
-                  onClick={() => handleDeleteBoard()}
-                  className="mr-1 rounded bg-violet-600 px-2 py-1 text-white hover:bg-violet-400"
-                >
-                  Delete Board
-                </button>
-              </div>
+
               <Form className="flex flex-col items-start ">
                 <div>
                   <div>Board Name</div>
@@ -130,6 +120,18 @@ const BoardSettings = ({ board, setIsSettingsShowing }) => {
                   Submit
                 </button>
               </Form>
+              <div className="flex flex-col ">
+                <hr className="my-3" />
+                <div className="m-auto mb-2 text-sm italic text-gray-600">
+                  Danger Zone
+                </div>
+                <button
+                  onClick={() => handleDeleteBoard()}
+                  className="mr-1 rounded bg-red-600 px-2 py-1 text-white hover:bg-red-400"
+                >
+                  Delete Board
+                </button>
+              </div>
             </div>
           </div>
         </div>

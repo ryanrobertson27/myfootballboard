@@ -25,6 +25,13 @@ export const api = createApi({
         body,
       }),
     }),
+    getBoardWinnersById: build.query({
+      query: (id) => ({
+        url: `boards/${id}/winners`,
+        method: 'GET',
+      }),
+      providesTags: ['Board']
+    }),
     getBoardById: build.query({
       query: (id) => ({
         url: `boards/${id}`,
@@ -205,4 +212,5 @@ export const {
   usePublishBoardByIdMutation,
   useRandomizeGameNumbersMutation,
   useUpdateBoardWithGameDataMutation,
+  useGetBoardWinnersByIdQuery,
 } = api

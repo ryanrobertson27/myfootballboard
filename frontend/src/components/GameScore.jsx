@@ -1,10 +1,6 @@
 import { useEffect } from "react";
 
 const GameScore = ({ board, gameData, handleDemoClick }) => {
-  useEffect(() => {
-    console.log("gameData", gameData);
-  }, [gameData]);
-
   return (
     <div className="mb-5 flex w-full items-center justify-center bg-white py-1 drop-shadow">
       <div className="flex-col items-center">

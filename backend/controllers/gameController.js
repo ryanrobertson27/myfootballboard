@@ -139,11 +139,34 @@ const getGameById = async (req, res) => {
   }
 }
 
+const resetGameForBoard = async (req, res) => {
+  try {
+    const { boardId } = req.params;
+
+    const board = await Board.findById(boardId);
+
+    if (!board) {
+      return res.status(400).send('Could not find board');
+    }
+
+    board.quarterWinners = [null, null, null, null];
+
+    board.save()
+
+    await Game.deleteOne( { board: boardId } );
+
+    return res.status(200).send('success')
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
+  }
+}
+
 
 
 module.exports = {
   generateGame,
-  getGameById
-
+  getGameById,
+  resetGameForBoard,
 }
 

@@ -7,15 +7,19 @@ import {
   useLazyGenerateGameQuery,
   useLazyGetGameByIdQuery,
   useUpdateBoardWithGameDataMutation,
+  useGetBoardWinnersByIdQuery,
 } from "../app/services/api";
 import { useEffect, useState } from "react";
 import BoardWinners from "../components/BoardWinners";
 
 const PublishedBoard = () => {
   let { boardId } = useParams();
-  const [pollingInterval, setPollingInterval] = useState(1000);
+  const [pollingInterval, setPollingInterval] = useState(0);
   const { data: board, isLoading, isError } = useGetBoardByIdQuery(boardId);
   const [generateGame] = useLazyGenerateGameQuery();
+  const { data: winner } = useGetBoardWinnersByIdQuery(boardId, {
+    pollingInterval: pollingInterval,
+  });
   const [getGameById, { data: gameData }] = useLazyGetGameByIdQuery({
     pollingInterval: pollingInterval,
   });
@@ -37,6 +41,7 @@ const PublishedBoard = () => {
   }, [gameData]);
 
   const handleDemoClick = async () => {
+    setPollingInterval(1000);
     const generateGameResult = await generateGame(board._id).unwrap();
     if (generateGameResult.gameId) {
       getGameById(generateGameResult.gameId);
@@ -44,6 +49,7 @@ const PublishedBoard = () => {
         boardId: board._id,
         gameId: generateGameResult.gameId,
       });
+      getBoardWinnersById(board._id);
     }
   };
 
@@ -65,7 +71,7 @@ const PublishedBoard = () => {
           gameData={gameData}
           handleDemoClick={handleDemoClick}
         />
-        <BoardWinners board={board} handleDemoClick={handleDemoClick} />
+        <BoardWinners board={board} winner={winner} />
         <GameBoard
           board={board}
           currentWinningSquare={currentWinningSquare}

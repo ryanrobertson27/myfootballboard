@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get('/:boardId', boardController.getBoardById);
 
+router.get('/:boardId/winners', checkAuth, boardController.getBoardWinners);
+
 router.post('/new-board', checkAuth, boardController.createNewBoard);
 
 router.post('/fill-board', checkAuth, boardController.fillBoardWithRandomPlayers);

@@ -1,4 +1,10 @@
-const BoardWinners = ({ board }) => {
+import { useEffect } from "react";
+import { useGetBoardWinnersByIdQuery } from "../app/services/api";
+
+const BoardWinners = ({ board, winner }) => {
+  useEffect(() => {
+    console.log(winner);
+  }, [winner]);
   return (
     <div className=" bg-white px-4 py-2 shadow">
       <div className="mb-2 flex items-center justify-between">
@@ -6,7 +12,7 @@ const BoardWinners = ({ board }) => {
         <div className="flex items-start justify-between ">
           <div className=" flex  flex-col items-center px-10">
             <div className="border-b">Q1</div>
-            {board?.quarterWinners[0] || (
+            {winner?.[0]?.first || (
               <div className="text-lg italic">pending</div>
             )}
             <div className="text-xs text-gray-600">
@@ -17,7 +23,7 @@ const BoardWinners = ({ board }) => {
         <div className="flex items-start justify-between ">
           <div className=" flex  flex-col items-center px-10">
             <div className="border-b">Q2</div>
-            {board?.quarterWinners[1] || (
+            {winner?.[1]?.first || (
               <div className="text-lg italic">pending</div>
             )}
             <div className="text-xs text-gray-600">
@@ -28,7 +34,7 @@ const BoardWinners = ({ board }) => {
         <div className="flex items-start justify-between ">
           <div className=" flex  flex-col items-center px-10">
             <div className="border-b">Q3</div>
-            {board?.quarterWinners[2] || (
+            {winner?.[2]?.first || (
               <div className="text-lg italic">pending</div>
             )}
             <div className="text-xs text-gray-600">
@@ -39,7 +45,7 @@ const BoardWinners = ({ board }) => {
         <div className="flex items-start justify-between ">
           <div className=" flex  flex-col items-center px-10">
             <div className="border-b">Q4</div>
-            {board?.quarterWinners[3] || (
+            {winner?.[3]?.first || (
               <div className="text-lg italic">pending</div>
             )}
             <div className="text-xs text-gray-600">

@@ -282,51 +282,49 @@ const updateBoardWithGameData = async (req, res) => {
       //check null so it doesn't run multiple times
       // TODO refactor to make it more DRY
       if (game.firstQuarter.completed && board.quarterWinners[0] === null) {
-        const homeLastNumber = board.homeNumbers.indexOf(game.firstQuarter.homeScore.toString().slice(-1)).toString();
-        const awayLastNumber = board.awayNumbers.indexOf(game.firstQuarter.awayScore.toString().slice(-1)).toString();
-
-        const winningSquare = Number(awayLastNumber + homeLastNumber)
-
-        const winningPlayer = await Square.find({position: winningSquare - 1})
-
-
-        board.quarterWinners[0] = winningPlayer.owner;
+        // get last digit of number for each team and convert to string
+        const homeLastNumber = board.homeNumbers.indexOf(game.firstQuarter.homeScore % 10).toString();
+        const awayLastNumber = board.awayNumbers.indexOf(game.firstQuarter.awayScore % 10).toString();
+        // combine strings to get winning square and convert to number
+        const winningSquareNumber = Number(awayLastNumber + homeLastNumber);
+        // find winning square and populate owner
+        const winningSquare = await Square.findOne({position: winningSquareNumber - 1, board: boardId})
+        const winningPlayer = await BoardPlayer.findById(winningSquare.owner)
+        // set winning player to quarter winner
+        board.quarterWinners[0] = winningPlayer;
       }
       if (game.secondQuarter.completed && board.quarterWinners[1] === null) {
+        // add first and second quarter scores to get total
         const secondQuarterHomeTotal = game.firstQuarter.homeScore + game.secondQuarter.homeScore;
         const secondQuarterAwayTotal = game.firstQuarter.awayScore + game.secondQuarter.awayScore;
-
-        const homeLastNumber = board.homeNumbers.indexOf(secondQuarterHomeTotal.toString().slice(-1)).toString();
-        const awayLastNumber = board.awayNumbers.indexOf(secondQuarterAwayTotal.toString().slice(-1)).toString();
-
-        const winningSquare = Number(awayLastNumber + homeLastNumber)
-        const winningPlayer = await Square.find({position: winningSquare - 1})
-
-        board.quarterWinners[1] = winningPlayer.owner;
+        const homeLastNumber = board.homeNumbers.indexOf(secondQuarterHomeTotal % 10).toString();
+        const awayLastNumber = board.awayNumbers.indexOf(secondQuarterAwayTotal % 10).toString();
+        const winningSquareNumber = Number(awayLastNumber + homeLastNumber);
+        const winningSquare = await Square.findOne({position: winningSquareNumber - 1, board: boardId})
+        const winningPlayer = await BoardPlayer.findById(winningSquare.owner)
+        board.quarterWinners[1] = winningPlayer;
       }
       if (game.thirdQuarter.completed && board.quarterWinners[2] === null) {
+        // add first, second, and third quarter scores to get total
         const thirdQuarterHomeTotal = game.firstQuarter.homeScore + game.secondQuarter.homeScore + game.thirdQuarter.homeScore;
         const thirdQuarterAwayTotal = game.firstQuarter.awayScore + game.secondQuarter.awayScore + game.thirdQuarter.awayScore;
-
-        const homeLastNumber = board.homeNumbers.indexOf(thirdQuarterHomeTotal.toString().slice(-1)).toString();
-        const awayLastNumber = board.awayNumbers.indexOf(thirdQuarterAwayTotal.toString().slice(-1)).toString();
-
-        const winningSquare = Number(awayLastNumber + homeLastNumber)
-        const winningPlayer = await Square.find({position: winningSquare - 1})
-
-        board.quarterWinners[2] = winningPlayer.owner;
+        const homeLastNumber = board.homeNumbers.indexOf(thirdQuarterHomeTotal % 10).toString();
+        const awayLastNumber = board.awayNumbers.indexOf(thirdQuarterAwayTotal % 10).toString();
+        const winningSquareNumber = Number(awayLastNumber + homeLastNumber);
+        const winningSquare = await Square.findOne({position: winningSquareNumber - 1, board: boardId})
+        const winningPlayer = await BoardPlayer.findById(winningSquare.owner)
+        board.quarterWinners[2] = winningPlayer;
       }
       if (game.fourthQuarter.completed && board.quarterWinners[3] === null) {
+        // add first, second, third, and fourth quarter scores to get total
         const fourthQuarterHomeTotal = game.firstQuarter.homeScore + game.secondQuarter.homeScore + game.thirdQuarter.homeScore + game.fourthQuarter.homeScore;
         const fourthQuarterAwayTotal = game.firstQuarter.awayScore + game.secondQuarter.awayScore + game.thirdQuarter.awayScore + game.fourthQuarter.awayScore;
-
-        const homeLastNumber = board.homeNumbers.indexOf(fourthQuarterHomeTotal.toString().slice(-1)).toString();
-        const awayLastNumber = board.awayNumbers.indexOf(fourthQuarterAwayTotal.toString().slice(-1)).toString();
-
-        const winningSquare = Number(awayLastNumber + homeLastNumber)
-        const winningPlayer = await Square.find({position: winningSquare - 1})
-
-        board.quarterWinners[3] = winningPlayer.owner;
+        const homeLastNumber = board.homeNumbers.indexOf(fourthQuarterHomeTotal % 10).toString();
+        const awayLastNumber = board.awayNumbers.indexOf(fourthQuarterAwayTotal % 10).toString();
+        const winningSquareNumber = Number(awayLastNumber + homeLastNumber);
+        const winningSquare = await Square.findOne({position: winningSquareNumber - 1, board: boardId})
+        const winningPlayer = await BoardPlayer.findById(winningSquare.owner)
+        board.quarterWinners[3] = winningPlayer;
       }
 
       if (game.firstQuarter.completed && game.secondQuarter.completed && game.thirdQuarter.completed && game.fourthQuarter.completed) {
@@ -341,6 +339,22 @@ const updateBoardWithGameData = async (req, res) => {
   }
 }
 
+const getBoardWinners = async (req, res) => {
+  try {
+    const { boardId } = req.params;
+
+    const board = await Board.findById(boardId);
+
+    if (!board) {
+      return res.status(400).send('Could not find board');
+    }
+
+    return res.status(200).json(board.quarterWinners);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
+  }
+}
 
 
 
@@ -354,7 +368,8 @@ module.exports = {
   clearAllBoardPlayers,
   publishBoardById,
   randomizeGameNumbers,
-  updateBoardWithGameData
+  updateBoardWithGameData,
+  getBoardWinners,
 };
 
 
