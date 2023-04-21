@@ -15,7 +15,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['Square', 'Player', 'Board'],
+  tagTypes: ['Square', 'Player', 'Board', "Game"],
   endpoints: (build) => ({
     // BOARD calls
     createNewBoard: build.mutation({
@@ -180,10 +180,20 @@ export const api = createApi({
       }),
     }),
     getGameById: build.query({
-      query: (gameId) => ({
-        url: `games/${gameId}`,
-        method: 'GET',
-      })
+      query: (gameId) => `games/${gameId}`,
+      providesTags: ['Game'],
+    }),
+    getGameByBoardId: build.query({
+      query: (boardId) => `games/board/${boardId}`,
+      providesTags: ['Game'],
+    
+    }),
+    resetGameByBoardId: build.mutation({
+      query: (boardId) => ({
+        url: `games/${boardId}/reset-game`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Game'],
     }),
   }),
 });
@@ -213,4 +223,6 @@ export const {
   useRandomizeGameNumbersMutation,
   useUpdateBoardWithGameDataMutation,
   useGetBoardWinnersByIdQuery,
+  useGetGameByBoardIdQuery,
+  useResetGameByBoardIdMutation,
 } = api

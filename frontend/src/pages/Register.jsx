@@ -14,10 +14,6 @@ const Register = () => {
   const [registerUser, result] = useRegisterUserMutation();
   const location = useLocation();
 
-  useEffect(() => {
-    console.log(location.state?.fromLogin);
-  }, []);
-
   return (
     <div className="flex h-screen flex-col items-center justify-center">
       <div className="mb-10 text-3xl font-bold">
@@ -44,16 +40,26 @@ const Register = () => {
         })}
         onSubmit={async (values) => {
           try {
-            const data = await registerUser(values).unwrap();
+            const registeredUser = await fetch(
+              `${import.meta.env.VITE_SERVER_URL}/users/register`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+              }
+            );
+
+            const data = await registeredUser.json();
+
             if (data) {
-              console.log(data);
               const { email } = data;
               const didToken = await magic.auth.loginWithMagicLink({
                 email,
                 redirectURI: new URL("/callback", window.location.origin).href,
               });
             }
-            console.log(data);
           } catch (err) {
             console.log(err);
           }

@@ -139,6 +139,23 @@ const getGameById = async (req, res) => {
   }
 }
 
+const getGameByBoardId = async (req, res) => {
+  try {
+    const { boardId } = req.params
+
+    const game = await Game.findOne({ board: boardId })
+
+    if (!game) {
+      return res.status(400).send('Could not find game in getGameByBoardId')
+    }
+
+    return res.status(200).json(game)
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json(error)
+  }
+}
+
 const resetGameForBoard = async (req, res) => {
   try {
     const { boardId } = req.params;
@@ -167,6 +184,7 @@ const resetGameForBoard = async (req, res) => {
 module.exports = {
   generateGame,
   getGameById,
+  getGameByBoardId,
   resetGameForBoard,
 }
 

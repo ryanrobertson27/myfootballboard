@@ -17,7 +17,6 @@ export const squareSlice = createSlice({
     },
     remove: (state, action) => {
       const squaresToKeep = state.squares.filter((square) => square._id !== action.payload._id)
-      // console.log(action.payload._id)
       state.squares = squaresToKeep
     },
     clear: (state) => {

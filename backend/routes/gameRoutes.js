@@ -9,6 +9,8 @@ router.get('/generate-game/:boardId', checkAuth, gameController.generateGame);
 
 router.get('/:gameId', gameController.getGameById);
 
-router.delete('/reset-game/:boardId', gameController.resetGameForBoard);
+router.get('/board/:boardId', gameController.getGameByBoardId);
+
+router.delete('/:boardId/reset-game', gameController.resetGameForBoard);
 
 module.exports = router;

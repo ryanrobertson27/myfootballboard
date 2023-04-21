@@ -33,7 +33,6 @@ const checkUser = async (req, res) => {
 //
 const loginUser = async (req, res) => {
   try {
-    console.log(req.headers.authorization)
     const didToken = req.headers.authorization.substring(7);
     await magic.token.validate(didToken);
 
@@ -44,12 +43,9 @@ const loginUser = async (req, res) => {
 };
 
 const registerUser = async (req, res) => {
-  console.log('registerUser')
   const {  first, last, phone, email, venmo } = req.body;
   try {
     const alreadyUser = await User.find({ email });
-
-    console.log(alreadyUser)
 
     if (alreadyUser.length > 0) {
       return res.status(400).json({ error: 'User already exists' });
@@ -106,7 +102,7 @@ const getUsersWins = async (req, res) => {
 const getUserBoardsByEmail = async (req, res) => {
   const { email } = req.body;
 
-  console.log(req.body)
+
 
   try {
     const boards = await User.findOne({ email }).populate({path: 'boards', perDocumentLimit: 4});

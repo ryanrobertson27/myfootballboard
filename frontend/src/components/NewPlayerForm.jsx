@@ -11,10 +11,6 @@ const NewPlayerForm = ({ board, setFormIsShowing }) => {
   const dispatch = useDispatch();
   const squares = useSelector((state) => state.squareSelect.squares);
 
-  useEffect(() => {
-    console.log(squares);
-  }, [squares]);
-
   const handleFormClose = () => {
     dispatch(clear());
     dispatch(setDisabled());

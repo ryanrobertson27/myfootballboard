@@ -1,6 +1,21 @@
-import { useEffect } from "react";
+import { useGetTotalQuarterScores } from "../hooks/useGetTotalQuarterScores";
+import { useResetGameByBoardIdMutation } from "../app/services/api";
 
 const GameScore = ({ board, gameData, handleDemoClick }) => {
+  const {
+    homeFirstQuarterTotal,
+    homeSecondQuarterTotal,
+    homeThirdQuarterTotal,
+    homeFourthQuarterTotal,
+    awayFirstQuarterTotal,
+    awaySecondQuarterTotal,
+    awayThirdQuarterTotal,
+    awayFourthQuarterTotal,
+  } = useGetTotalQuarterScores(gameData);
+
+  const [resetGame, { isLoading: resettingGame }] =
+    useResetGameByBoardIdMutation();
+
   return (
     <div className="mb-5 flex w-full items-center justify-center bg-white py-1 drop-shadow">
       <div className="flex-col items-center">
@@ -47,24 +62,27 @@ const GameScore = ({ board, gameData, handleDemoClick }) => {
               {gameData?.fourthQuarter.awayScore || 0}
             </div>
             <div className="text-center">{gameData?.awayTeamScore || 0}</div>
-            {/* <div className="col-span-6 mt-1 text-center italic">
-              score each quarter is total at the end of each quarter, not per
-              quarter score
-            </div> */}
           </div>
-          {/* <div className="m-2 text-3xl">
-            {gameData?.awayTeamScore || 0} - {board.awayTeam}
-          </div> */}
         </div>
       </div>
-
-      <button
-        type="button"
-        className="mr-2 items-center rounded-md border border-gray-300 bg-violet-600 py-2 px-3 text-sm font-medium text-white shadow-sm hover:bg-white hover:text-violet-600"
-        onClick={() => handleDemoClick()}
-      >
-        Start Demo
-      </button>
+      {gameData?.state === "FINISHED" ? (
+        <button
+          type="button"
+          className="mr-2 items-center rounded-md border border-gray-300 bg-violet-600 py-2 px-3 text-sm font-medium text-white shadow-sm hover:bg-white hover:text-violet-600"
+          onClick={() => resetGame(board._id)}
+        >
+          Reset Demo
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="mr-2 items-center rounded-md border border-gray-300 bg-violet-600 py-2 px-3 text-sm font-medium text-white shadow-sm hover:bg-white hover:text-violet-600"
+          onClick={() => handleDemoClick()}
+          disabled={gameData?.state === "ACTIVE"}
+        >
+          Start Demo
+        </button>
+      )}
     </div>
   );
 };

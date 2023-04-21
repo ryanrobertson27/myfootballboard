@@ -191,7 +191,6 @@ const publishBoardById = async (req, res) => {
 
     const nullSquaresFound = squares.filter(square => square.owner === null)
 
-    console.log(nullSquaresFound)
 
     if (nullSquaresFound.length > 0) {
       return res.status(400).send('All board squares must be filled before publishing.  Please ensure all squares have a player assigned.');
@@ -262,8 +261,6 @@ const randomizeGameNumbers = async (req, res) => {
 const updateBoardWithGameData = async (req, res) => {
   try {
     const { boardId, gameId } = req.body;
-
-    console.log(boardId, gameId)
 
     const board = await Board.findById(boardId);
 

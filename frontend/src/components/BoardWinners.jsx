@@ -1,58 +1,55 @@
 import { useEffect } from "react";
-import { useGetBoardWinnersByIdQuery } from "../app/services/api";
+import { useGetTotalQuarterScores } from "../hooks/useGetTotalQuarterScores";
+import WinnerSnippet from "./WinnerSnippet";
 
-const BoardWinners = ({ board, winner }) => {
+const BoardWinners = ({ board, winner, gameData }) => {
+  const {
+    homeFirstQuarterTotal,
+    homeSecondQuarterTotal,
+    homeThirdQuarterTotal,
+    homeFourthQuarterTotal,
+    awayFirstQuarterTotal,
+    awaySecondQuarterTotal,
+    awayThirdQuarterTotal,
+    awayFourthQuarterTotal,
+  } = useGetTotalQuarterScores(gameData);
+
   useEffect(() => {
-    console.log(winner);
-  }, [winner]);
+    console.log(gameData);
+  }, [gameData]);
+
   return (
-    <div className=" bg-white px-4 py-2 shadow">
-      <div className="mb-2 flex items-center justify-between">
+    <div className=" bg-white shadow">
+      <div className=" flex items-center justify-between">
         {/* <div className="text-lg font-semibold">BoardWinnersSections</div> */}
-        <div className="flex items-start justify-between ">
-          <div className=" flex  flex-col items-center px-10">
-            <div className="border-b">Q1</div>
-            {winner?.[0]?.first || (
-              <div className="text-lg italic">pending</div>
-            )}
-            <div className="text-xs text-gray-600">
-              payout: ${board.costPerSquare / 4}
-            </div>
-          </div>
-        </div>
-        <div className="flex items-start justify-between ">
-          <div className=" flex  flex-col items-center px-10">
-            <div className="border-b">Q2</div>
-            {winner?.[1]?.first || (
-              <div className="text-lg italic">pending</div>
-            )}
-            <div className="text-xs text-gray-600">
-              payout: ${board.costPerSquare / 4}
-            </div>
-          </div>
-        </div>
-        <div className="flex items-start justify-between ">
-          <div className=" flex  flex-col items-center px-10">
-            <div className="border-b">Q3</div>
-            {winner?.[2]?.first || (
-              <div className="text-lg italic">pending</div>
-            )}
-            <div className="text-xs text-gray-600">
-              payout: ${board.costPerSquare / 4}
-            </div>
-          </div>
-        </div>
-        <div className="flex items-start justify-between ">
-          <div className=" flex  flex-col items-center px-10">
-            <div className="border-b">Q4</div>
-            {winner?.[3]?.first || (
-              <div className="text-lg italic">pending</div>
-            )}
-            <div className="text-xs text-gray-600">
-              payout: ${board.costPerSquare / 4}
-            </div>
-          </div>
-        </div>
+        <WinnerSnippet
+          quarter={"Q1"}
+          board={board}
+          winner={winner?.[0]?.first}
+          homeQuarterTotal={homeFirstQuarterTotal}
+          awayQuarterTotal={awayFirstQuarterTotal}
+        />
+        <WinnerSnippet
+          quarter={"Q2"}
+          board={board}
+          winner={winner?.[1]?.first}
+          homeQuarterTotal={homeSecondQuarterTotal}
+          awayQuarterTotal={awaySecondQuarterTotal}
+        />
+        <WinnerSnippet
+          quarter={"Q3"}
+          board={board}
+          winner={winner?.[2]?.first}
+          homeQuarterTotal={homeThirdQuarterTotal}
+          awayQuarterTotal={awayThirdQuarterTotal}
+        />
+        <WinnerSnippet
+          quarter={"Q4"}
+          board={board}
+          winner={winner?.[3]?.first}
+          homeQuarterTotal={homeFourthQuarterTotal}
+          awayQuarterTotal={awayFourthQuarterTotal}
+        />
       </div>
     </div>
   );

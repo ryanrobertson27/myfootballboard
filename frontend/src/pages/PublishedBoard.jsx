@@ -1,56 +1,61 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useGetBoardByIdQuery } from "../app/services/api";
 import GameBoard from "../components/GameBoard";
 import GameScore from "../components/GameScore";
-import Header from "../components/Header";
+import BoardWinners from "../components/BoardWinners";
 import {
   useLazyGenerateGameQuery,
-  useLazyGetGameByIdQuery,
   useUpdateBoardWithGameDataMutation,
   useGetBoardWinnersByIdQuery,
+  useGetGameByBoardIdQuery,
+  useGetBoardByIdQuery,
 } from "../app/services/api";
-import { useEffect, useState } from "react";
-import BoardWinners from "../components/BoardWinners";
 
 const PublishedBoard = () => {
   let { boardId } = useParams();
   const [pollingInterval, setPollingInterval] = useState(0);
+  const [currentWinningSquare, setCurrentWinningSquare] = useState(null);
+
   const { data: board, isLoading, isError } = useGetBoardByIdQuery(boardId);
-  const [generateGame] = useLazyGenerateGameQuery();
   const { data: winner } = useGetBoardWinnersByIdQuery(boardId, {
     pollingInterval: pollingInterval,
+    skip: false, // makes sure the query runs on page load
   });
-  const [getGameById, { data: gameData }] = useLazyGetGameByIdQuery({
+  const { data: gameData } = useGetGameByBoardIdQuery(boardId, {
     pollingInterval: pollingInterval,
+    skip: false, // makes sure the query runs on page load
   });
-  const [currentWinningSquare, setCurrentWinningSquare] = useState(null);
+
+  const [generateGame] = useLazyGenerateGameQuery();
   const [updateBoardWithGameData] = useUpdateBoardWithGameDataMutation();
 
-  // end polling when game is finished
   useEffect(() => {
-    if (gameData?.state === "FINISHED") setPollingInterval(0);
-
+    // if game is active, poll every second, otherwise stop polling
+    if (gameData?.state === "ACTIVE") {
+      setPollingInterval(1000);
+    } else {
+      setPollingInterval(0);
+    }
+    // get last digit of home and away team scores and convert to string
     const homeLastNumber = board?.homeNumbers
       .indexOf(gameData?.homeTeamScore % 10)
       .toString();
     const awayLastNumber = board?.awayNumbers
       .indexOf(gameData?.awayTeamScore % 10)
       .toString();
-
+    // add the strings together and convert to number to get the winning square
     setCurrentWinningSquare(Number(awayLastNumber + homeLastNumber));
-  }, [gameData]);
+  }, [gameData, winner]);
 
   const handleDemoClick = async () => {
-    setPollingInterval(1000);
     const generateGameResult = await generateGame(board._id).unwrap();
     if (generateGameResult.gameId) {
-      getGameById(generateGameResult.gameId);
       updateBoardWithGameData({
         boardId: board._id,
         gameId: generateGameResult.gameId,
       });
-      getBoardWinnersById(board._id);
     }
+    setPollingInterval(1000);
   };
 
   if (isLoading) {
@@ -63,15 +68,13 @@ const PublishedBoard = () => {
 
   return (
     <div>
-      {/* TODO need to make header more appropriate for published board */}
-      {/* <Header /> */}
       <div className="flex flex-col items-center  justify-center">
         <GameScore
           board={board}
           gameData={gameData}
           handleDemoClick={handleDemoClick}
         />
-        <BoardWinners board={board} winner={winner} />
+        <BoardWinners board={board} winner={winner} gameData={gameData} />
         <GameBoard
           board={board}
           currentWinningSquare={currentWinningSquare}
