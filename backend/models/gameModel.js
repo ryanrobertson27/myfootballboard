@@ -13,6 +13,7 @@ const gameSchema = new Schema({
   homeTeamName: { type: String, required: true },
   awayTeamScore: { type: Number, default: 0 },
   homeTeamScore: { type: Number, default: 0 },
+  currentQuarter: { type: Number, default: 1 },
   firstQuarter: { type: Object, default: {awayScore: null, homeScore: null, completed: false} },
   secondQuarter: { type: Object, default: {awayScore: null, homeScore: null, completed: false} },
   thirdQuarter: { type: Object, default: {awayScore: null, homeScore: null, completed: false} },
