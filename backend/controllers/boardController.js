@@ -108,6 +108,12 @@ const fillBoardWithRandomPlayers = async (req, res) => {
   try {
     const { boardId } = req.body;
 
+    const board = await Board.findById(boardId)
+
+    if(board.state === 'published') {
+      return res.status(400).json({message: 'Cannot fill board with players on a published board'})
+    }
+
     const squares = await Square.find({board: boardId})
 
     if(!squares) {
@@ -141,6 +147,13 @@ const fillBoardWithRandomPlayers = async (req, res) => {
 const clearAllBoardPlayers = async (req, res) => {
   try {
     const { boardId } = req.body;
+
+    const board = await Board.findById(boardId)
+
+    if(board.state === 'published') {
+      return res.status(400).json({message: 'Cannot clear board players on a published board'})
+    }
+
 
     const squares = await Square.find({board: boardId})
 

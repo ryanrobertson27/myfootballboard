@@ -2,7 +2,7 @@ import { Magic } from "magic-sdk";
 import { useNavigate, Link } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import MyTextInput from "../hooks/formik/MyTextInput";
+import MyTextInput from "../components/MyTextInput";
 import logo from "../assets/footballsquareslogo.png";
 
 const magic = new Magic("pk_live_C10893DD838C3541");

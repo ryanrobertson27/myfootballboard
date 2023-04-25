@@ -7,7 +7,7 @@ import {
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import NewPlayerForm from "./NewPlayerForm";
-import MyTextInput from "../hooks/formik/MyTextInput";
+import MyTextInput from "./MyTextInput";
 import { useDispatch } from "react-redux";
 import { setDisabled } from "../features/square/squareSlice";
 import BoardPlayerSnippet from "./BoardPlayerSnippet";

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useRegisterUserMutation } from "../app/services/api";
-import MyTextInput from "../hooks/formik/MyTextInput";
+import MyTextInput from "../components/MyTextInput";
 import logo from "../assets/footballsquareslogo.png";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
@@ -40,6 +40,7 @@ const Register = () => {
         })}
         onSubmit={async (values) => {
           try {
+            // currently leaving out of RTK query because of headers
             const registeredUser = await fetch(
               `${import.meta.env.VITE_SERVER_URL}/users/register`,
               {

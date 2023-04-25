@@ -18,7 +18,7 @@ const generateGame = async (req, res) => {
     board: boardId,
     awayTeamName: board.awayTeam,
     homeTeamName: board.homeTeam,
-    timeRemaining: 3600,
+    timeRemaining: 240,
   })
 
   if (!game) {
@@ -43,11 +43,26 @@ const generateGame = async (req, res) => {
     const randomNumber = Math.floor(Math.random() * 80) + 1
     //using 80 because it gives the most realistic score in the time frame
     
-    game.timeRemaining -= 15;
+    //This function runs 240 times, every second, which simulates 4 quarters of 15 minutes each
+    // 1 second real time is 15 seconds game time
+    // 1 minute real time is 15 minutes game time or 1 quarter
+    // 4 minutes real time is 1 hour game time
+
+
+    game.timeRemaining -= 1;
     
-    if (game.timeRemaining < 2700) game.firstQuarter.completed = true
-    if (game.timeRemaining < 1800) game.secondQuarter.completed = true
-    if (game.timeRemaining < 900) game.thirdQuarter.completed = true
+    if (game.timeRemaining < 180) {
+      game.firstQuarter.completed = true
+      game.currentQuarter = 2
+    }
+    if (game.timeRemaining < 120) {
+      game.secondQuarter.completed = true
+      game.currentQuarter = 3
+    }
+    if (game.timeRemaining < 60) {
+      game.thirdQuarter.completed = true
+      game.currentQuarter = 4
+    } 
     if (game.timeRemaining <= 0) {
       game.fourthQuarter.completed = true
       game.state = 'FINISHED'
@@ -58,12 +73,11 @@ const generateGame = async (req, res) => {
     switch (randomNumber) {
       case 1:
         game.awayTeamScore += 3
-        if(game.timeRemaining > 2700) {
+        if(game.timeRemaining > 180) {
           game.firstQuarter.awayScore += 3
-
-        } else if (game.timeRemaining > 1800) {
+        } else if (game.timeRemaining > 120) {
           game.secondQuarter.awayScore += 3
-        } else if (game.timeRemaining > 900) {
+        } else if (game.timeRemaining > 60) {
           game.thirdQuarter.awayScore += 3
         } else if (game.timeRemaining > 0) {
           game.fourthQuarter.awayScore += 3
@@ -71,12 +85,11 @@ const generateGame = async (req, res) => {
         break;
       case 2:
         game.homeTeamScore += 3
-        if(game.timeRemaining > 2700) {
+        if(game.timeRemaining > 180) {
           game.firstQuarter.homeScore += 3
-
-        } else if (game.timeRemaining > 1800) {
+        } else if (game.timeRemaining > 120) {
           game.secondQuarter.homeScore += 3
-        } else if (game.timeRemaining > 900) {
+        } else if (game.timeRemaining > 60) {
           game.thirdQuarter.homeScore += 3
         } else if (game.timeRemaining > 0) {
           game.fourthQuarter.homeScore += 3
@@ -84,12 +97,11 @@ const generateGame = async (req, res) => {
         break;
       case 3:
         game.awayTeamScore += 7
-        if(game.timeRemaining > 2700) {
+        if(game.timeRemaining > 180) {
           game.firstQuarter.awayScore += 7
-
-        } else if (game.timeRemaining > 1800) {
+        } else if (game.timeRemaining > 120) {
           game.secondQuarter.awayScore += 7
-        } else if (game.timeRemaining > 900) {
+        } else if (game.timeRemaining > 60) {
           game.thirdQuarter.awayScore += 7
         } else if (game.timeRemaining > 0) {
           game.fourthQuarter.awayScore += 7
@@ -97,12 +109,11 @@ const generateGame = async (req, res) => {
         break;
       case 4:
         game.homeTeamScore += 7
-        if(game.timeRemaining > 2700) {
+        if(game.timeRemaining > 180) {
           game.firstQuarter.homeScore += 7
-
-        } else if (game.timeRemaining > 1800) {
+        } else if (game.timeRemaining > 120) {
           game.secondQuarter.homeScore += 7
-        } else if (game.timeRemaining > 900) {
+        } else if (game.timeRemaining > 60) {
           game.thirdQuarter.homeScore += 7
         } else if (game.timeRemaining > 0) {
           game.fourthQuarter.homeScore += 7

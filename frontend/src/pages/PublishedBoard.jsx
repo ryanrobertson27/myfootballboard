@@ -21,7 +21,7 @@ const PublishedBoard = () => {
     pollingInterval: pollingInterval,
     skip: false, // makes sure the query runs on page load
   });
-  const { data: gameData } = useGetGameByBoardIdQuery(boardId, {
+  const { data: gameData, error } = useGetGameByBoardIdQuery(boardId, {
     pollingInterval: pollingInterval,
     skip: false, // makes sure the query runs on page load
   });

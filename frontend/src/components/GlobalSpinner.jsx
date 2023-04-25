@@ -4,8 +4,8 @@ const GlobalSpinner = ({ size }) => {
     <div role="status">
       <svg
         aria-hidden="true"
-        className={`w-${size} h-${size} mr-2 animate-spin fill-gray-900 dark:text-gray-200`}
-        viewBox="0 0 100 101"
+        className={`mr-2 animate-spin fill-violet-600 dark:text-gray-200`}
+        viewBox={`0 0 ${size} ${size}`}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >

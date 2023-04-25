@@ -6,6 +6,7 @@ import {
 } from "../app/services/api";
 import { useEffect, useState } from "react";
 import { ReactComponent as Logo } from "../assets/main-logo-stacked.svg";
+import GlobalSpinner from "./GlobalSpinner";
 
 const GameBoard = ({ board, gameData, currentWinningSquare }) => {
   const [randomize] = useRandomizeGameNumbersMutation();
@@ -19,20 +20,29 @@ const GameBoard = ({ board, gameData, currentWinningSquare }) => {
   } = useGetSquaresByBoardIdQuery(board._id);
 
   if (isLoading) {
-    squareSection = <div>loading</div>;
+    squareSection = (
+      <div className="flex h-full w-full items-center justify-center">
+        loading...
+        <GlobalSpinner size={"100"} />
+      </div>
+    );
   }
   if (isError) {
     squareSection = <div>Error Loading Squares </div>;
   }
 
   if (squares) {
-    squareSection = squares.map((square) => (
-      <Square
-        square={square}
-        currentWinningSquare={currentWinningSquare}
-        gameData={gameData}
-      />
-    ));
+    squareSection = (
+      <div className="grid-rows-10 relative grid  grid-cols-10 divide-x divide-y  ">
+        {squares.map((square) => (
+          <Square
+            square={square}
+            currentWinningSquare={currentWinningSquare}
+            gameData={gameData}
+          />
+        ))}
+      </div>
+    );
   }
 
   return (
@@ -77,9 +87,7 @@ const GameBoard = ({ board, gameData, currentWinningSquare }) => {
           </div>
         </div>
         <div className="row-span-10 col-span-10 col-start-3 row-start-3">
-          <div className="grid-rows-10 relative grid  grid-cols-10 divide-x divide-y  ">
-            {squareSection}
-          </div>
+          {squareSection}
         </div>
       </div>
     </div>

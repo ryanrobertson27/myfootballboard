@@ -9,7 +9,7 @@ const ProtectedRoute = () => {
   const location = useLocation();
 
   if (loading) {
-    return <GlobalSpinner />;
+    return <GlobalSpinner size={"100"} />;
   }
 
   if (user) {

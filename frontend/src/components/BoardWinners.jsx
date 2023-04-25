@@ -14,41 +14,41 @@ const BoardWinners = ({ board, winner, gameData }) => {
     awayFourthQuarterTotal,
   } = useGetTotalQuarterScores(gameData);
 
-  useEffect(() => {
-    console.log(gameData);
-  }, [gameData]);
-
   return (
     <div className=" bg-white shadow">
       <div className=" flex items-center justify-between">
-        {/* <div className="text-lg font-semibold">BoardWinnersSections</div> */}
         <WinnerSnippet
-          quarter={"Q1"}
+          quarter={1}
           board={board}
           winner={winner?.[0]?.first}
           homeQuarterTotal={homeFirstQuarterTotal}
           awayQuarterTotal={awayFirstQuarterTotal}
+          gameData={gameData}
         />
+
         <WinnerSnippet
-          quarter={"Q2"}
+          quarter={2}
           board={board}
           winner={winner?.[1]?.first}
           homeQuarterTotal={homeSecondQuarterTotal}
           awayQuarterTotal={awaySecondQuarterTotal}
+          gameData={gameData}
         />
         <WinnerSnippet
-          quarter={"Q3"}
+          quarter={3}
           board={board}
           winner={winner?.[2]?.first}
           homeQuarterTotal={homeThirdQuarterTotal}
           awayQuarterTotal={awayThirdQuarterTotal}
+          gameData={gameData}
         />
         <WinnerSnippet
-          quarter={"Q4"}
+          quarter={4}
           board={board}
           winner={winner?.[3]?.first}
           homeQuarterTotal={homeFourthQuarterTotal}
           awayQuarterTotal={awayFourthQuarterTotal}
+          gameData={gameData}
         />
       </div>
     </div>

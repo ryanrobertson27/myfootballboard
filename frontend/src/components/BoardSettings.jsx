@@ -1,6 +1,6 @@
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import MyTextInput from "../hooks/formik/MyTextInput";
+import MyTextInput from "./MyTextInput";
 import {
   useClearBoardMutation,
   useFillBoardMutation,

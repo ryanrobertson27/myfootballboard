@@ -75,6 +75,8 @@ const getUserByEmail = async (req, res) => {
   try {
 
     const { email } = req.body;
+
+    console.log(email)
   
     const user = await User.findOne({ email })
   

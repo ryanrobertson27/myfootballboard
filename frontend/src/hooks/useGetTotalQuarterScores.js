@@ -14,28 +14,28 @@ export function useGetTotalQuarterScores(gameData) {
 
   useEffect(() => {
     if(gameData){
-      if (gameData.firstQuarter.homeScore !== null) {
+      if (gameData.firstQuarter.homeScore !== null || gameData.firstQuarter.awayScore !== null) {
         setTotalScoreObject((prevState) => ({
           ...prevState,
           homeFirstQuarterTotal: gameData?.firstQuarter.homeScore,
           awayFirstQuarterTotal: gameData?.firstQuarter.awayScore,
         }));
       }
-      if (gameData.secondQuarter.homeScore !== null) {
+      if (gameData.secondQuarter.homeScore !== null || gameData.secondQuarter.awayScore !== null) {
         setTotalScoreObject((prevState) => ({
           ...prevState,
           homeSecondQuarterTotal: gameData?.firstQuarter.homeScore + gameData.secondQuarter.homeScore,
           awaySecondQuarterTotal: gameData?.firstQuarter.awayScore + gameData.secondQuarter.awayScore,
         }));
       }
-      if (gameData.thirdQuarter.homeScore !== null) {
+      if (gameData.thirdQuarter.homeScore !== null || gameData.thirdQuarter.awayScore !== null) {
         setTotalScoreObject((prevState) => ({
           ...prevState,
           homeThirdQuarterTotal: gameData?.firstQuarter.homeScore + gameData.secondQuarter.homeScore + gameData.thirdQuarter.homeScore,
           awayThirdQuarterTotal: gameData?.firstQuarter.awayScore + gameData.secondQuarter.awayScore + gameData.thirdQuarter.awayScore,
         }));
       }
-      if (gameData.fourthQuarter.homeScore !== null) {
+      if (gameData.fourthQuarter.homeScore !== null || gameData.fourthQuarter.awayScore !== null) {
         setTotalScoreObject((prevState) => ({
           ...prevState,
           homeFourthQuarterTotal: gameData?.firstQuarter.homeScore + gameData.secondQuarter.homeScore + gameData.thirdQuarter.homeScore + gameData.fourthQuarter.homeScore,

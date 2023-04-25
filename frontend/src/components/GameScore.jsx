@@ -1,7 +1,15 @@
 import { useGetTotalQuarterScores } from "../hooks/useGetTotalQuarterScores";
-import { useResetGameByBoardIdMutation } from "../app/services/api";
+import {
+  useResetGameByBoardIdMutation,
+  useInvalidateGameDataMutation,
+} from "../app/services/api";
+import { useNavigate } from "react-router-dom";
+import { useConvertNumberToMinutes } from "../hooks/useConvertNumberToMinutes";
 
 const GameScore = ({ board, gameData, handleDemoClick }) => {
+  const navigate = useNavigate();
+  const number = useConvertNumberToMinutes(gameData?.timeRemaining);
+
   const {
     homeFirstQuarterTotal,
     homeSecondQuarterTotal,
@@ -16,10 +24,45 @@ const GameScore = ({ board, gameData, handleDemoClick }) => {
   const [resetGame, { isLoading: resettingGame }] =
     useResetGameByBoardIdMutation();
 
+  const handleResetGameClick = async () => {
+    const result = await resetGame(board._id).unwrap();
+    console.log(result);
+    // if (result.data === "success") {
+    //   navigate(0);
+    // }
+  };
+
+  let quarter;
+
+  switch (gameData?.currentQuarter) {
+    case 1:
+      quarter = "1st";
+      break;
+    case 2:
+      quarter = "2nd";
+      break;
+    case 3:
+      quarter = "3rd";
+      break;
+    case 4:
+      quarter = "4th";
+      break;
+    default:
+      quarter = null;
+  }
+
   return (
     <div className="mb-5 flex w-full items-center justify-center bg-white py-1 drop-shadow">
       <div className="flex-col items-center">
-        <div className="text-center">{gameData?.timeRemaining || "00:00"}</div>
+        <div className="flex w-full items-center justify-center">
+          {gameData?.state === "ACTIVE" ? (
+            <div className="mb-1 text-center text-sm text-red-600">
+              {`${gameData?.timeRemaining} - ${quarter}`}
+            </div>
+          ) : (
+            "--:--"
+          )}
+        </div>
         <div className="mb-3 flex justify-center">
           <div className="rows-4 grid grid-cols-6  text-xs">
             {/* Quarters */}
@@ -69,7 +112,7 @@ const GameScore = ({ board, gameData, handleDemoClick }) => {
         <button
           type="button"
           className="mr-2 items-center rounded-md border border-gray-300 bg-violet-600 py-2 px-3 text-sm font-medium text-white shadow-sm hover:bg-white hover:text-violet-600"
-          onClick={() => resetGame(board._id)}
+          onClick={() => handleResetGameClick()}
         >
           Reset Demo
         </button>

@@ -7,8 +7,8 @@ const LoadingPage = () => {
   return (
     <div className=" flex h-screen w-screen flex-col items-center justify-center">
       <div className="mb-5">
-        Loading...
-        <GlobalSpinner />
+        <div className="mb-5">Loading...</div>
+        <GlobalSpinner size={"100"} />
       </div>
       <div className="italic text-gray-400">
         Having Trouble? Go to <Link to="/">HOME</Link>

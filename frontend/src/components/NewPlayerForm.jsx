@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { remove, clear, setDisabled } from "../features/square/squareSlice";
 import * as Yup from "yup";
 import { useCreateNewBoardPlayerMutation } from "../app/services/api";
-import MyTextInput from "../hooks/formik/MyTextInput";
+import MyTextInput from "./MyTextInput";
 
 const NewPlayerForm = ({ board, setFormIsShowing }) => {
   const [createNewBoardPlayer, result] = useCreateNewBoardPlayerMutation();
