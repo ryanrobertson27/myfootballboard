@@ -19,122 +19,118 @@ const generateGame = async (req, res) => {
     awayTeamName: board.awayTeam,
     homeTeamName: board.homeTeam,
     timeRemaining: 3600,
+    state: 'ACTIVE'
   })
 
   if (!game) {
     throw new Error('error creating game')
   }
 
-  // TODO rewrite using setTimeout with recursion 
-  const setIntervalGameFunction = async (callback, delay, total) => {
-    let x = 0;
+  let counter = 0;
+  let timeOut;
 
-    let intervalID = setInterval(function () {
-      callback();
-      if (++x === total) {
-        clearInterval(intervalID);
+  const setTimeoutGameFunction = function(){
+    timeOut = setTimeout(function() {
+      counter++;
+
+      console.time('setIntervalGameFunction')
+
+      const randomNumber = Math.floor(Math.random() * 80) + 1
+      //using 80 because it gives the most realistic score in the time frame
+
+      game.timeRemaining -= 15;
+      
+      if (game.timeRemaining < 2700) {
+        game.firstQuarter.completed = true
+        game.currentQuarter = 2
       }
-    }, delay);
+      if (game.timeRemaining < 1800) {
+        game.secondQuarter.completed = true
+        game.currentQuarter = 3
+      }
+      if (game.timeRemaining < 900) {
+        game.thirdQuarter.completed = true
+        game.currentQuarter = 4
+      } 
+      if (game.timeRemaining <= 0) {
+        game.fourthQuarter.completed = true
+        game.state = 'FINISHED'
+      }
+
+      // adds points to the game based on the random number
+      // TODO - refactor to make more DRY
+      switch (randomNumber) {
+        case 1:
+          game.awayTeamScore += 3
+          if(game.timeRemaining > 2700) {
+            game.firstQuarter.awayScore += 3
+          } else if (game.timeRemaining > 1800) {
+            game.secondQuarter.awayScore += 3
+          } else if (game.timeRemaining > 900) {
+            game.thirdQuarter.awayScore += 3
+          } else if (game.timeRemaining > 0) {
+            game.fourthQuarter.awayScore += 3
+          }
+          break;
+        case 2:
+          game.homeTeamScore += 3
+          if(game.timeRemaining > 2700) {
+            game.firstQuarter.homeScore += 3
+          } else if (game.timeRemaining > 1800) {
+            game.secondQuarter.homeScore += 3
+          } else if (game.timeRemaining > 900) {
+            game.thirdQuarter.homeScore += 3
+          } else if (game.timeRemaining > 0) {
+            game.fourthQuarter.homeScore += 3
+          }
+          break;
+        case 3:
+          game.awayTeamScore += 7
+          if(game.timeRemaining > 2700) {
+            game.firstQuarter.awayScore += 7
+          } else if (game.timeRemaining > 1800) {
+            game.secondQuarter.awayScore += 7
+          } else if (game.timeRemaining > 900) {
+            game.thirdQuarter.awayScore += 7
+          } else if (game.timeRemaining > 0) {
+            game.fourthQuarter.awayScore += 7
+          }
+          break;
+        case 4:
+          game.homeTeamScore += 7
+          if(game.timeRemaining > 2700) {
+            game.firstQuarter.homeScore += 7
+          } else if (game.timeRemaining > 1800) {
+            game.secondQuarter.homeScore += 7
+          } else if (game.timeRemaining > 900) {
+            game.thirdQuarter.homeScore += 7
+          } else if (game.timeRemaining > 0) {
+            game.fourthQuarter.homeScore += 7
+          }
+          break;
+        default:
+          break;
+      }
+      // need to call markModified because of the mixed type in the schema
+      game.markModified('firstQuarter')
+      game.markModified('secondQuarter')
+      game.markModified('thirdQuarter')
+      game.markModified('fourthQuarter')
+      game.save()
+      console.timeEnd('setIntervalGameFunction')
+      
+
+
+      if (counter < 240) {
+        setTimeoutGameFunction();
+      } else {
+        clearTimeout(timeOut);
+      }
+    }, 1000)    
   }
 
-  setIntervalGameFunction(async () => {
-    console.time('setIntervalGameFunction')
-    game.state = 'ACTIVE'
+  setTimeoutGameFunction();
 
-    // 
-
-    
-    const randomNumber = Math.floor(Math.random() * 80) + 1
-    //using 80 because it gives the most realistic score in the time frame
-    
-    //This function runs 240 times, every second, which simulates 4 quarters of 15 minutes each
-    // 1 second real time is 15 seconds game time
-    // 1 minute real time is 15 minutes game time or 1 quarter
-    // 4 minutes real time is 1 hour game time
-
-
-    game.timeRemaining -= 15;
-    
-    if (game.timeRemaining < 2700) {
-      game.firstQuarter.completed = true
-      game.currentQuarter = 2
-    }
-    if (game.timeRemaining < 1800) {
-      game.secondQuarter.completed = true
-      game.currentQuarter = 3
-    }
-    if (game.timeRemaining < 900) {
-      game.thirdQuarter.completed = true
-      game.currentQuarter = 4
-    } 
-    if (game.timeRemaining <= 0) {
-      game.fourthQuarter.completed = true
-      game.state = 'FINISHED'
-    }
-
-    // adds points to the game based on the random number
-    // TODO - refactor to make more DRY
-    switch (randomNumber) {
-      case 1:
-        game.awayTeamScore += 3
-        if(game.timeRemaining > 2700) {
-          game.firstQuarter.awayScore += 3
-        } else if (game.timeRemaining > 1800) {
-          game.secondQuarter.awayScore += 3
-        } else if (game.timeRemaining > 900) {
-          game.thirdQuarter.awayScore += 3
-        } else if (game.timeRemaining > 0) {
-          game.fourthQuarter.awayScore += 3
-        }
-        break;
-      case 2:
-        game.homeTeamScore += 3
-        if(game.timeRemaining > 2700) {
-          game.firstQuarter.homeScore += 3
-        } else if (game.timeRemaining > 1800) {
-          game.secondQuarter.homeScore += 3
-        } else if (game.timeRemaining > 900) {
-          game.thirdQuarter.homeScore += 3
-        } else if (game.timeRemaining > 0) {
-          game.fourthQuarter.homeScore += 3
-        }
-        break;
-      case 3:
-        game.awayTeamScore += 7
-        if(game.timeRemaining > 2700) {
-          game.firstQuarter.awayScore += 7
-        } else if (game.timeRemaining > 1800) {
-          game.secondQuarter.awayScore += 7
-        } else if (game.timeRemaining > 900) {
-          game.thirdQuarter.awayScore += 7
-        } else if (game.timeRemaining > 0) {
-          game.fourthQuarter.awayScore += 7
-        }
-        break;
-      case 4:
-        game.homeTeamScore += 7
-        if(game.timeRemaining > 2700) {
-          game.firstQuarter.homeScore += 7
-        } else if (game.timeRemaining > 1800) {
-          game.secondQuarter.homeScore += 7
-        } else if (game.timeRemaining > 900) {
-          game.thirdQuarter.homeScore += 7
-        } else if (game.timeRemaining > 0) {
-          game.fourthQuarter.homeScore += 7
-        }
-        break;
-      default:
-        break;
-    }
-    // need to call markModified because of the mixed type in the schema
-    game.markModified('firstQuarter')
-    game.markModified('secondQuarter')
-    game.markModified('thirdQuarter')
-    game.markModified('fourthQuarter')
-    await game.save()
-    console.timeEnd('setIntervalGameFunction')
-  }, 1000, 240 ) // 240 seconds = 4 minutes
-    
   return res.status(200).json({gameId: game._id})
 }
 
@@ -202,4 +198,6 @@ module.exports = {
   getGameByBoardId,
   resetGameForBoard,
 }
+
+
 
