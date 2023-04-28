@@ -37,6 +37,7 @@ const generateGame = async (req, res) => {
   }
 
   setIntervalGameFunction(() => {
+    console.time('setIntervalGameFunction')
     game.state = 'ACTIVE'
 
     
@@ -128,7 +129,7 @@ const generateGame = async (req, res) => {
     game.markModified('thirdQuarter')
     game.markModified('fourthQuarter')
     game.save()
-
+    console.timeEnd('setIntervalGameFunction')
   }, 1000, 240 ) // 240 seconds = 4 minutes
     
   return res.status(200).json({gameId: game._id})
