@@ -9,8 +9,6 @@ const Header = () => {
           <Logo className="h-auto w-32" />
         </div>
         <div className="mr-5 flex items-center">
-          <div className="mx-2 px-2 py-1 ">About</div>
-          <div className="mx-2 px-2 py-1 ">Contact</div>
           <Link
             className="font-semi mx-2 rounded px-2 py-1 text-violet-600 hover:underline"
             to="/login"

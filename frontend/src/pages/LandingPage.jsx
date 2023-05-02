@@ -1,7 +1,7 @@
 import { Navigate, NavLink, Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import image from "../assets/board-hero-image.png";
+import image from "../assets/myfootballboard-hero-image.png";
 import Header from "../components/Header";
 
 const LandingPage = () => {
