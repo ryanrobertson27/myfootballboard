@@ -18,7 +18,7 @@ const LandingPage = () => {
       {/* Header  */}
       <Header />
       <div className="container flex items-center">
-        <div className="flex h-full basis-1/2 flex-col px-12">
+        <div className="mr-5 flex h-full basis-1/2 flex-col px-3 text-xs">
           <div className="mb-4 text-6xl font-semibold  leading-snug text-violet-900">
             Friendly Competition For Your Next Big Game
           </div>
@@ -33,9 +33,10 @@ const LandingPage = () => {
             Create Account
           </Link>
         </div>
-        <div className="flex basis-1/2 justify-center px-12">
+
+        <div className="ml-5 flex basis-1/2 justify-center px-3">
           <img
-            className="w-auto rounded-lg shadow-2xl "
+            className=" w-auto rounded-lg shadow-2xl "
             src={image}
             alt="placeholder"
           />

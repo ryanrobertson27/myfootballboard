@@ -44,13 +44,15 @@ const BoardPlayers = ({ board }) => {
   }
 
   return (
-    <div className="mt-5 flex h-96 flex-col rounded-md bg-white">
+    <div className="mt-5 flex-col overflow-hidden rounded-md bg-white">
       {formIsShowing ? (
         <NewPlayerForm board={board} setFormIsShowing={setFormIsShowing} />
       ) : null}
       {!formIsShowing ? (
         <>
-          <div className=" overflow-y-scroll">{playersToRender}</div>
+          <div className=" h-96 overflow-y-scroll border">
+            {playersToRender}
+          </div>
           {playersToRender.length < 100 ? (
             <button
               type="button "

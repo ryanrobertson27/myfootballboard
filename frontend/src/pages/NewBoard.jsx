@@ -55,48 +55,61 @@ const NewBoard = () => {
       }}
     >
       {({ isSubmitting }) => (
-        <div className="mt-10 h-fit w-full min-w-max  max-w-xl items-center justify-center rounded-md bg-gray-50 p-5 shadow">
-          <h2 className="mb-5 text-lg font-semibold">Create a New Board</h2>
+        <div className="mt-10 h-fit w-full min-w-max  max-w-xl items-center justify-center rounded-md bg-white p-5 shadow">
+          <h2 className="mb-2 text-lg font-semibold">Create a New Board</h2>
+          <hr className="" />
           <Form className="flex flex-col items-start rounded-md  bg-white p-5">
-            <div>Board Name</div>
-            <MyTextInput
-              label="boardName"
-              name="boardName"
-              type="text"
-              // placeholder="My Board Name"
-              className="mb-5 w-full rounded border border-gray-300 px-2 py-1"
-            />
-            <div>Home Team</div>
-            <MyTextInput
-              label="homeTeam"
-              name="homeTeam"
-              type="text"
-              // placeholder="Home Team"
-              className="mb-5 w-full rounded border border-gray-300 px-2 py-1"
-            />
-            <div>Away Team</div>
-            <MyTextInput
-              label="awayTeam"
-              name="awayTeam"
-              type="text"
-              // placeholder="Away Team"
-              className="mb-5 w-full rounded border border-gray-300 px-2 py-1"
-            />
-            <div>Cost / Square</div>
-            <MyTextInput
-              label="costPerSquare"
-              name="costPerSquare"
-              type="number"
-              // placeholder="Cost Per Square"
-              className="mb-5 w-full rounded border border-gray-300 px-2 py-1"
-            />
-            <div className="flex w-full justify-end">
+            <div className="mb-4 w-full">
+              <div className="mr-2 min-w-max">Board Name</div>
+              <MyTextInput
+                label="boardName"
+                name="boardName"
+                type="text"
+                // placeholder="My Board Name"
+                className="w-full rounded border border-gray-300 px-2 py-1"
+              />
+            </div>
+            <div className="mb-4 w-full">
+              <div>Home Team</div>
+              <MyTextInput
+                label="homeTeam"
+                name="homeTeam"
+                type="text"
+                // placeholder="Home Team"
+                className=" w-full rounded border border-gray-300 px-2 py-1"
+              />
+            </div>
+            <div className="mb-4 w-full">
+              <div>Away Team</div>
+              <MyTextInput
+                label="awayTeam"
+                name="awayTeam"
+                type="text"
+                // placeholder="Away Team"
+                className="w-full rounded border border-gray-300 px-2 py-1"
+              />
+            </div>
+            <div className="mb-4 w-full">
+              <div>Cost / Square</div>
+              <div className="flex w-full items-center justify-start">
+                <div className="mr-1">$</div>
+                <MyTextInput
+                  label="costPerSquare"
+                  name="costPerSquare"
+                  type="number"
+                  min="0"
+                  placeholder="Cost Per Square"
+                  className="w-full rounded border border-gray-300 px-2 py-1"
+                />
+              </div>
+            </div>
+            <div className="flex w-full items-center justify-end">
               <Link to="/dashboard" className="mr-5">
                 Cancel
               </Link>
               <button
                 type="submit"
-                className=" rounded bg-green-400 px-6 py-1 text-white"
+                className="  items-center rounded-md  border border-violet-600 bg-violet-600 py-2 px-3 text-center text-sm font-medium text-white shadow-sm hover:border-violet-600 hover:bg-white hover:text-violet-600"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Creating..." : "Create"}

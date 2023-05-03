@@ -45,14 +45,14 @@ const Board = () => {
   }
 
   return (
-    <div className="container mt-10 px-10">
+    <div className="container mt-10  px-10">
       <div className="mb-3 flex items-center text-sm">
         <ChevronLeft className="mr-2 h-3 w-5" />
         <Link to="/dashboard" className="">
           Back to Dashboard
         </Link>
       </div>
-      <div className=" flex  w-full">
+      <div className=" flex w-full">
         <div className="mx-1 flex basis-4/6 flex-col  rounded-md bg-white p-4">
           <div className="flex h-14 items-center justify-between border-b">
             <div className=" py-2 font-semibold uppercase">
@@ -96,11 +96,10 @@ const Board = () => {
               />
             ) : null}
           </div>
-          <div className="flex w-full justify-center">
-            <GameBoard board={board} />
-          </div>
+
+          <GameBoard board={board} />
         </div>
-        <div className="mx-1 flex basis-2/6 flex-col  rounded-md bg-white p-4">
+        <div className="mx-1 basis-2/6 flex-col rounded-md bg-white p-4">
           <div className=" flex h-14 items-center border-b">
             <div className="font-semibold uppercase">Players</div>
             {board.boardState === "UNPUBLISHED" ? (

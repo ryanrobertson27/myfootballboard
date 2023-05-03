@@ -46,7 +46,7 @@ const GameBoard = ({ board, gameData, currentWinningSquare }) => {
   }
 
   return (
-    <div className=" mt-5 flex max-w-3xl  justify-around rounded-md bg-white">
+    <div className=" mt-5 flex justify-around rounded-md bg-white">
       <div className="grid-rows-12 grid w-full grid-cols-12 border">
         <div className="col-span-1 col-start-1 row-span-1 row-start-1 flex aspect-square flex-col items-center justify-center   bg-white text-xs"></div>
         <div className="col-span-1 col-start-2 row-span-1 row-start-1 flex aspect-square flex-col items-center justify-center  bg-white text-xs"></div>

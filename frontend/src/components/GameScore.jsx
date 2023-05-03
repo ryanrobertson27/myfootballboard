@@ -56,8 +56,9 @@ const GameScore = ({ board, gameData, handleDemoClick }) => {
       <div className="flex-col items-center">
         <div className="flex w-full items-center justify-center">
           {gameData?.state === "ACTIVE" ? (
-            <div className="mb-1 text-center text-sm text-red-600">
-              {`${gameData?.timeRemaining} - ${quarter}`}
+            <div className="mb-1 flex items-center text-center text-sm text-red-600">
+              <div class="mr-2 h-1 w-1 animate-pulse rounded-full bg-red-500"></div>
+              {`${number} - ${quarter}`}
             </div>
           ) : (
             "--:--"

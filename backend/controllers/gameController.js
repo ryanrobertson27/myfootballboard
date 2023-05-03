@@ -14,7 +14,7 @@ const generateGame = async (req, res) => {
     return res.status(400).send('A game for this board already exists')
   }
 
-  const game = await Game.create({
+  const newGame = await Game.create({
     board: boardId,
     awayTeamName: board.awayTeam,
     homeTeamName: board.homeTeam,
@@ -22,18 +22,23 @@ const generateGame = async (req, res) => {
     state: 'ACTIVE'
   })
 
-  if (!game) {
+  if (!newGame) {
     throw new Error('error creating game')
   }
 
   let counter = 0;
   let timeOut;
 
+  // setTimeout is called recursively until counter reaches 240
   const setTimeoutGameFunction = function(){
-    timeOut = setTimeout(function() {
+    timeOut = setTimeout(async function() {
+
+
       counter++;
 
       console.time('setIntervalGameFunction')
+
+      const game = await Game.findById(newGame._id)
 
       const randomNumber = Math.floor(Math.random() * 80) + 1
       //using 80 because it gives the most realistic score in the time frame
@@ -131,7 +136,7 @@ const generateGame = async (req, res) => {
 
   setTimeoutGameFunction();
 
-  return res.status(200).json({gameId: game._id})
+  return res.status(200).json({gameId: newGame._id})
 }
 
 const getGameById = async (req, res) => {

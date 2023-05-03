@@ -24,7 +24,7 @@ const BoardSettings = ({ board, setIsSettingsShowing }) => {
     try {
       let result = await deleteBoard(board._id).unwrap();
       if (result) {
-        navigate("/");
+        navigate(-1);
       }
     } catch (err) {
       console.log(err);
@@ -115,14 +115,14 @@ const BoardSettings = ({ board, setIsSettingsShowing }) => {
 
                 <button
                   type="submit"
-                  className="w-full rounded bg-green-400 px-6 py-1 text-white"
+                  className="w-full items-center rounded-md border border-gray-300 bg-violet-600 py-2 px-3 text-center text-sm font-medium text-white hover:bg-white hover:text-violet-600"
                 >
                   Submit
                 </button>
               </Form>
               <div className="flex flex-col ">
                 <hr className="my-3" />
-                <div className="m-auto mb-2 text-sm italic text-gray-600">
+                <div className="m-auto mb-1 text-sm italic text-gray-600">
                   Danger Zone
                 </div>
                 <button
