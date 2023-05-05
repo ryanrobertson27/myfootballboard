@@ -8,18 +8,16 @@ import CurrentBoardsSection from "../components/CurrentBoardsSection";
 const Dashboard = () => {
   const { user } = useSelector((state) => state.user);
 
-  const { data, isLoading, isError } = useGetUserByEmailQuery({
-    user: user.email,
-  });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const { data } = useGetUserByEmailQuery(user.email);
 
   return (
     <div className="container flex flex-col ">
       <div className="mt-10 mb-5 flex flex-col">
-        <div className="mb-6 text-xl">Welcome back: {user.email}</div>
+        <div className="mb-6 text-xl">
+          {data
+            ? `Welcome back, ${data.first.toUpperCase()} ${data.last.toUpperCase()}`
+            : "Welcome back!"}
+        </div>
         <hr />
       </div>
       <div className="mb-10 flex w-full flex-col items-start ">

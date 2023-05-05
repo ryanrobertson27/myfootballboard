@@ -25,13 +25,9 @@ const Board = () => {
   const [clearBoard, { isLoading: clearUpdating }] = useClearBoardMutation();
   const [fillBoard, { isLoading: fillUpdating }] = useFillBoardMutation();
 
-  useEffect(() => {
-    console.log(squares);
-  }, [squares]);
-
   if (isLoading) {
     return (
-      <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
         <div>
           Loading...
           <GlobalSpinner size={"100"} />

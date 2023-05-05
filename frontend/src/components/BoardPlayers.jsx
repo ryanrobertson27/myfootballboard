@@ -39,7 +39,7 @@ const BoardPlayers = ({ board }) => {
   }
   if (players) {
     playersToRender = players.map((player) => (
-      <BoardPlayerSnippet player={player} />
+      <BoardPlayerSnippet key={player._id} player={player} />
     ));
   }
 

@@ -27,7 +27,7 @@ const CurrentBoardsSection = () => {
       return (
         <div className="flex flex-wrap">
           {boards.map((board) => (
-            <BoardSnippet board={board} />
+            <BoardSnippet key={board._id} board={board} />
           ))}
         </div>
       );

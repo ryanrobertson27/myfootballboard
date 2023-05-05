@@ -36,6 +36,7 @@ const GameBoard = ({ board, gameData, currentWinningSquare }) => {
       <div className="grid-rows-10 relative grid  grid-cols-10 divide-x divide-y  ">
         {squares.map((square) => (
           <Square
+            key={square._id}
             square={square}
             currentWinningSquare={currentWinningSquare}
             gameData={gameData}
