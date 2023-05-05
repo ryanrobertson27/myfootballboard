@@ -74,7 +74,7 @@ const registerUser = async (req, res) => {
 const getUserByEmail = async (req, res) => {
   try {
 
-    const { email } = req.body;
+    const { email } = req.params;
 
     console.log(email)
   
