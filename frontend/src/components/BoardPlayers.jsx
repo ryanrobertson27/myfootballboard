@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
-import {
-  useGetBoardPlayersByBoardIdQuery,
-  useClearBoardMutation,
-  useFillBoardMutation,
-} from "../app/services/api";
+import { useState } from "react";
+import { useGetBoardPlayersByBoardIdQuery } from "../app/services/api";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import NewPlayerForm from "./NewPlayerForm";
-import MyTextInput from "./MyTextInput";
+
 import { useDispatch } from "react-redux";
 import { setDisabled } from "../features/square/squareSlice";
 import BoardPlayerSnippet from "./BoardPlayerSnippet";
@@ -15,8 +11,6 @@ import BoardPlayerSnippet from "./BoardPlayerSnippet";
 const BoardPlayers = ({ board }) => {
   const [formIsShowing, setFormIsShowing] = useState(false);
   const dispatch = useDispatch();
-  const [clearBoard, { isLoading: clearUpdating }] = useClearBoardMutation();
-  const [fillBoard, { isLoading: fillUpdating }] = useFillBoardMutation();
 
   const {
     data: players,
@@ -39,7 +33,7 @@ const BoardPlayers = ({ board }) => {
   }
   if (players) {
     playersToRender = players.map((player) => (
-      <BoardPlayerSnippet player={player} />
+      <BoardPlayerSnippet key={player._id} player={player} />
     ));
   }
 
@@ -50,7 +44,7 @@ const BoardPlayers = ({ board }) => {
       ) : null}
       {!formIsShowing ? (
         <>
-          <div className=" h-96 overflow-y-scroll border">
+          <div className=" h-96 overflow-y-scroll rounded-sm border">
             {playersToRender}
           </div>
           {playersToRender.length < 100 ? (

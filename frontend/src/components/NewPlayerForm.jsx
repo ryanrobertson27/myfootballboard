@@ -1,5 +1,4 @@
 import { Formik, Form } from "formik";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { remove, clear, setDisabled } from "../features/square/squareSlice";
 import * as Yup from "yup";
@@ -61,10 +60,10 @@ const NewPlayerForm = ({ board, setFormIsShowing }) => {
           }
         }}
       >
-        <div className="mt-5  items-center justify-center">
-          <Form className="flex flex-col items-start rounded-md bg-white p-5 shadow">
+        <div className=" items-center justify-center">
+          <Form className="flex flex-col items-start rounded-sm border border-gray-200 bg-white p-2">
             <div className="mb-4 flex w-full items-center justify-between border-b">
-              <div className=" text-lg">Create New Player</div>
+              <div className=" mb-1 text-lg">Create New Player</div>
               <button
                 type="button"
                 className="text-red-500"
@@ -73,45 +72,45 @@ const NewPlayerForm = ({ board, setFormIsShowing }) => {
                 Cancel
               </button>
             </div>
-            <div>First</div>
-            <MyTextInput
-              label="first"
-              name="first"
-              type="text"
-              // placeholder="My Board Name"
-              className="mb-4 rounded border border-gray-400 px-2 py-1"
-            />
-            <div>Last</div>
-            <MyTextInput
-              label="last"
-              name="last"
-              type="text"
-              // placeholder="Home Team"
-              className="mb-4 rounded border border-gray-400 px-2 py-1"
-            />
-            <div>Email</div>
+            <div className="itmes-center flex w-full justify-between">
+              <MyTextInput
+                label="first"
+                name="first"
+                type="text"
+                placeholder="first"
+                className="mb-1 mr-1 w-full rounded border border-gray-200 px-1 py-1"
+              />
+              <MyTextInput
+                label="last"
+                name="last"
+                type="text"
+                placeholder="last"
+                className="mb-1 ml-1 w-full rounded border border-gray-200 px-1 py-1"
+              />
+            </div>
+
             <MyTextInput
               label="email"
               name="email"
               type="email"
-              // placeholder="Away Team"
-              className="mb-4 rounded border border-gray-400 px-2 py-1"
+              placeholder="email"
+              className="mb-1 w-full rounded border border-gray-200 px-1 py-1"
             />
-            <div>Venmo</div>
+
             <MyTextInput
               label="venmo"
               name="venmo"
               type="text"
-              // placeholder="Cost Per Square"
-              className="mb-4 rounded border border-gray-400 px-2 py-1"
+              placeholder="venmo"
+              className="mb-1 w-full rounded border border-gray-200 px-1 py-1"
             />
-            <div>Phone</div>
+
             <MyTextInput
               label="phone"
               name="phone"
               type="text"
-              // placeholder="Cost Per Square"
-              className="mb-4 rounded border border-gray-400 px-2 py-1"
+              placeholder="phone"
+              className="mb-4 w-full rounded border border-gray-200 px-1 py-1"
             />
             <div>Add Squares</div>
             <div className="mb-4 flex w-full flex-wrap border">
@@ -144,7 +143,7 @@ const NewPlayerForm = ({ board, setFormIsShowing }) => {
             </div>
             <button
               type="submit"
-              className="w-full rounded bg-green-400 px-6 py-1 text-white"
+              className="w-full flex-grow border border-violet-600 bg-violet-600 px-2 text-white hover:bg-white hover:text-violet-600"
             >
               Submit
             </button>

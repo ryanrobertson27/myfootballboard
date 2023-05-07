@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MyTextInput from "../components/MyTextInput";
-import logo from "../assets/footballsquareslogo.png";
+import { ReactComponent as Logo } from "../assets/main-logo-stacked.svg";
 
 const magic = new Magic("pk_live_C10893DD838C3541");
 
@@ -11,10 +11,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   return (
-    // TODO move fetch to RTK query
     <div className="flex h-screen flex-col items-center justify-center">
       <div className="mb-10 text-3xl font-bold">
-        <img className="h-24 w-auto" src={logo} />
+        <Logo className="h-auto w-32" />
       </div>
       <Formik
         initialValues={{
@@ -50,7 +49,6 @@ const Login = () => {
               redirectURI: new URL("/callback", window.location.origin).href,
             });
           } else {
-            // TODO add a reason why they got redirected to register
             navigate("/register", { state: { fromLogin: true } });
           }
         }}

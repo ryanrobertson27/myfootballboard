@@ -4,7 +4,7 @@ const User = require('../models/userModel');
 const magic = new Magic(process.env.MAGIC_SECRET_KEY);
 
 
-// TODO protect this route
+
 const getUsers = async (req, res) => {
   const user = await User.find({});
 
@@ -14,7 +14,7 @@ const getUsers = async (req, res) => {
   return res.status(200).json(user);
 };
 
-//TODO protect this route
+
 const checkUser = async (req, res) => {
   try {
 
@@ -24,6 +24,28 @@ const checkUser = async (req, res) => {
       return res.status(200).json({ userExists: true });
     }
     return res.status(200).json({ userExists: false });
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+};
+
+const updateUserById = async (req, res) => {
+  try {
+    const { userId, email, venmo, phone } = req.body;
+
+    console.log(req.body);
+
+    const user = await User.findByIdAndUpdate(userId, {
+      email,
+      venmo,
+      phone,
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'No User Found' });
+    }
+
+    return res.status(200).json(user);
   } catch (error) {
     return res.status(400).json({ error });
   }
@@ -74,7 +96,7 @@ const registerUser = async (req, res) => {
 const getUserByEmail = async (req, res) => {
   try {
 
-    const { email } = req.body;
+    const { email } = req.params;
 
     console.log(email)
   
@@ -127,4 +149,5 @@ module.exports = {
   getUserByEmail,
   getUsersWins,
   getUserBoardsByEmail,
+  updateUserById,
 };

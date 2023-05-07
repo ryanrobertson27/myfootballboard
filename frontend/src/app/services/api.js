@@ -101,6 +101,14 @@ export const api = createApi({
       }),
       invalidatesTags: ['Square', 'Player']
     }),
+    updateBoardPlayerById: build.mutation({
+      query: (body) => ({
+        url: `/players/update-user`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: ['Player'],
+    }),
     deleteBoardPlayerById: build.mutation({
       query: (playerId) => ({
         url: `players/${playerId}`,
@@ -136,11 +144,7 @@ export const api = createApi({
       provideTags: ['User'],
     }),
     getUserByEmail: build.query({
-      query: (body) => ({
-        url: 'users/user',
-        method: "POST",
-        body,
-      })
+      query: (email) => `users/${email}`
     }),
     registerUser: build.mutation({
       query: (body) => ({
@@ -171,6 +175,7 @@ export const api = createApi({
         body
       }),
     }),
+    
 
     // Game Calls
     generateGame: build.query({
@@ -236,4 +241,5 @@ export const {
   useGetGameByBoardIdQuery,
   useResetGameByBoardIdMutation,
   useInvalidateGameDataMutation,
+  useUpdateBoardPlayerByIdMutation,
 } = api

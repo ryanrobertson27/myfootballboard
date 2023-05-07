@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useGetSquaresByBoardIdQuery } from "../app/services/api";
 import GameBoard from "./GameBoard";
 
-const BoardSnippet = ({ key, board }) => {
+const BoardSnippet = ({ board }) => {
   const {
     data: squares,
     isLoading,

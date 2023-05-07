@@ -2,7 +2,7 @@ const BoardPlayer = require('../models/boardPlayerModel');
 const Square = require('../models/squareModel')
 const Board = require('../models/boardModel')
 
-// TODO protect this route
+
 const createNewBoardPlayer = async (req, res) => {
   try {
     const { squares, boardId, first, last, email, venmo, phone } = req.body;
@@ -36,7 +36,7 @@ const createNewBoardPlayer = async (req, res) => {
   }
 };
 
-// TODO protect this route
+
 const getBoardPlayersByBoardId = async (req, res) => {
   try {
 
@@ -55,7 +55,29 @@ const getBoardPlayersByBoardId = async (req, res) => {
   }
 }
 
-//TODO protect this route
+const updateBoardPlayerById = async (req, res) => {
+  try {
+    const { userId, email, venmo, phone } = req.body;
+
+    console.log(req.body);
+
+    const user = await BoardPlayer.findByIdAndUpdate(userId, {
+      email,
+      venmo,
+      phone,
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'No User Found' });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+};
+
+
 const deleteBoardPlayerById = async (req, res) => {
   try {
     const { playerId } = req.params;
@@ -88,4 +110,4 @@ const fillBoardWithRandomPlayers = async (req, res) => {
 
 
 
-module.exports = { createNewBoardPlayer, getBoardPlayersByBoardId, deleteBoardPlayerById, }
+module.exports = { createNewBoardPlayer, getBoardPlayersByBoardId, deleteBoardPlayerById, updateBoardPlayerById}
