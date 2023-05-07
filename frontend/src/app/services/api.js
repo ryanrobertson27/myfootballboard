@@ -101,6 +101,14 @@ export const api = createApi({
       }),
       invalidatesTags: ['Square', 'Player']
     }),
+    updateBoardPlayerById: build.mutation({
+      query: (body) => ({
+        url: `/players/update-user`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: ['Player'],
+    }),
     deleteBoardPlayerById: build.mutation({
       query: (playerId) => ({
         url: `players/${playerId}`,
@@ -167,6 +175,7 @@ export const api = createApi({
         body
       }),
     }),
+    
 
     // Game Calls
     generateGame: build.query({
@@ -232,4 +241,5 @@ export const {
   useGetGameByBoardIdQuery,
   useResetGameByBoardIdMutation,
   useInvalidateGameDataMutation,
+  useUpdateBoardPlayerByIdMutation,
 } = api

@@ -14,7 +14,7 @@ const getAllSquares = async (req, res) => {
 };
 
 
-// TODO protect this route
+
 const getSquaresByBoardId = async (req, res) => {
   try {
     const {boardId} = req.params
@@ -32,14 +32,14 @@ const getSquaresByBoardId = async (req, res) => {
 }
 
 
-// TODO protect this route
+
 // squares/update
 const updateSquares = async (req, res) => {
   const { name, ids } = req.body;
   res.status(200).send('complete');
 };
 
-//TODO protect this route
+
 // squares/update-owner
 const updateSquareOwner = async (req, res) => {
   try {
@@ -61,7 +61,7 @@ const updateSquareOwner = async (req, res) => {
   }
 };
 
-// TODO protect this route
+
 // squares/populate-squares
 const populateSquares = async (req, res) => {
   for (let i = 0; i < 100; i++) {
@@ -77,7 +77,7 @@ const populateSquares = async (req, res) => {
   res.status(200).send('success');
 };
 
-// TODO protect this route
+
 const getSquareByUserId = async (req, res) => {
   try {
     const { userId } = req.params

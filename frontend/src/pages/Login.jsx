@@ -11,7 +11,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   return (
-    // TODO move fetch to RTK query
     <div className="flex h-screen flex-col items-center justify-center">
       <div className="mb-10 text-3xl font-bold">
         <Logo className="h-auto w-32" />
@@ -50,7 +49,6 @@ const Login = () => {
               redirectURI: new URL("/callback", window.location.origin).href,
             });
           } else {
-            // TODO add a reason why they got redirected to register
             navigate("/register", { state: { fromLogin: true } });
           }
         }}

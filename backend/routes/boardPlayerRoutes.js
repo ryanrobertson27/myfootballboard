@@ -8,6 +8,8 @@ router.get('/:boardId', checkAuth, boardPlayerController.getBoardPlayersByBoardI
 
 router.post('/new-player', checkAuth, boardPlayerController.createNewBoardPlayer);
 
+router.patch('/update-user', boardPlayerController.updateBoardPlayerById);
+
 router.delete('/:playerId', checkAuth, boardPlayerController.deleteBoardPlayerById);
 
 module.exports = router;

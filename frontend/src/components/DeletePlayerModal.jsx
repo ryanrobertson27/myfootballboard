@@ -1,11 +1,16 @@
 import { useDeleteBoardPlayerByIdMutation } from "../app/services/api";
 
-const DeletePlayerModal = ({ setIsConfirmShowing, player }) => {
+const DeletePlayerModal = ({
+  setIsConfirmShowing,
+  player,
+  setIsDropdownShowing,
+}) => {
   const [deletePlayer, result] = useDeleteBoardPlayerByIdMutation();
 
   const handleDeleteClick = () => {
     deletePlayer(player._id);
     setIsConfirmShowing(false);
+    setIsDropdownShowing(false);
   };
 
   return (

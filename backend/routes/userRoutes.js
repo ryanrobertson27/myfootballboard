@@ -10,14 +10,16 @@ router.get('/', userController.getUsers);
 
 router.get('/:email', userController.getUserByEmail)
 
+router.get('/wins', userController.getUsersWins);
+
 router.post('/login', userController.loginUser);
 
 router.post('/check-user', userController.checkUser);
 
 router.post('/register', userController.registerUser);
 
-router.get('/wins', userController.getUsersWins);
-
 router.post('/user/boards', userController.getUserBoardsByEmail);
+
+router.patch('/update-user', userController.updateUserById);
 
 module.exports = router;

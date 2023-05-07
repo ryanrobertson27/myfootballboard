@@ -12,8 +12,6 @@ const NewBoard = () => {
 
   const navigate = useNavigate();
 
-  // TODO add payout amount for user to select via percentage or amount
-
   return (
     <Formik
       initialValues={{
@@ -55,8 +53,9 @@ const NewBoard = () => {
       }}
     >
       {({ isSubmitting }) => (
-        <div className="mt-10 h-fit w-full min-w-max  max-w-xl items-center justify-center rounded-md bg-gray-50 p-5 shadow">
-          <h2 className="mb-5 text-lg font-semibold">Create a New Board</h2>
+        <div className="mt-10 h-fit w-full min-w-max  max-w-xl items-center justify-center rounded-md bg-white p-5 shadow">
+          <h2 className="mb-2 text-lg font-semibold">Create a New Board</h2>
+          <hr className="mb-5" />
           <Form className="flex flex-col items-start rounded-md  bg-white p-5">
             <div>Board Name</div>
             <MyTextInput
@@ -83,6 +82,7 @@ const NewBoard = () => {
               className="mb-5 w-full rounded border border-gray-300 px-2 py-1"
             />
             <div>Cost / Square</div>
+
             <MyTextInput
               label="costPerSquare"
               name="costPerSquare"
@@ -90,13 +90,14 @@ const NewBoard = () => {
               // placeholder="Cost Per Square"
               className="mb-5 w-full rounded border border-gray-300 px-2 py-1"
             />
-            <div className="flex w-full justify-end">
+
+            <div className="flex w-full items-center justify-end">
               <Link to="/dashboard" className="mr-5">
                 Cancel
               </Link>
               <button
                 type="submit"
-                className=" rounded bg-green-400 px-6 py-1 text-white"
+                className=" mr-2 inline-flex items-center rounded-md border border-violet-600 bg-violet-600 py-1 px-3  font-medium text-white shadow-sm hover:bg-white hover:text-violet-600"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Creating..." : "Create"}
@@ -110,3 +111,19 @@ const NewBoard = () => {
 };
 
 export default NewBoard;
+
+{
+  /* <div class="relative rounded-md shadow-sm">
+  <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+    <span class="text-gray-500 sm:text-sm">
+      $
+    </span>
+  </span>
+  <input type="number" name="price" id="price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency">
+  <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+    <span class="text-gray-500 sm:text-sm" id="price-currency">
+      USD
+    </span>
+  </span>
+</div> */
+}

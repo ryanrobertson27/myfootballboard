@@ -9,7 +9,6 @@ const LandingPage = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   if (user) {
-    // TODO look into history
     return <Navigate to="/dashboard" replace />;
   }
 
