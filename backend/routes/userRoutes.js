@@ -20,6 +20,6 @@ router.post('/register', userController.registerUser);
 
 router.post('/user/boards', userController.getUserBoardsByEmail);
 
-router.patch('/update-user', userController.updateUserById);
+
 
 module.exports = router;

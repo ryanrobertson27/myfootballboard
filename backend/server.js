@@ -29,6 +29,7 @@ app.use('/users', userRouter);
 app.use('/players', boardPlayerRoutes);
 app.use('/games', gameRouter);
 
+
 mongoose
   .connect(uri, {
     useNewUrlParser: true,

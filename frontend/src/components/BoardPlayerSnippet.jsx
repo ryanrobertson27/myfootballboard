@@ -19,7 +19,7 @@ const BoardPlayerSnippet = ({ player }) => {
   };
 
   return (
-    <div className="m-2 flex flex-col border p-2">
+    <div className="my-1 flex w-full flex-col border  p-2">
       {isConfirmShowing ? (
         <DeletePlayerModal
           setIsConfirmShowing={setIsConfirmShowing}
@@ -27,7 +27,7 @@ const BoardPlayerSnippet = ({ player }) => {
           setIsDropdownShowing={setIsDropdownShowing}
         />
       ) : null}
-      <div className="flex justify-between">
+      <div className="flex w-full justify-between">
         <div>
           {player.first} {player.last}
         </div>

@@ -29,27 +29,7 @@ const checkUser = async (req, res) => {
   }
 };
 
-const updateUserById = async (req, res) => {
-  try {
-    const { userId, email, venmo, phone } = req.body;
 
-    console.log(req.body);
-
-    const user = await User.findByIdAndUpdate(userId, {
-      email,
-      venmo,
-      phone,
-    });
-
-    if (!user) {
-      return res.status(400).json({ message: 'No User Found' });
-    }
-
-    return res.status(200).json(user);
-  } catch (error) {
-    return res.status(400).json({ error });
-  }
-};
 
 
 //
@@ -149,5 +129,4 @@ module.exports = {
   getUserByEmail,
   getUsersWins,
   getUserBoardsByEmail,
-  updateUserById,
 };

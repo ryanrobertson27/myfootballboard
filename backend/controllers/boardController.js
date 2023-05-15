@@ -5,7 +5,7 @@ const BoardPlayer = require('../models/boardPlayerModel');
 const Game = require('../models/gameModel');
 
 const getAllBoards = async (req, res) => {
-  res.status(200).send('success');
+  res.status(200).json({message: 'success'});
 };
 
 const createNewBoard = async (req, res) => {
@@ -15,7 +15,7 @@ const createNewBoard = async (req, res) => {
     const owner = await User.findOne({ email }).exec();
     if (!owner) {
       // throw new Error('Could not find user');
-      return res.status(400).send('Could not find user');
+      return res.status(400).json({message: 'Could not find user'});
     }
 
     const board = await Board.create({
@@ -27,7 +27,7 @@ const createNewBoard = async (req, res) => {
     });
 
     if (!board) {
-      return res.status(400).send('Error Creating Board');
+      return res.status(400).json({message: 'Error Creating Board'});
       // throw new Error('Error Creating Board');
     }
 
@@ -58,7 +58,7 @@ const getBoardById = async (req, res) => {
     const board = await Board.findById(boardId);
 
     if (!board) {
-      return res.status(400).send('Could not find board');
+      return res.status(400).message({message: 'Could not find board'});
     }
 
     return res.status(200).json(board);
@@ -75,22 +75,22 @@ const deleteBoardById = async (req, res) => {
 
     const board = await Board.findByIdAndDelete(boardId);
     if (!board) {
-      return res.status(400).send('Could not find board');
+      return res.status(400).json({message: 'Could not find board'});
     }
 
     const boardPlayers = await BoardPlayer.deleteMany({ board: boardId });
     if (!boardPlayers) {
-      return res.status(400).send('Could not find board players');
+      return res.status(400).json({message: 'Could not find board players'});
     }
     
     const squares = await Square.deleteMany({ board: boardId });
     if (!squares) {
-      return res.status(400).send('Could not find squares');
+      return res.status(400).json({message: 'Could not find squares'});
     }
 
     const user = await User.findById(board.owner);
     if (!user) {
-      return res.status(400).send('Could not find user');
+      return res.status(400).json({message: 'Could not find user'});
     }
 
     user.boards = user.boards.filter((board) => board.toString() !== boardId);
@@ -182,7 +182,7 @@ const updateBoardById = async (req, res) => {
     const board = await Board.updateOne({ _id: boardId }, { boardName, costPerSquare, homeTeam, awayTeam });
 
     if (!board) {
-      return res.status(400).send('Could not find board');
+      return res.status(400).json({message: 'Could not find board'});
     }
 
     return res.status(200).json(board);
@@ -199,14 +199,14 @@ const publishBoardById = async (req, res) => {
     const squares = await Square.find({ board: boardId });
 
     if (!squares) {
-      return res.status(400).send('Could not find squares');
+      return res.status(400).json({message: 'Could not find squares'});
     }
 
     const nullSquaresFound = squares.filter(square => square.owner === null)
 
 
     if (nullSquaresFound.length > 0) {
-      return res.status(400).send('All board squares must be filled before publishing.  Please ensure all squares have a player assigned.');
+      return res.status(400).json({message: 'All board squares must be filled before publishing.  Please ensure all squares have a player assigned.'});
     }
 
     const filter = { _id: boardId };
@@ -215,7 +215,7 @@ const publishBoardById = async (req, res) => {
     const board = await Board.updateOne(filter, update);
 
     if (!board) {
-      return res.status(400).send('Could not find board');
+      return res.status(400).json({message: 'Could not find board'});
     }
 
 
@@ -234,11 +234,11 @@ const randomizeGameNumbers = async (req, res) => {
     const board = await Board.findById(boardId);
 
     if (!board) {
-      return res.status(400).send('Could not find board');
+      return res.status(400).json({message: 'Could not find board'});
     }
 
     if (board.boardState === 'PUBLISHED') {
-      return res.status(400).send('Board is already published');
+      return res.status(400).json({message: 'Board is already published'});
     };
 
     // Fisher Yates Shuffle Algorithm
@@ -278,7 +278,7 @@ const updateBoardWithGameData = async (req, res) => {
     const board = await Board.findById(boardId);
 
     if (!board) {
-      return res.status(400).send('Could not find board');
+      return res.status(400).json({message: 'Could not find board'});
     }
     
     const updateBoardWithData = setInterval(async () => {
@@ -286,7 +286,7 @@ const updateBoardWithGameData = async (req, res) => {
       const game = await Game.findById(gameId);
       
       if (!gameId) {
-        return res.status(400).send('Could not find game');
+        return res.status(400).json({message: 'Could not find game'});
       }
 
       //check null so it doesn't run multiple times
@@ -342,7 +342,7 @@ const updateBoardWithGameData = async (req, res) => {
       } 
       board.save()
     }, 1000); // 10 seconds
-    return res.status(200).send('success');
+    return res.status(200).json({message: 'success'});
   } catch (error) {
     console.log(error);
     return res.status(400).json(error);
@@ -356,7 +356,7 @@ const getBoardWinners = async (req, res) => {
     const board = await Board.findById(boardId);
 
     if (!board) {
-      return res.status(400).send('Could not find board');
+      return res.status(400).json({message: 'Could not find board'});
     }
 
     return res.status(200).json(board.quarterWinners);
@@ -365,9 +365,6 @@ const getBoardWinners = async (req, res) => {
     return res.status(400).json(error);
   }
 }
-
-
-
 
 module.exports = {
   createNewBoard,

@@ -32,31 +32,33 @@ const BoardPlayers = ({ board }) => {
     playersToRender = <div>Error</div>;
   }
   if (players) {
-    playersToRender = players.map((player) => (
-      <BoardPlayerSnippet key={player._id} player={player} />
-    ));
+    playersToRender = (
+      <div className="flex w-full flex-col items-center">
+        {players.length < 100 ? (
+          <button
+            type="button "
+            className="w-full border border-violet-600 bg-violet-600 py-1  text-center  text-white shadow-sm hover:bg-white hover:text-violet-600"
+            onClick={() => handleAddUserClick()}
+          >
+            Add Player
+          </button>
+        ) : null}
+        {players.map((player) => (
+          <BoardPlayerSnippet key={player._id} player={player} />
+        ))}
+      </div>
+    );
   }
 
   return (
-    <div className="mt-5 flex-col overflow-hidden rounded-md bg-white">
+    <div className="mt-5 flex-col overflow-hidden bg-white">
       {formIsShowing ? (
         <NewPlayerForm board={board} setFormIsShowing={setFormIsShowing} />
       ) : null}
       {!formIsShowing ? (
-        <>
-          <div className=" h-96 overflow-y-scroll rounded-sm border">
-            {playersToRender}
-          </div>
-          {playersToRender.length < 100 ? (
-            <button
-              type="button "
-              className="mr-2  items-center rounded-md border border-gray-300 bg-violet-600 py-2 px-3 text-center text-sm font-medium text-white shadow-sm hover:bg-white hover:text-violet-600"
-              onClick={() => handleAddUserClick()}
-            >
-              Add Player
-            </button>
-          ) : null}
-        </>
+        <div className=" mb-2 h-96 overflow-y-scroll border p-1">
+          {playersToRender}
+        </div>
       ) : null}
     </div>
   );

@@ -6,12 +6,12 @@ const generateGame = async (req, res) => {
 
   const board = await Board.findById(boardId)
   if (!board) {
-    return res.status(400).send('Could not find board')
+    return res.status(400).json({message: 'Could not find board'})
   }
 
   const gameAlreadyExists = await Game.find({ board: boardId }) 
   if (gameAlreadyExists.length > 0) {
-    return res.status(400).send('A game for this board already exists')
+    return res.status(400).json({message: 'A game for this board already exists'})
   }
 
   const newGame = await Game.create({
@@ -145,7 +145,7 @@ const getGameById = async (req, res) => {
 
     const game = await Game.findById(gameId)
     if (!game) {
-      return res.status(400).send('Could not find game')
+      return res.status(400).json({message: 'Could not find game'})
     }
 
     return res.status(200).json(game)
@@ -162,7 +162,7 @@ const getGameByBoardId = async (req, res) => {
     const game = await Game.findOne({ board: boardId })
 
     if (!game) {
-      return res.status(400).send('Could not find game in getGameByBoardId')
+      return res.status(400).json({message: 'Could not find game in getGameByBoardId'})
     }
 
     return res.status(200).json(game)
@@ -179,7 +179,7 @@ const resetGameForBoard = async (req, res) => {
     const board = await Board.findById(boardId);
 
     if (!board) {
-      return res.status(400).send('Could not find board');
+      return res.status(400).json({message: 'Could not find board'});
     }
 
     board.quarterWinners = [null, null, null, null];
@@ -188,7 +188,7 @@ const resetGameForBoard = async (req, res) => {
 
     await Game.deleteOne( { board: boardId } );
 
-    return res.status(200).send('success')
+    return res.status(200).json({message: 'success'})
   } catch (error) {
     console.log(error);
     return res.status(400).json(error);

@@ -1,7 +1,6 @@
 const Square = require('../models/squareModel');
 const User = require('../models/userModel');
 
-// GET all squares squares/
 const getAllSquares = async (req, res) => {
   const squares = await Square.find({}).populate({
     path: 'owner',
@@ -12,8 +11,6 @@ const getAllSquares = async (req, res) => {
   }
   return res.status(200).json(squares);
 };
-
-
 
 const getSquaresByBoardId = async (req, res) => {
   try {
@@ -31,16 +28,11 @@ const getSquaresByBoardId = async (req, res) => {
   }
 }
 
-
-
-// squares/update
 const updateSquares = async (req, res) => {
   const { name, ids } = req.body;
-  res.status(200).send('complete');
+  res.status(200).json({message: 'complete'});
 };
 
-
-// squares/update-owner
 const updateSquareOwner = async (req, res) => {
   try {
     const user = await User.findOne({ name: req.body.name });
@@ -61,8 +53,6 @@ const updateSquareOwner = async (req, res) => {
   }
 };
 
-
-// squares/populate-squares
 const populateSquares = async (req, res) => {
   for (let i = 0; i < 100; i++) {
     const square = new Square({
@@ -74,9 +64,8 @@ const populateSquares = async (req, res) => {
       if (err) return 'err';
     });
   }
-  res.status(200).send('success');
+  res.status(200).json({message: 'success'});
 };
-
 
 const getSquareByUserId = async (req, res) => {
   try {

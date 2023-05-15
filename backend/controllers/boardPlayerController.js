@@ -1,7 +1,5 @@
 const BoardPlayer = require('../models/boardPlayerModel');
 const Square = require('../models/squareModel')
-const Board = require('../models/boardModel')
-
 
 const createNewBoardPlayer = async (req, res) => {
   try {
@@ -35,7 +33,6 @@ const createNewBoardPlayer = async (req, res) => {
 
   }
 };
-
 
 const getBoardPlayersByBoardId = async (req, res) => {
   try {
@@ -76,7 +73,6 @@ const updateBoardPlayerById = async (req, res) => {
     return res.status(400).json({ error });
   }
 };
-
 
 const deleteBoardPlayerById = async (req, res) => {
   try {
